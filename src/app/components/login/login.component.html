@@ -1,1 +1,56 @@
-<p>login works!</p>
+<div class="page-content bg-light">
+    <section class="px-3">
+        <div class="row">
+            <div class="col-xxl-6 col-xl-6 col-lg-6 start-side-content">
+                <div class="dz-bnr-inr-entry">
+                    <h1>Inicio de Sesion</h1>
+                    <nav aria-label="breadcrumb text-align-start" class="breadcrumb-row">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a (click)="global.setRoute('home')" style="cursor: pointer;"> Inicio</a></li>
+                            <li class="breadcrumb-item">Iniciar Sesion</li>
+                        </ul>
+                    </nav>	
+                </div>
+                <div class="registration-media">
+                    <img src="images/registration/pic3.png" alt="/">
+                </div>
+            </div>
+            <div class="col-xxl-6 col-xl-6 col-lg-6 end-side-content justify-content-center">
+                 <div class="login-area">
+                    <h2 class="text-secondary text-center">Iniciar Sesion</h2>
+                    <p class="text-center m-b25">Bienvenido, por favor ingresa tus credenciales de acceso</p>
+                    <form [formGroup]="loginForm">
+                        <div class="m-b30">
+                            <label class="label-title">Correo</label>
+                            <input name="email" required="" class="form-control" placeholder="Email Address" type="email" formControlName="email" id="email">
+                        </div>
+                        <div class="m-b15">
+                            <label class="label-title">Contraseña</label>
+                            <div class="secure-input ">
+                                <input [type]="showPassword ? 'text' : 'password'" required="" name="password" class="form-control dz-password" placeholder="Contraseña" formControlName="password" id="password">
+                                <div class="show-pass" (click)="togglePasswordVisibility()">
+                                    <i class="eye-open fa-regular" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-row d-flex justify-content-between m-b30">
+                            <div class="form-group">
+                               <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input" id="basic_checkbox_1">
+                                    <label class="form-check-label" for="basic_checkbox_1">Remember Me</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <a class="text-primary" href="forget-password.html">Forgot Password</a>
+                            </div>
+                        </div> -->
+                        <div class="text-center">
+                            <a class="btn btn-secondary btnhover text-uppercase me-2 sign-btn" type="submit" (click)="onLogin()">Inciar Sesion</a>
+                            <a (click)="global.setRoute('register')" class="btn btn-outline-secondary btnhover text-uppercase">Registrarse</a>
+                        </div>
+                    </form>
+                </div> 
+            </div>
+        </div>
+    </section>
+</div>

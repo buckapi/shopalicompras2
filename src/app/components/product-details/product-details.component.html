@@ -1,1 +1,591 @@
-<p>product-details works!</p>
+<div class="page-content bg-light" style="    padding-top: 8%;">
+		
+    <div class="d-sm-flex justify-content-between container-fluid py-3">
+        <nav aria-label="breadcrumb" class="breadcrumb-row">
+            <ul class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a (click)="global.setRoute('shop')"> Tienda</a></li>
+                <li class="breadcrumb-item">Detalle del Producto</li>
+            </ul>
+        </nav>
+    </div>
+    
+    <section class="content-inner py-0">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6 col-md-6">
+                    <div class="dz-product-detail sticky-top">
+                        <div class="swiper-btn-center-lr">
+                            <!-- <div class="swiper product-gallery-swiper2" >
+                                <div class="swiper-wrapper" id="lightgallery" *ngFor="let file of global.previaProducto.files">
+                                    <div class="swiper-slide">
+                                        <div class="dz-media DZoomImage rounded" >
+                                            <a class="mfp-link lg-item"  href="{{file}}" >
+                                                <i class="feather icon-maximize dz-maximize top-right"></i>
+                                            </a>
+                                            <img src="{{file}}" alt="image">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical" *ngFor="let file of global.previaProducto.files">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <img src="{{file}}" alt="image">
+                                    </div>
+                                   
+                                </div>
+                            </div> -->
+                            <div class="swiper product-gallery-swiper2">
+                                <div class="swiper-wrapper" id="lightgallery">
+                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
+                                        <div class="dz-media DZoomImage rounded">
+                                            <a class="mfp-link lg-item" href="{{file}}">
+                                                <i class="feather icon-maximize dz-maximize top-right"></i>
+                                            </a>
+                                            <img src="{{file}}" alt="image">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
+                                        <img src="{{file}}" alt="image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>	
+                    </div>	
+                </div>
+                <div class="col-xl-6 col-md-6">
+                    <div class="dz-product-detail style-2 p-t50">
+                        <div class="dz-content">
+                            <div class="dz-content-footer">
+                                <div class="dz-content-start">
+<!--                                     <span class="badge bg-purple mb-2">SALE 20% Off</span>
+ -->                                    <h4 class="title mb-1">{{global.previaProducto.name}}</h4>
+                                    <div class="review-num">
+                                        <!-- <ul class="dz-rating me-2">
+                                            <li>
+                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#FF8A00"></path>
+                                                </svg>
+                                            </li>	
+                                            <li>
+                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#FF8A00"></path>
+                                                </svg>
+                                            </li>
+                                            <li>
+                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#FF8A00"></path>
+                                                </svg>
+                                            </li>
+                                            <li>
+                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path opacity="0.2" d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#5E626F"></path>
+                                                </svg>
+
+                                            </li>
+                                            <li>
+                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path opacity="0.2" d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#5E626F"></path>
+                                                </svg>
+                                            </li>	
+                                        </ul> -->
+                                       <!--  <span class="text-secondary me-2">4.7 Rating</span>
+                                        <a href="javascript:void(0);">(5 customer reviews)</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <p class="para-text">
+                                {{ getLimitedDescription() }} 
+                            </p> -->
+                            <p class="para-text">{{global.previaProducto.description}}</p>
+                            <div class="meta-content m-b20">
+                                <span class="price-name">Precio</span>
+                               <!--  <span class="price">$ {{global.previaProducto.price}} <del>$132.17</del></span> -->
+                               <span class="price">$ {{global.previaProducto.price}}</span>
+                            </div>
+                            <div class="product-num gap-md-2 gap-xl-0">
+                                <div class="btn-quantity light">
+                                    <label class="form-label">Cantidad</label>
+                                    <input  type="number" value="1" name="demo_vertical2" [(ngModel)]="quantity" min="1" >
+                                </div>
+                                <!-- <div class="meta-content">
+                                    <label class="form-label">Color</label>
+                                    <div class="d-flex align-items-center color-filter">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel21" value="#24262B" aria-label="..." checked>
+                                            <span></span>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel22" value="#8CB2D1" aria-label="...">
+                                            <span></span>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel23" value="#0D775E" aria-label="...">
+                                            <span></span>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel24" value="#FEC4C4" aria-label="...">
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="btn-group cart-btn">
+                                <button (click)="addToCart(product)">Añadir al carrito</button>
+                            </div>
+                            <div class="dz-info">
+                                <ul>
+                                    <li><strong>Codigo:</strong></li>
+                                    <li>{{global.previaProducto.code}}</li>
+                                </ul>
+                                <ul>
+                                    <li><strong>Categoria:</strong></li>
+                                    <li><a >{{global.previaProducto.categorias}}</a></li>												
+                                </ul>
+                               
+                                <ul class="social-icon">
+                                    <li><strong>Compartir:</strong></li>
+                                    <li>
+                                        <a href="https://www.facebook.com/dexignzone" target="_blank">
+                                            <i class="fa-brands fa-whatsapp"></i>
+                                        </a>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
+                            <li class="icon-bx-wraper style-3">
+                                <div class="icon-bx">
+                                    <i class="flaticon-alarm-clock"></i></div>
+                                <div class="info-content">
+                                    <span>HORARIO DE TRABAJO</span>
+                                    <h6 class="dz-title mb-0">De lunes A viernes De 9:00am A 8:00pm Sábados: 9:00 am a 8:00 pm</h6>
+                                </div>
+                            </li>
+                            <ul class="d-md-flex d-none align-items-center">
+                                <li class="icon-bx-wraper style-3 me-xl-4 me-2">
+                                    <div class="icon-bx">
+                                        <i class="flaticon flaticon-delivery-truck"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <span>ENVÍO</span>
+                                        <h6 class="dz-title mb-0">Envío a todo el país</h6>
+                                    </div>
+                                </li>
+                                <li class="icon-bx-wraper style-3">
+                                    <div class="icon-bx">
+                                        <i class="flaticon-fast-delivery-1"></i></div>
+                                    <div class="info-content">
+                                        <span>DEVOLUCIONES:</span>
+                                        <h6 class="dz-title mb-0">30 Dias</h6>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                            
+                        </div>
+                        <div class="banner-social-media">
+                            <ul>
+                                <li>
+                                    <a href="https://www.instagram.com/dexignzone/">Instagram</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/dexignzone">Facebook</a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/dexignzones">twitter</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="content-inner-3 pb-0"> 
+        <div class="container">
+            <div class="product-description">
+                <div class="dz-tabs">					
+                    <ul class="nav nav-tabs center" id="myTab1" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Información</button>
+                        </li>
+                        <!-- <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Reviews (12)</button>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                            <div class="row">
+                                <div class="col-lg-6 m-lg-b0 m-md-b30">
+                                    <div class="section-head style-2 d-block">
+                                        <h2 class="title">Descripcion del producto</h2>
+                                        <p>{{ global.previaProducto.description }}</p>
+                                    </div>
+                                    <div class="product-specification">
+                                        <h4 class="specification-title">Especificaciones</h4>
+                                        <ul>
+                                            <li>Dimensiones (Ancho x Alto x Profundidad): <span>{{ global.previaProducto.dimensions }} cm.</span></li>
+                                            <li>Peso: <span>{{ global.previaProducto.weight }} Kg.</span></li>
+                                        </ul>
+                                    </div>
+                                    <ul class="specification-list m-b40">
+                                        <li class="list-info">Fabricante <span>{{global.previaProducto.manufacturer}}</span></li>
+                                        <li class="list-info">Codigo de producto<span>{{global.previaProducto.code}}</span></li>
+                                        <li class="list-info">Pais de origen<span>{{global.previaProducto.country}}</span></li>
+                                        <li class="list-info">Material<span>{{global.previaProducto.material}}</span></li>
+                                        <li class="list-info">Categoria<span>{{global.previaProducto.categorias}}</span></li>
+                                    </ul>
+                                    <div class="product-media row g-xl-4 g-2 m-b40">
+                                        <div class="col-md-3 col-3 col-sm-3 product-media-inner">
+                                            <a  class="dz-media">
+                                                <img src="{{global.previaProducto.files}}" alt="/">
+                                            </a>
+                                        </div>                                       
+                                    </div>
+                                    <div class="product-info">
+                                        <div class="product-info-inner">
+                                            <h4 class="info-title">MÉTODOS DE PAGO</h4>
+                                            <ul class="d-lg-flex d-block align-items-center">
+                                                <li><h6>Depósitos y/o Transferencias:
+                                                    <li> - Provincial </li>
+                                                    <li> - Pago Móvil </li>
+                                                    <li> - Efectivo </li>
+                                                    <li> - Binance </li>
+                                                    <li> -Bancamiga</li>
+                                                </h6></li>
+                                            </ul>
+                                        </div>
+                                        <div class="product-info-inner">
+                                            <h4 class="info-title">MÉTODOS DE DESPACHO</h4>
+                                            <ul class="d-lg-flex d-block align-items-center">
+                                                <li><h6>Retiro Personalmente en nuestro deposito, Av. las Américas Res. Independencia. 
+                                                    <li> - Envíos Gratis a Nivel Nacional por mercado envíos </li>
+                                                    <li> - MRW </li>
+                                                    <li> - Domesa </li>
+                                                    <li> - Tealca </li>
+                                                </h6></li>
+                                            </ul>
+                                        </div>  
+                                        
+                                        <div class="product-info-inner">
+                                            <h4 class="info-title">TÉRMINOS Y CONDICIONES</h4>
+                                            <p class="info-text">Garantizamos disponibilidad y precio del producto (24) horas desde el momento de su oferta, pasado ese tiempo el producto entrará de nuevo en stock. - Al ofertar usted está aceptando estas condiciones. - Todo producto viaja por las empresas de mayor confianza del país, para garantizarle al cliente la entrega del producto en sus manos.	</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
+                                            <a  class="about-product-wrapper">
+                                                <div class="producṭ-content bg-light">
+                                                    <h4 class="product-title">Producto original</h4>
+<!--                                                     <p class="product-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+ -->                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
+                                            <a  class="about-product-wrapper">
+                                                <div class="producṭ-content bg-light">
+                                                    <h4 class="product-title">Producto Garantizado</h4>
+<!--                                                     <p class="product-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+ -->                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
+                                            <a  class="about-product-wrapper">
+                                                <div class="producṭ-content bg-light">
+                                                    <h4 class="product-title">100% Hecho en </h4>
+<!--                                                     <p class="product-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+ -->                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
+                                            <a  class="about-product-wrapper">
+                                                <div class="producṭ-content bg-light">
+                                                    <h4 class="product-title">Producto importado</h4>
+<!--                                                     <p class="product-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+ -->                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="dz-product-media dz-media rounded"><img src="images/shop/product-details/product-style-1/product-details-1.png" alt="/"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                            <div class="clear" id="comment-list">
+                                <div class="post-comments comments-area style-1 clearfix">
+                                    <h4 class="comments-title mb-2">Comments (02)</h4>
+                                    <p class="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
+                                    <div id="comment">
+                                        <ol class="comment-list">
+                                            <li class="comment even thread-even depth-1 comment" id="comment-2">
+                                                <div class="comment-body">
+                                                  <div class="comment-author vcard">
+                                                        <img src="images/profile4.jpg" alt="/" class="avatar">
+                                                        <cite class="fn">Michel Poe</cite> 
+                                                  </div>
+                                              <div class="comment-content dz-page-text">
+                                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                              </div>
+                                              <div class="reply">
+                                                 <a rel="nofollow" class="comment-reply-link" href="javascript:void(0);">Reply</a>
+                                              </div>
+                                           </div>
+                                           <ol class="children">
+                                              <li class="comment byuser comment-author-w3itexpertsuser bypostauthor odd alt depth-2 comment" id="comment-3">
+                                                 <div class="comment-body" id="div-comment-3">
+                                                    <div class="comment-author vcard">
+                                                       <img src="images/profile3.jpg" alt="/" class="avatar">
+                                                       <cite class="fn">Celesto Anderson</cite>
+                                                    </div>
+                                                    <div class="comment-content dz-page-text">
+                                                       <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                                    </div>
+                                                    <div class="reply">
+                                                       <a class="comment-reply-link" href="javascript:void(0);"> Reply</a>
+                                                    </div>
+                                                 </div>
+                                              </li>
+                                           </ol>
+                                        </li>
+                                        <li class="comment even thread-odd thread-alt depth-1 comment" id="comment-4">
+                                            <div class="comment-body" id="div-comment-4">
+                                                <div class="comment-author vcard">
+                                                    <img src="images/profile2.jpg" alt="/" class="avatar">
+                                                    <cite class="fn">Monsur Rahman Lito</cite>
+                                                </div>
+                                                <div class="comment-content dz-page-text">
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                                </div>
+                                                <div class="reply">
+                                                    <a class="comment-reply-link" href="javascript:void(0);"> Reply</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                     </ol>
+                                  </div>
+                                <div class="default-form comment-respond style-1" id="respond">
+                                    <h4 class="comment-reply-title mb-2" id="reply-title">Good Comments</h4>
+                                    <p class="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
+                                    <div class="comment-form-rating d-flex">
+                                        <label class="pull-left m-r10 m-b20  text-secondary">Your Rating</label>
+                                        <div class="rating-widget">
+                                            <!-- Rating Stars Box -->
+                                            <div  class="rating-stars">
+                                                <ul id="stars">
+                                                    <li class="star" title="Poor" data-value="1">
+                                                        <i class="fas fa-star fa-fw"></i>
+                                                    </li>
+                                                    <li class="star" title="Fair" data-value="2">
+                                                        <i class="fas fa-star fa-fw"></i>
+                                                    </li>
+                                                    <li class="star" title="Good" data-value="3">
+                                                        <i class="fas fa-star fa-fw"></i>
+                                                    </li>
+                                                    <li class="star" title="Excellent" data-value="4">
+                                                        <i class="fas fa-star fa-fw"></i>
+                                                    </li>
+                                                    <li class="star" title="WOW!!!" data-value="5">
+                                                        <i class="fas fa-star fa-fw"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <form method="post" id="comments_form" class="comment-form" novalidate>
+                                           <p class="comment-form-author"><input id="name" placeholder="Author" name="author" type="text" value=""></p>
+                                           <p class="comment-form-email"><input id="email" required="required" placeholder="Email" name="email" type="email" value=""></p>
+                                           <p class="comment-form-comment"><textarea id="comments" placeholder="Type Comment Here" class="form-control4" name="comment" cols="45" rows="3" required="required"></textarea></p>
+                                           <p class="col-md-12 col-sm-12 col-xs-12 form-submit">
+                                              <button id="submit" type="submit" class="submit btn btn-secondary btnhover3 filled">
+                                              Submit Now
+                                              </button>
+                                           </p>
+                                        </form>
+                                    </div>
+                                  </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="content-inner-1  overflow-hidden">
+        <div class="container">
+            <div class="section-head style-2 d-md-flex align-items-center justify-content-between">
+                <div class="left-content">
+                    <h2 class="title mb-0">Productos RELACIONADOS</h2>
+                </div>
+                <a (click)="global.setRoute('shop')" class="text-secondary font-14 d-flex align-items-center gap-1">Ver todos los productos
+                    <i class="icon feather icon-chevron-right font-18"></i>
+                </a>			
+            </div>
+           <!--  <div class="swiper-btn-center-lr">
+                <div class="swiper swiper-four">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="shop-card style-1">
+                                <div class="dz-media">
+                                    <img src="assets/images/shop/product/1.png" alt="image">
+                                    <div class="shop-meta">
+                                                    <a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <i class="fa-solid fa-eye d-md-none d-block"></i>
+                                                        <span class="d-md-block d-none">Ver detalles</span>
+                                                    </a>
+                                                    <div class="btn btn-primary meta-icon dz-wishicon">
+                                                        <i class="icon feather icon-heart dz-heart"></i>
+                                                        <i class="icon feather icon-heart-on dz-heart-fill"></i>
+                                                    </div>
+                                                    <div class="btn btn-primary meta-icon dz-carticon">
+                                                        <i class="flaticon flaticon-basket"></i>
+                                                        <i class="flaticon flaticon-shopping-basket-on dz-heart-fill"></i>
+                                                    </div>
+                                                </div>								
+                                </div>
+                                <div class="dz-content">
+                                    <h5 class="title"><a href="shop-list.html">Cozy Knit Cardigan Sweater</a></h5>
+                                    <h5 class="price">$80</h5>
+                                </div>
+                                <div class="product-tag">
+                                    <span class="badge ">Get 20% Off</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="shop-card style-1">
+                                <div class="dz-media">
+                                    <img src="assets/images/shop/product/2.png" alt="image">
+                                    <div class="shop-meta">
+                                                    <a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <i class="fa-solid fa-eye d-md-none d-block"></i>
+                                                        <span class="d-md-block d-none">Ver detalles</span>
+                                                    </a>
+                                                    <div class="btn btn-primary meta-icon dz-wishicon">
+                                                        <i class="icon feather icon-heart dz-heart"></i>
+                                                        <i class="icon feather icon-heart-on dz-heart-fill"></i>
+                                                    </div>
+                                                    <div class="btn btn-primary meta-icon dz-carticon">
+                                                        <i class="flaticon flaticon-basket"></i>
+                                                        <i class="flaticon flaticon-shopping-basket-on dz-heart-fill"></i>
+                                                    </div>
+                                                </div>								
+                                </div>
+                                <div class="dz-content">
+                                    <h5 class="title"><a href="shop-list.html">Sophisticated Swagger Suit</a></h5>
+                                    <h5 class="price">$80</h5>
+                                </div>
+                                <div class="product-tag">
+                                    <span class="badge ">Get 20% Off</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="shop-card style-1">
+                                <div class="dz-media">
+                                    <img src="assets/images/shop/product/3.png" alt="image">
+                                    <div class="shop-meta">
+                                                    <a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <i class="fa-solid fa-eye d-md-none d-block"></i>
+                                                        <span class="d-md-block d-none">Ver detalles</span>
+                                                    </a>
+                                                    <div class="btn btn-primary meta-icon dz-wishicon">
+                                                        <i class="icon feather icon-heart dz-heart"></i>
+                                                        <i class="icon feather icon-heart-on dz-heart-fill"></i>
+                                                    </div>
+                                                    <div class="btn btn-primary meta-icon dz-carticon">
+                                                        <i class="flaticon flaticon-basket"></i>
+                                                        <i class="flaticon flaticon-shopping-basket-on dz-heart-fill"></i>
+                                                    </div>
+                                                </div>								
+                                </div>
+                                <div class="dz-content">
+                                    <h5 class="title"><a href="shop-list.html">Classic Denim Skinny Jeans</a></h5>
+                                    <h5 class="price">$80</h5>
+                                </div>
+                                <div class="product-tag">
+                                    <span class="badge ">Get 20% Off</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="shop-card style-1">
+                                <div class="dz-media">
+                                    <img src="assets/images/shop/product/4.png" alt="image">
+                                    <div class="shop-meta">
+                                                    <a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <i class="fa-solid fa-eye d-md-none d-block"></i>
+                                                        <span class="d-md-block d-none">Ver detalles</span>
+                                                    </a>
+                                                    <div class="btn btn-primary meta-icon dz-wishicon">
+                                                        <i class="icon feather icon-heart dz-heart"></i>
+                                                        <i class="icon feather icon-heart-on dz-heart-fill"></i>
+                                                    </div>
+                                                    <div class="btn btn-primary meta-icon dz-carticon">
+                                                        <i class="flaticon flaticon-basket"></i>
+                                                        <i class="flaticon flaticon-shopping-basket-on dz-heart-fill"></i>
+                                                    </div>
+                                                </div>								
+                                </div>
+                                <div class="dz-content">
+                                    <h5 class="title"><a href="shop-list.html">Athletic Mesh Sports Leggings</a></h5>
+                                    <h5 class="price">$80</h5>
+                                </div>
+                                <div class="product-tag">
+                                    <span class="badge ">Get 20% Off</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="shop-card style-1">
+                                <div class="dz-media">
+                                    <img src="assets/images/shop/product/5.png" alt="image">
+                                    <div class="shop-meta">
+                                                    <a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <i class="fa-solid fa-eye d-md-none d-block"></i>
+                                                        <span class="d-md-block d-none">Ver detalles</span>
+                                                    </a>
+                                                    <div class="btn btn-primary meta-icon dz-wishicon">
+                                                        <i class="icon feather icon-heart dz-heart"></i>
+                                                        <i class="icon feather icon-heart-on dz-heart-fill"></i>
+                                                    </div>
+                                                    <div class="btn btn-primary meta-icon dz-carticon">
+                                                        <i class="flaticon flaticon-basket"></i>
+                                                        <i class="flaticon flaticon-shopping-basket-on dz-heart-fill"></i>
+                                                    </div>
+                                                </div>								
+                                </div>
+                                <div class="dz-content">
+                                    <h5 class="title"><a href="shop-list.html">Vintage Denim Overalls Shorts</a></h5>
+                                    <h5 class="price">$80</h5>
+                                </div>
+                                <div class="product-tag">
+                                    <span class="badge ">Get 20% Off</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination-align">
+                    <div class="tranding-button-prev btn-prev">
+                        <i class="flaticon flaticon-left-chevron"></i>
+                    </div>
+                    <div class="tranding-button-next btn-next">
+                        <i class="flaticon flaticon-chevron"></i>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </section>
+</div>
