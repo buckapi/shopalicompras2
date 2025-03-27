@@ -6,3 +6,134 @@
     -ms-transition: all 0.5s;
     transition: all 0.5s;
 }
+
+  /* Estilos para el menú móvil */
+.mobile-menu-header {
+    display: none; /* Oculto por defecto */
+  }
+  
+  @media (max-width: 991px) {
+    .mobile-menu-header {
+      display: flex; /* Visible solo en móvil */
+      width: 100%;
+    }
+    
+    .header-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      z-index: 1050;
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    
+    .navbar-nav {
+      flex-direction: column;
+    }
+    
+    .btn-close {
+      font-size: 1.5rem;
+      padding: 0.5rem;
+    }
+  }
+
+  /* Menú inferior móvil */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #fff;
+    box-shadow: 0 0px 10px rgba(0,0,0,0.1);
+    padding: 20px 0;
+    display: none;
+  }
+  
+  @media (max-width: 991px) {
+    .mobile-bottom-nav {
+      display: block;
+    }
+    
+    body {
+      padding-bottom: 60px; /* Espacio para el menú inferior */
+    }
+  }
+  
+  .mobile-bottom-nav .header-right {
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .mobile-bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  
+  .mobile-bottom-nav .nav-link {
+    color: #333;
+    text-align: center;
+    font-size: 10px;
+    padding: 5px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mobile-bottom-nav .nav-link i {
+    font-size: 20px;
+    margin-bottom: 3px;
+  }
+  
+  .mobile-bottom-nav .nav-text {
+    font-size: 12px;
+  }
+  
+  .mobile-bottom-nav .badge-circle {
+    position: absolute;
+    top: -5px;
+    right: 15px;
+    background: #ff4a76;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+  
+  /* Efectos hover/active */
+  .mobile-bottom-nav .nav-link:hover,
+  .mobile-bottom-nav .nav-link:active {
+    color: var(--primary); /* Usa tu color primario */
+  }
+  
+  /* Asegura que el menú esté sobre otros elementos */
+  .dz-offcanvas {
+    z-index: 1050 !important;
+  }
+
+  @media only screen and (max-width: 767px) {
+    .site-header .extra-nav {
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        padding: 0 20px;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.15);
+        height: 50px;
+        transition: all 0.5s ease 0.5s;
+    }
+}
