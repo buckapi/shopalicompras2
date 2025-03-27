@@ -17,43 +17,35 @@
               <span></span>
           </button>
 
+          <div class="mobile-buttons d-lg-none">
+            <div class="extra-cell">	
+              <ul class="header-right">
+                <li class="nav-item cart-link">
+                  <a href="javascript:void(0);" class="nav-link cart-btn" (click)="toggleCart()">
+                    <i class="iconly-Broken-Buy"></i>
+                    <span class="badge badge-circle">{{ carTotalPrice }}</span>
+                  </a>
+                </li>
+                <!-- Puedes añadir más botones aquí si es necesario -->
+              </ul>
+            </div>
+          </div>
       
         <!-- Main Nav -->
-       <!--  <div class="header-nav w3menu navbar-collapse collapse justify-content-start" id="navbarNavDropdown">
-          <div class="logo-header logo-dark">
-            <a (click)="global.setRoute('home')"><img src="images/logo.png" alt=""></a>
-            <button class="btn-close" type="button" data-bs-dismiss="collapse" aria-label="Cerrar" (click)="toggleMenu()" style="color: brown;"></button>
-          </div>
-
-          <ul class="nav navbar-nav">
-            <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('home')" style="cursor: pointer;"><a>Inicio</a></li>
-            <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('about')" style="cursor: pointer;"><a>Nosotros</a></li>
-            <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('shop')" style="cursor: pointer;"><a>Tienda</a></li>
-            <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('contact')" style="cursor: pointer;"><a>Contacto</a></li>
-            <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('dashboard')" style="cursor: pointer;" *ngIf="authService.isLogin()"><a>Dashboard</a></li>
-          </ul>
-          <div class="dz-social-icon">
-            <ul>
-              <li><a class="fab fa-facebook-f" target="_blank" href="https://www.facebook.com/"></a></li>
-              <li><a class="fab fa-instagram" target="_blank" href="https://www.instagram.com/dexignzone/"></a></li>
-              <li><a class="fab fa-youtube" target="_blank" href="https://www.youtube.com/"></a></li>
-              <li><a class="fab fa-tiktok" target="_blank" href="https://www.tiktok.com/"></a></li>
-              <li><a class="fab fa-whatsapp" target="_blank" href="https://www.whatsapp.com/"></a></li>
-            </ul>
-          </div>
-        </div> -->
+      
         <div class="header-nav w3menu navbar-collapse collapse justify-content-start" id="navbarNavDropdown">
           <!-- Encabezado del menú móvil con botón de cerrar -->
           <div class="mobile-menu-header d-flex justify-content-between align-items-center p-3 bg-light">
             <div class="logo-header logo-dark">
               <a (click)="closeMenuAndNavigate('home')"><img src="images/logo.png" alt=""></a>
             </div>
-            <button class="btn-close btn-close-black" type="button" (click)="toggleMenu()" aria-label="Cerrar" style="    background: #002446;
+            <button class="btn-close btn-close-black mobile-close-btn" type="button" (click)="toggleMenu()" aria-label="Cerrar" style="    background: #002446;
             opacity: 1;
             text-align: center;
             line-height: initial; 
             
             "> <i class="fa fa-close text-white"></i></button>
+            
           </div>
         
           <ul class="nav navbar-nav p-3">
@@ -76,7 +68,7 @@
         </div>
       
         <!-- EXTRA NAV -->
-        <!-- <div class="mobile-bottom-nav">
+        <div class="mobile-bottom-nav">
           <div class="extra-nav">
             <div class="extra-cell">						
               <ul class="header-right">
@@ -104,41 +96,42 @@
               </ul>
             </div>
           </div>
-        </div> -->
+        </div> 
         <!-- Menú inferior móvil -->
-<div class="mobile-bottom-nav">
-  <div class="extra-nav">
-    <div class="extra-cell">						
-      <ul class="header-right">
-        <li [hidden]="authService.isLogin()" class="nav-item login-link">
-          <a class="nav-link" (click)="closeMenuAndNavigate('login')">
-            <i class="iconly-Light-User"></i>
-            <span class="nav-text">Ingresar</span>
-          </a>
-        </li>
-        <li [hidden]="!authService.isLogin()" class="nav-item login-link">
-          <a class="nav-link" (click)="authService.logoutUser()">
-            <i class="iconly-Light-Logout"></i>
-            <span class="nav-text">Salir</span>
-          </a>
-        </li>
-        <li class="nav-item search-link">
-          <a class="nav-link" (click)="toggleSearch()">
-            <i class="iconly-Light-Search"></i>
-            <span class="nav-text">Buscar</span>
-          </a>
-        </li>
-        <li class="nav-item cart-link">
-          <a class="nav-link cart-btn" (click)="toggleCart()">
-            <i class="iconly-Broken-Buy"></i>
-            <span class="badge badge-circle">{{ carTotalPrice }}</span>
-            <span class="nav-text">Carrito</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+       <!--  <div class="mobile-bottom-nav">
+          <div class="extra-nav">
+            <div class="extra-cell">						
+              <ul class="header-right">
+                <li [hidden]="authService.isLogin()" class="nav-item login-link">
+                  <a class="nav-link" (click)="closeMenuAndNavigate('login')">
+                    <i class="iconly-Light-User"></i>
+                    <span class="nav-text">Ingresar</span>
+                  </a>
+                </li>
+                <li [hidden]="!authService.isLogin()" class="nav-item login-link">
+                  <a class="nav-link" (click)="authService.logoutUser()">
+                    <i class="iconly-Light-Logout"></i>
+                    <span class="nav-text">Salir</span>
+                  </a>
+                </li>
+                <li class="nav-item search-link">
+                  <a class="nav-link" (click)="toggleSearch()">
+                    <i class="iconly-Light-Search"></i>
+                    <span class="nav-text">Buscar</span>
+                  </a>
+                </li>
+                <li class="nav-item cart-link">
+                  <a class="nav-link cart-btn" (click)="toggleCart()">
+                    <i class="iconly-Broken-Buy"></i>
+                    <span class="badge badge-circle">{{ carTotalPrice }}</span>
+                    <span class="nav-text">Carrito</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div> -->
+        
       </div>
     </div>
   </div>

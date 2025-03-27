@@ -94,8 +94,7 @@ toggleCart() {
     cartOffcanvas.classList.toggle('show');
     document.body.style.overflow = cartOffcanvas.classList.contains('show') ? 'hidden' : '';
   }
-}
-
+} 
 // Función para navegación
 /* closeMenuAndNavigate(route: string) {
   this.global.setRoute(route);
