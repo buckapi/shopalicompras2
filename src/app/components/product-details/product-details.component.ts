@@ -15,6 +15,7 @@ interface Product {
   weight: string;
   category: string;
   files: string[];
+  videos: string[];
   quantity: number;
   manufacturer: string;
   code: string;

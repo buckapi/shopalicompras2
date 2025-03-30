@@ -8,6 +8,7 @@ interface Producto {
   description: string;
   price: number;
   files  : string[];
+  videos: string[];
   categorias: string;
   quantity: number;
   dimensions: string;
@@ -39,6 +40,7 @@ export class GlobalService {
     description: '',
     price: 0,
     files: [],
+    videos: [],
     categorias: '',
     quantity: 0,
     dimensions: '',

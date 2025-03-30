@@ -139,20 +139,6 @@
                                   <!-- <h2 class="title mb-0">Imágenes</h2> -->
                                   <span class="text text-primary"></span>
                                 </div>
-                                <!-- <div class="clearfix">
-                                  <div class="custom-file-upload">
-                                    <div *ngIf="selectedImage" class="image-preview">
-                                      <img [src]="selectedImagePrev" alt="Selected Image" class="img-thumbnail"
-                                           style="border-radius: 50%; cursor: pointer; border: 5px solid #3ba5a8; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); transition: box-shadow 0.3s ease, transform 0.3s ease; max-width: 150px; max-height: 150px;" />
-                                    </div>
-                                    <input #imageUpload id="imageUpload" type="file" (change)="onImageChange($event)" class="form-control"
-                                           accept="image/*" style="display: none;" />
-                                    <label for="imageUpload" class="btn mb-2 me-2 btn-primary">
-                                      <i class="fa-solid fa-search me-2"></i>Imágen de producto
-                                    </label>
-                                    <div *ngIf="!selectedImage" class="text-danger">* Por favor, suba una imagen.</div>
-                                  </div>
-                                </div> -->
                                 <div class="clearfix">
                                   <div class="custom-file-upload">
                                     <!-- Vista previa de múltiples imágenes -->
@@ -167,12 +153,40 @@
                                     </div>
                                     
                                     <!-- Input para múltiples archivos -->
-                                    <input #imageUpload id="imageUpload" type="file" (change)="onImagesChange($event)" class="form-control"
+                                    <input #imageUpload id="imageUpload" type="file" (change)="onImageChange($event)" class="form-control"
                                            accept="image/*" style="display: none;" multiple />
                                     <label for="imageUpload" class="btn mb-2 me-2 btn-primary">
                                       <i class="fa-solid fa-images me-2"></i>Imágenes de producto
                                     </label>
                                     <div *ngIf="selectedImages.length === 0" class="text-danger">* Por favor, suba al menos una imagen.</div>
+                                  </div>
+                                </div>
+                                <div class="clearfix">
+                                  <div class="custom-file-upload">
+                                    <!-- Vista previa de videos -->
+                                    <div *ngIf="selectedVideos.length > 0" class="video-previews">
+                                      <div *ngFor="let video of selectedVideos; let i = index" class="video-preview-item">
+                                        <video controls class="video-thumbnail">
+                                          <source [src]="video.preview" [type]="video.file.type">
+                                          Tu navegador no soporta videos HTML5.
+                                        </video>
+                                        <div class="video-info">
+                                          <span>{{ video.file.name }}</span>
+                                          <span>{{ (video.file.size / (1024 * 1024)).toFixed(2) }} MB</span>
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-sm remove-video" (click)="removeVideo(i)">
+                                          <i class="fa-solid fa-trash"></i> Eliminar
+                                        </button>
+                                      </div>
+                                    </div>
+                                    
+                                    <!-- Input para videos -->
+                                    <input #videoUpload id="videoUpload" type="file" (change)="onVideosChange($event)" class="form-control"
+                                           accept="video/*" style="display: none;" multiple />
+                                    <label for="videoUpload" class="btn mb-2 me-2 btn-primary">
+                                      <i class="fa-solid fa-video me-2"></i>Subir Videos
+                                    </label>
+                                    <div *ngIf="selectedVideos.length === 0" class="text-muted">Formatos soportados: MP4, WebM, Ogg</div>
                                   </div>
                                 </div>
                             </div>
@@ -265,7 +279,7 @@
                                             <img [src]="selectedImagePrev" alt="Selected Image" class="img-thumbnail"
                                                  style="border-radius: 50%; cursor: pointer; border: 5px solid #3ba5a8; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); transition: box-shadow 0.3s ease, transform 0.3s ease; max-width: 150px; max-height: 150px;" />
                                         </div>
-                                        <input #imageUpload id="imageUpload" type="file" (change)="onImagesChange($event)" class="form-control"
+                                        <input #imageUpload id="imageUpload" type="file" (change)="onImageChange($event)" class="form-control"
                                                accept="image/*" style="display: none;" />
                                         <label for="imageUpload" class="btn mb-2 me-2 btn-primary">
                                             <i class="fa-solid fa-search me-2"></i>Imágen de producto
