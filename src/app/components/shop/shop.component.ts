@@ -15,6 +15,7 @@ import { AuthPocketbaseService } from '../../services/auth-pocketbase.service';
 export class ShopComponent {
   productos: any[] = [];
   categorias: any[] = [];
+  product: any;
 constructor(
   public global: GlobalService,
   public realtimecategorias: RealtimeCategoriasService,
@@ -28,4 +29,5 @@ constructor(
     this.productos = productos;
   });
 }
+
 }

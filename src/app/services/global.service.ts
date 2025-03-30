@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs'; // Add this line
+import { BehaviorSubject, Observable } from 'rxjs'; // Add this line
+import PocketBase from 'pocketbase';
 
 interface Producto {
   id: number;
@@ -29,6 +30,7 @@ export class GlobalService {
   totalProductos = 0;
   cart: any[] = [];
   cartQuantity = 0;
+  product: any;
   cartQuantity$ = new BehaviorSubject<number>(0); 
   cartStatus$ = new BehaviorSubject<boolean>(false);
   productSelected: Producto = {
@@ -47,8 +49,13 @@ export class GlobalService {
     material: '',
 
   }
-
-  constructor() { }
+  private productToEdit = new BehaviorSubject<any>(null);
+  productToEdit$ = this.productToEdit.asObservable();
+  constructor() { 
+    this.pb = new PocketBase(this.apiUrl);
+  }
+  private pb: PocketBase;
+  private apiUrl = 'https://db.buckapi.lat:8050';
   setRoute(route: string) {
     this.activeRoute = route;
   }
@@ -94,5 +101,44 @@ export class GlobalService {
       this.cartStatus$.next(this.cart.length > 0); // Emitir estado inicial
     }
   }
+  
 
+editProduct(product: any) {
+  this.productToEdit.next(product);
+  this.menuSelected = 'edit-product';
+}
+  
+/* updateProduct(product: any): Observable<any> {
+  const data = {
+      name: product.name,
+      categorias: product.categorias,
+      description: product.description,
+      price: product.price,
+      quantity: product.quantity,
+      dimensions: product.dimensions,
+      code: product.code,
+      manufacturer: product.manufacturer,
+      country: product.country,
+      material: product.material,
+      weight: product.weight,
+  };
+
+  return new Observable(observer => {
+      this.pb.collection('productos').update(product.id, data)
+          .then(record => {
+              observer.next(record);
+              observer.complete();
+          })
+          .catch(error => {
+              observer.error(error);
+          });
+  });
+} */
+updateProduct(id: string, data: any): Observable<any> {
+  return new Observable(observer => {
+    this.pb.collection('productos').update(id, data)
+      .then(record => observer.next(record))
+      .catch(error => observer.error(error));
+  });
+}
 }

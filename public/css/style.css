@@ -41272,3 +41272,12 @@ footer {
     width: 150px; }
 
 /*# sourceMappingURL=style.css.map */
+
+@media (max-width: 767px) {
+  .topM {
+    padding-top: 20%;
+  }
+}
+.topM {
+  padding-top: 10%;
+} 

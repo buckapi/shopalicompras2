@@ -33,7 +33,7 @@ export class DashboardComponent {
     country: '',
     material: '',
   };
-
+  productToEdit: any = {};
   totalProductos: number = 0;
   productos: any[] = [];
   userName: string = '';
@@ -41,7 +41,10 @@ export class DashboardComponent {
   showProducts: boolean = false;
   addProductForm: FormGroup;
 selectedImage: File | null = null;
+selectedImages: { file: File, preview: string }[] = [];
+
 selectedImagePrev: string = '';
+
   constructor(
     public global: GlobalService,
     public authService: AuthPocketbaseService,
@@ -69,8 +72,8 @@ selectedImagePrev: string = '';
     });
   }
 
-
-  onImageChange(event: any): void {
+  
+  /* onImageChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
       this.selectedImage = file;
@@ -80,8 +83,30 @@ selectedImagePrev: string = '';
       };
       reader.readAsDataURL(file);
     }
-  }
-  async onSubmit() { // Agregar 'async' aquí
+  } */
+    onImagesChange(event: any): void {
+      const files = event.target.files;
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.selectedImages.push({
+              file: file,
+              preview: e.target.result
+            });
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+    
+    // Método para eliminar una imagen
+    removeImage(index: number): void {
+      this.selectedImages.splice(index, 1);
+    }
+    
+  /* async onSubmit() { // Agregar 'async' aquí
     if (!this.selectedImage) {
       Swal.fire({
         title: 'Error!',
@@ -175,155 +200,158 @@ selectedImagePrev: string = '';
       });
       console.error('Error al agregar el producto:', error);
     }
-  }
-    // onImageChange(event: any): void {
-    //   const file = event.target.files[0];
-    //   if (file) {
-    //     this.selectedImage = file;
-    //     const reader = new FileReader();
-    //     reader.onload = (e: any) => {
-    //       this.selectedImagePrev = e.target.result;
-    //     };
-    //     reader.readAsDataURL(file);
-    //   }
-    // }
-  
-    //   onSubmit() {
-    //     if (!this.selectedImage) {
-    //       Swal.fire({
-    //         title: 'Error!',
-    //         text: 'Por favor, seleccione una imagen antes de guardar el producto.',
-    //         icon: 'error',
-    //         confirmButtonText: 'Aceptar'
-    //       });
-    //       return;
-    //     }
-      
-    //     // First, upload the image
-    //     this.imageService.uploadImage(this.selectedImage).then(imageResponse => {
-    //       // Assuming imageResponse contains the image URL or ID
-    //       this.product = {
-    //         name: this.product.name,
-    //         price: this.product.price,
-    //         categorias: this.product.categorias,
-    //         description: this.product.description,
-    //         quantity: this.product.quantity,
-    //         files: [] // or however you get the image URL
-    //       };
-      
-    //       // Now add the product with the uploaded image
-    //       return this.productsService.addProduct(this.product);
-    //     }).then(response => {
-    //       console.log('Product added:', response);
-          
-    //       // Show SweetAlert for successful product addition
-    //       Swal.fire({
-    //         title: 'Éxito!',
-    //         text: 'Producto guardado con éxito!',
-    //         icon: 'success',
-    //         confirmButtonText: 'Aceptar'
-    //       });
-      
-    //       // Reset the product object with all required properties
-    //       this.product = { 
-    //         name: '', 
-    //         price: 0, 
-    //         categorias: '', 
-    //         description: '', 
-    //         quantity: 0,
-    //         files: []
-    //       }; 
-    //       this.selectedImage = null; // Reset selected image
-      
-    //       // Refresh the product list
-    //       this.productos = this.global.getProductos(); 
-    //     }).catch(error => {
-    //       console.error('Error adding product:', error);
-    //       // Show SweetAlert for error
-    //       Swal.fire({
-    //         title: 'Error!',
-    //         text: 'Error al guardar el producto.',
-    //         icon: 'error',
-    //         confirmButtonText: 'Aceptar'
-    //       });
-    //     });
-    //   }
-
-   /*    onImageChange(event: any): void {
-        const file = event.target.files[0];
-        if (file) {
-          this.selectedImage = file;
-          const reader = new FileReader();
-          reader.onload = (e: any) => {
-            this.selectedImagePrev = e.target.result;
-          };
-          reader.readAsDataURL(file);
-        }
+  } */
+    async onSubmit() {
+      if (this.selectedImages.length === 0) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Por favor, seleccione al menos una imagen antes de guardar el producto.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+        return;
       }
     
-      onSubmit() {
-        if (!this.selectedImage) {
-          Swal.fire({
-            title: 'Error!',
-            text: 'Por favor, seleccione una imagen antes de guardar el producto.',
-            icon: 'error',
-            confirmButtonText: 'Aceptar'
-          });
-          return;
+      const files: string[] = [];
+      
+      try {
+        // Subir todas las imágenes
+        for (const image of this.selectedImages) {
+          const formData = new FormData();
+          formData.append('image', image.file);
+          
+          const newImageRecord: any = await this.pb.collection('files').create(formData);
+          
+          if (newImageRecord) {
+            const fileUrl = `${this.apiUrl}/api/files/${newImageRecord.collectionId}/${newImageRecord.id}/${newImageRecord.image}`;
+            files.push(fileUrl);
+          }
         }
-      
-        // First, upload the image
-        this.imageService.uploadImage(this.selectedImage).then((imageResponse: { id: string }) => {
-          // Check the type of imageResponse.id
-          console.log('Image Response:', imageResponse); // Log the response for debugging
-      
-          // Ensure that imageResponse.id is treated as a string
-          this.product = {
+    
+        if (files.length > 0) {
+          // Crear el objeto del producto con la información necesaria
+          const productData = {
             name: this.product.name,
             price: this.product.price,
             categorias: this.product.categorias,
             description: this.product.description,
             quantity: this.product.quantity,
-            files: [imageResponse.id] // Ensure this is a string
+            files: files, 
+            dimensions: this.product.dimensions,
+            weight: this.product.weight,
+            manufacturer: this.product.manufacturer,
+            code: this.product.code,
+            country: this.product.country,
+            material: this.product.material
           };
-      
-          // Now add the product with the uploaded image
-          return this.productsService.addProduct(this.product);
-        }).then(response => {
-          console.log('Product added:', response);
+    
+          // Llamar al servicio para agregar el producto
+          await this.productsService.addProduct(productData);
+    
           Swal.fire({
             title: 'Éxito!',
             text: 'Producto guardado con éxito!',
             icon: 'success',
             confirmButtonText: 'Aceptar'
           });
-      
-          // Reset the product object with all required properties
-          this.product = { 
-            name: '', 
-            price: 0, 
-            categorias: '', 
-            description: '', 
-            quantity: 0,
-            files: []
-          }; 
-          this.selectedImage = null;
-        }).catch(error => {
-          console.error('Error adding product:', error);
+    
+          // Restablecer el formulario
+          this.resetForm();
+        } else {
           Swal.fire({
             title: 'Error!',
-            text: 'Error al guardar el producto.',
+            text: 'No se subieron imágenes correctamente.',
             icon: 'error',
             confirmButtonText: 'Aceptar'
           });
+        }
+      } catch (error) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'No se pudo agregar el producto.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
         });
-      } */
+        console.error('Error al agregar el producto:', error);
+      }
+    }
+    /*  async updateProduct() {
+    const productData = {
+        id: this.productToEdit.id,
+        name: this.productToEdit.name,
+        price: this.productToEdit.price,
+        categorias: this.productToEdit.categorias,
+        description: this.productToEdit.description,
+        quantity: this.productToEdit.quantity,
+        files: this.productToEdit.files,
+        dimensions: this.productToEdit.dimensions,
+        weight: this.productToEdit.weight,
+        manufacturer: this.productToEdit.manufacturer,
+        code: this.productToEdit.code,
+        country: this.productToEdit.country,
+        material: this.productToEdit.material
+    };
+
+    // Call the updateProduct method with only productData
+    await this.global.updateProduct(this.productToEdit.id, productData).toPromise();
+
+    this.resetEditForm(); // Optional: Clear the EDIT form
+    this.productos = await this.global.getProductos(); // Refresh the product list
+} */
+async updateProduct() {
+  try {
+    // Envía solo los campos necesarios (opcional, puedes enviar todo productToEdit)
+    const data = {
+      name: this.productToEdit.name,
+      price: this.productToEdit.price,
+      categorias: this.productToEdit.categorias,
+      // ... otros campos ...
+    };
+
+    await this.global.updateProduct(this.productToEdit.id, data).toPromise();
+    Swal.fire('¡Éxito!', 'Producto actualizado', 'success');
+    this.resetEditForm();
+  } catch (error) {
+    Swal.fire('Error', 'No se pudo actualizar', 'error');
+    console.error(error);
+  }
+}
+resetForm(): void {
+  this.product = { 
+    name: '', 
+    price: 0, 
+    categorias: '', 
+    description: '', 
+    quantity: 0,
+    files: [],
+    dimensions: '',
+    weight: '',
+    manufacturer: '',
+    code: '',
+    country: '',
+    material: '',
+  }; 
+  this.selectedImages = [];
+  this.productos = this.global.getProductos();
+}
+  
+  // Limpiar formulario EDIT
+  resetEditForm() {
+    this.productToEdit = {};
+  }
       
   ngOnInit(): void {
     this.productos = this.global.getProductos(); // Obtén la lista de productos
     this.totalProductos = this.global.getProductosCount(); // Obtén el conteo de productos
+    this.global.productToEdit$.subscribe((product) => {
+      if (product) {
+        this.productToEdit = { ...product }; // Copia los datos al formulario de edición
+        this.selectedImagePrev = product.files?.[0] || ''; // Precarga la imagen
+        this.global.menuSelected = 'edit-product'; // Muestra el formulario de edición
+      }
+    });
   } 
-
+  
   toggleCategories() {
     this.showCategories = !this.showCategories;
   }

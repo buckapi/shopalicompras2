@@ -34,11 +34,6 @@ export class ProductsService {
 
   addProduct(data: Product): Promise<Product> {
     return this.pb.collection('productos').create(data);
-}
-//   addProduct(data: Product): Observable<Product> {
-//     const url_api = this.baseUrl + '/collections/productos/records';
-//     return this.http.post<Product>(url_api, data).pipe(
-//       map(response => response)
-//     );
-//   }
+  }
+
 }

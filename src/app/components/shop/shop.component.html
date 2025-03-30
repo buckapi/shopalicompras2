@@ -1,4 +1,4 @@
-<div class="page-content bg-light" style="padding-top: 20%;">
+<div class="page-content bg-light topM">
     <!--Banner Start-->
     <!-- <div class="dz-bnr-inr bg-secondary overlay-black-light" style="background-image:url(images/background/bg1.jpg);">
         <div class="container">
@@ -171,7 +171,6 @@
                                     </a>
                                 </li>
                             </ul> -->
-                            <span>Paginas 1–5 Of 50 Resultados</span>
                         </div>
                         <div class="filter-right-area">
                             <a href="javascript:void(0);" class="panel-btn me-2">
@@ -330,9 +329,9 @@
                                                 <h5 class="title"><a (click)="global.setRoute('product-details')" style="cursor: pointer;">{{producto.name}}</a></h5>
                                                 <h5 class="price">$ {{producto.price}}</h5>
                                             </div>
-                                            <div class="product-tag">
+                                           <!--  <div class="product-tag">
                                                 <span class="badge ">Get 20% Off</span>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                    
@@ -349,9 +348,10 @@
                                                         <i class="fa-solid fa-eye d-md-none d-block"></i>
                                                         <span class="d-md-block d-none">Ver producto</span>
                                                     </a>
-                                                    <div class="btn btn-primary meta-icon dz-wishicon" *ngIf="authService.isAdmin()">
-                                                        <i class="icon feather icon-edit dz-edit"></i>
-                                                        <i class="icon feather icon-edit-on dz-edit-fill"></i>
+                                                    <div class="btn btn-primary meta-icon dz-wishicon" *ngIf="authService.isAdmin()" 
+                                                        (click)="global.setRoute('dashboard'); global.editProduct(product)">
+                                                    <i class="icon feather icon-edit dz-edit"></i>
+                                                    <i class="icon feather icon-edit-on dz-edit-fill"></i>
                                                     </div>
                                                     <div class="btn btn-primary meta-icon dz-wishicon" *ngIf="authService.isAdmin()">
                                                         <i class="icon feather icon-trash dz-trash"></i>
@@ -367,9 +367,9 @@
                                                 <h5 class="title"><a (click)="global.setProduct('product-details',producto)" style="cursor: pointer;">{{producto.name}}</a></h5>
                                                 <h5 class="price">$ {{producto.price}}</h5>
                                             </div>
-                                            <div class="product-tag">
+                                           <!--  <div class="product-tag">
                                                 <span class="badge ">Get 20% Off</span>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                    
