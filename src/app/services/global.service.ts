@@ -106,7 +106,7 @@ export class GlobalService {
   
 
 editProduct(product: any) {
-  this.productToEdit.next(product);
+  this.product = JSON.parse(JSON.stringify(product));
   this.menuSelected = 'edit-product';
 }
   

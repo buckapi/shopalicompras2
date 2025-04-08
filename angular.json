@@ -94,6 +94,9 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "cache": {
+      "path": "/tmp/angular-cache"
+    }
   }
 }

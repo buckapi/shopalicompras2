@@ -32,13 +32,14 @@ export class DashboardComponent {
   private pb: PocketBase;
   private apiUrl = 'https://db.buckapi.lat:8050';
 
-  product = {
+  product: any = {
+    id: '',
     name: '',
-    price: 0, 
-    categorias: '', 
-    description: '', 
-    files: [] , 
-    videos: [] , 
+    price: 0,
+    categorias: '',
+    description: '',
+    files: [],
+    videos: [],
     quantity: 0,
     dimensions: '',
     weight: '',
@@ -292,20 +293,27 @@ export class DashboardComponent {
 
     async updateProduct() {
       try {
-        // Envía solo los campos necesarios (opcional, puedes enviar todo productToEdit)
         const data = {
-          name: this.productToEdit.name,
-          price: this.productToEdit.price,
-          categorias: this.productToEdit.categorias,
-          // ... otros campos ...
+          name: this.product.name,
+          price: this.product.price,
+          categorias: this.product.categorias,
+          description: this.product.description,
+          quantity: this.product.quantity,
+          dimensions: this.product.dimensions,
+          weight: this.product.weight,
+          manufacturer: this.product.manufacturer,
+          code: this.product.code,
+          country: this.product.country,
+          material: this.product.material,
+          files: this.product.files,
+          videos: this.product.videos
         };
 
-        await this.global.updateProduct(this.productToEdit.id, data).toPromise();
+        await this.global.updateProduct(this.product.id, data).toPromise();
         Swal.fire('¡Éxito!', 'Producto actualizado', 'success');
         this.resetEditForm();
       } catch (error) {
         Swal.fire('Error', 'No se pudo actualizar', 'error');
-        console.error(error);
       }
     }
 
@@ -332,16 +340,26 @@ export class DashboardComponent {
   // Limpiar formulario EDIT
   resetEditForm() {
     this.productToEdit = {};
+    this.selectedImagePrev = '';
+    this.global.setMenuOption('add-product');
   }
       
   ngOnInit(): void {
-    this.productos = this.global.getProductos(); // Obtén la lista de productos
-    this.totalProductos = this.global.getProductosCount(); // Obtén el conteo de productos
+    // Obtener productos
+    this.productos = this.global.getProductos();
+    this.totalProductos = this.global.getProductosCount();
+
+    // Suscribirse a cambios en el producto a editar
     this.global.productToEdit$.subscribe((product) => {
+      console.log('Producto recibido para editar:', product);
       if (product) {
-        this.productToEdit = { ...product }; // Copia los datos al formulario de edición
-        this.selectedImagePrev = product.files?.[0] || ''; // Precarga la imagen
-        this.global.menuSelected = 'edit-product'; // Muestra el formulario de edición
+        // Copiar datos al formulario
+        this.productToEdit = { ...product };
+        this.selectedImagePrev = product.files?.[0] || '';
+        
+        // Asegurar que se muestre el formulario de edición
+        this.global.setMenuOption('edit-product');
+        console.log('Estado del menú:', this.global.menuSelected);
       }
     });
   } 
