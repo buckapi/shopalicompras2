@@ -32,14 +32,13 @@ export class DashboardComponent {
   private pb: PocketBase;
   private apiUrl = 'https://db.buckapi.lat:8050';
 
-  product: any = {
-    id: '',
+  product = {
     name: '',
-    price: 0,
-    categorias: '',
-    description: '',
-    files: [],
-    videos: [],
+    price: 0, 
+    categorias: '', 
+    description: '', 
+    files: [] , 
+    videos: [] , 
     quantity: 0,
     dimensions: '',
     weight: '',
@@ -60,7 +59,7 @@ export class DashboardComponent {
   selectedMedia: MediaFile[] = [];
   selectedImagePrev: string = '';
   selectedVideos: VideoFile[] = [];
-  maxVideoSizeMB = 50; // Límite de tamaño en MB
+  maxVideoSizeMB = 100; // Límite de tamaño en MB
   constructor(
     public global: GlobalService,
     public authService: AuthPocketbaseService,
@@ -157,54 +156,78 @@ export class DashboardComponent {
       this.selectedVideos.splice(index, 1);
     }
     async onSubmit() {
-      // Validación mínima de datos del producto
-      if (!this.product.name || !this.product.price) {
-        Swal.fire({
-          title: 'Datos incompletos',
-          text: 'Por favor complete los campos obligatorios del producto',
-          icon: 'warning',
-          confirmButtonText: 'Entendido'
-        });
-        return;
-      }
-    
-      // Validación de medios (al menos una imagen o video)
-      if (this.selectedImages.length === 0 && this.selectedVideos.length === 0) {
-        const result = await Swal.fire({
-          title: '¿Continuar sin medios?',
-          text: 'El producto no tiene imágenes ni videos. ¿Desea guardarlo de todas formas?',
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonText: 'Sí, guardar',
-          cancelButtonText: 'No, cancelar'
-        });
-        
-        if (!result.isConfirmed) {
+      try {
+        // Validación mínima de datos del producto
+        if (!this.product.name || !this.product.price || !this.product.categorias) {
+          await Swal.fire({
+            title: 'Datos incompletos',
+            text: 'Por favor complete los campos obligatorios: Nombre, Precio y Categoría',
+            icon: 'warning',
+            confirmButtonText: 'Entendido'
+          });
           return;
         }
-      }
     
-      try {
+        // Validación de medios (al menos una imagen o video)
+        if (this.selectedImages.length === 0 && this.selectedVideos.length === 0) {
+          const result = await Swal.fire({
+            title: '¿Continuar sin medios?',
+            text: 'El producto no tiene imágenes ni videos. ¿Desea guardarlo de todas formas?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'No, cancelar'
+          });
+          
+          if (!result.isConfirmed) {
+            return;
+          }
+        }
+    
+        // Mostrar loading
+        Swal.fire({
+          title: 'Guardando producto...',
+          text: 'Por favor espere',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showConfirmButton: false,
+          willOpen: () => {
+            Swal.showLoading();
+          }
+        });
+    
         // Subir imágenes
-        const imageUrls = await this.uploadImages();
+        let imageUrls = [];
+        try {
+          imageUrls = await this.uploadImages();
+        } catch (error) {
+          console.error('Error al subir imágenes:', error);
+          throw new Error('Error al subir las imágenes');
+        }
         
         // Subir videos
-        const videoUrls = await this.uploadVideos();
+        let videoUrls = [];
+        try {
+          videoUrls = await this.uploadVideos();
+        } catch (error) {
+          console.error('Error al subir videos:', error);
+          throw new Error('Error al subir los videos');
+        }
     
         // Preparar datos del producto
         const productData: any = {
-          name: this.product.name,
-          price: this.product.price,
+          name: String(this.product.name || '').trim(),
+          price: Number(this.product.price) || 0,
           categorias: this.product.categorias,
-          description: this.product.description,
-          quantity: this.product.quantity,
-          files: [...imageUrls], // Spread operator para copiar el array
-          dimensions: this.product.dimensions,
-          weight: this.product.weight,
-          manufacturer: this.product.manufacturer,
-          code: this.product.code,
-          country: this.product.country,
-          material: this.product.material
+          description: String(this.product.description || '').trim(),
+          quantity: Number(this.product.quantity) || 0,
+          files: [...imageUrls],
+          dimensions: String(this.product.dimensions || '').trim(),
+          weight: Number(this.product.weight) || 0,
+          manufacturer: String(this.product.manufacturer || '').trim(),
+          code: String(this.product.code || '').trim(),
+          country: String(this.product.country || '').trim(),
+          material: String(this.product.material || '').trim()
         };
     
         // Agregar videos solo si existen
@@ -215,8 +238,8 @@ export class DashboardComponent {
         // Guardar producto
         await this.productsService.addProduct(productData);
     
-        // Mostrar mensaje de éxito
-        Swal.fire({
+        // Cerrar loading y mostrar éxito
+        await Swal.fire({
           title: '¡Éxito!',
           text: 'Producto guardado correctamente',
           icon: 'success',
@@ -226,11 +249,15 @@ export class DashboardComponent {
         // Resetear formulario
         this.resetForm();
     
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error al guardar producto:', error);
-        Swal.fire({
+        
+        // Mostrar mensaje de error específico si está disponible
+        const errorMessage = error.message || 'Ocurrió un problema al guardar el producto';
+        
+        await Swal.fire({
           title: 'Error',
-          text: 'Ocurrió un problema al guardar el producto',
+          text: errorMessage,
           icon: 'error',
           confirmButtonText: 'Entendido'
         });
@@ -268,19 +295,22 @@ export class DashboardComponent {
       
       for (const video of this.selectedVideos) {
         try {
+          console.log('Subiendo video:', video.file.name, 'Tamaño:', video.file.size);
+          
           const formData = new FormData();
-          formData.append('video_file', video.file);
-          formData.append('name', video.file.name);
+          formData.append('file', video.file);  // Cambiado de video_file a file
           
+          console.log('Enviando video a PocketBase...');
           const record = await this.pb.collection('videos').create(formData);
+          console.log('Video subido:', record);
           
-          if (record?.['video_file']) {
-            const videoUrl = `${this.apiUrl}/api/files/${record['collectionId']}/${record['id']}/${record['video_file']}`;
+          if (record?.['file']) {  // Cambiado de video_file a file
+            const videoUrl = `${this.apiUrl}/api/files/${record['collectionId']}/${record['id']}/${record['file']}`;
+            console.log('URL del video:', videoUrl);
             videoUrls.push(videoUrl);
-            
-            // También agregar la URL al array files si es necesario
-            // Esto depende de cómo esté estructurado tu modelo de producto
-            // files.push(videoUrl); // Descomenta si necesitas esto
+          } else {
+            console.error('No se encontró el archivo en la respuesta:', record);
+            throw new Error('Error al procesar el video en el servidor');
           }
         } catch (error) {
           console.error('Error subiendo video:', error);
@@ -293,27 +323,20 @@ export class DashboardComponent {
 
     async updateProduct() {
       try {
+        // Envía solo los campos necesarios (opcional, puedes enviar todo productToEdit)
         const data = {
-          name: this.product.name,
-          price: this.product.price,
-          categorias: this.product.categorias,
-          description: this.product.description,
-          quantity: this.product.quantity,
-          dimensions: this.product.dimensions,
-          weight: this.product.weight,
-          manufacturer: this.product.manufacturer,
-          code: this.product.code,
-          country: this.product.country,
-          material: this.product.material,
-          files: this.product.files,
-          videos: this.product.videos
+          name: this.productToEdit.name,
+          price: this.productToEdit.price,
+          categorias: this.productToEdit.categorias,
+          // ... otros campos ...
         };
 
-        await this.global.updateProduct(this.product.id, data).toPromise();
+        await this.global.updateProduct(this.productToEdit.id, data).toPromise();
         Swal.fire('¡Éxito!', 'Producto actualizado', 'success');
         this.resetEditForm();
       } catch (error) {
         Swal.fire('Error', 'No se pudo actualizar', 'error');
+        console.error(error);
       }
     }
 
@@ -340,26 +363,16 @@ export class DashboardComponent {
   // Limpiar formulario EDIT
   resetEditForm() {
     this.productToEdit = {};
-    this.selectedImagePrev = '';
-    this.global.setMenuOption('add-product');
   }
       
   ngOnInit(): void {
-    // Obtener productos
-    this.productos = this.global.getProductos();
-    this.totalProductos = this.global.getProductosCount();
-
-    // Suscribirse a cambios en el producto a editar
+    this.productos = this.global.getProductos(); // Obtén la lista de productos
+    this.totalProductos = this.global.getProductosCount(); // Obtén el conteo de productos
     this.global.productToEdit$.subscribe((product) => {
-      console.log('Producto recibido para editar:', product);
       if (product) {
-        // Copiar datos al formulario
-        this.productToEdit = { ...product };
-        this.selectedImagePrev = product.files?.[0] || '';
-        
-        // Asegurar que se muestre el formulario de edición
-        this.global.setMenuOption('edit-product');
-        console.log('Estado del menú:', this.global.menuSelected);
+        this.productToEdit = { ...product }; // Copia los datos al formulario de edición
+        this.selectedImagePrev = product.files?.[0] || ''; // Precarga la imagen
+        this.global.menuSelected = 'edit-product'; // Muestra el formulario de edición
       }
     });
   } 

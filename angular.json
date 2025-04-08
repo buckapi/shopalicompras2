@@ -96,7 +96,7 @@
   "cli": {
     "analytics": false,
     "cache": {
-      "path": "/tmp/angular-cache"
+      "path": "/root/.angular/cache"
     }
   }
 }
