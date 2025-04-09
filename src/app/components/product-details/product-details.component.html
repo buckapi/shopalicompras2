@@ -244,18 +244,7 @@
                                         <li class="list-info">Material<span>{{global.previaProducto.material}}</span></li>
                                         <li class="list-info">Categoria<span>{{global.previaProducto.categorias}}</span></li>
                                     </ul>
-                                    <div class="product-media row g-xl-4 g-2 m-b40">
-                                        <div class="col-md-3 col-3 col-sm-3 product-media-inner">
-                                           
-                                            
-                                            <a class="dz-media">
-                                                <video controls width="100%" height="auto">
-                                                    <source src="{{global.previaProducto.videos[0]}}" type="video/mp4">
-                                                    Tu navegador no soporta el elemento video.
-                                                </video>
-                                            </a>
-                                        </div>                                       
-                                    </div>
+                                    
                                     <div class="product-info">
                                         <div class="product-info-inner">
                                             <h4 class="info-title">MÉTODOS DE PAGO</h4>
@@ -322,7 +311,14 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="dz-product-media dz-media rounded"><img src="images/shop/product-details/product-style-1/product-details-1.png" alt="/"></div>
+                                    <div class="dz-product-media dz-media rounded">
+                                        <a class="dz-media">
+                                            <video controls width="100%" height="auto">
+                                                <source src="{{global.previaProducto.videos[0]}}" type="video/mp4">
+                                                Tu navegador no soporta el elemento video.
+                                            </video>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
