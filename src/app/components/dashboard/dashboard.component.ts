@@ -138,11 +138,11 @@ export class DashboardComponent {
         }
     
         // Resto de validaciones (tipo de archivo, etc.)
-        const validVideoTypes = ['video/mp4', 'video/webm', 'video/ogg'];
+        const validVideoTypes = ['video/mp4', 'video/webm', 'video/ogg', 'video/MOV'];
         if (!validVideoTypes.includes(file.type)) {
           await Swal.fire({
             title: 'Formato no soportado',
-            text: `El archivo ${file.name} debe ser MP4, WebM u OGG`,
+            text: `El archivo ${file.name} debe ser MP4, WebM, OGG o MOV`,
             icon: 'warning',
             confirmButtonText: 'Entendido'
           });
