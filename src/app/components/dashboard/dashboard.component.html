@@ -181,8 +181,8 @@
                                     </div>
                                     
                                     <!-- Input para videos -->
-                                    <input #videoUpload id="videoUpload" type="file" (change)="onVideosChange($event)" class="form-control"
-                                           accept="video/*" style="display: none;" multiple />
+                                    <input #videoUpload id="videoUpload" type="file" (change)="onVideoSelected($event)" class="form-control"
+                                    accept="video/mp4,video/webm,video/ogg" style="display: none;" multiple />
                                     <label for="videoUpload" class="btn mb-2 me-2 btn-primary">
                                       <i class="fa-solid fa-video me-2"></i>Subir Videos
                                     </label>

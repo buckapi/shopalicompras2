@@ -8,6 +8,7 @@ import { RealtimeProductosService } from '../../services/realtime-productos.serv
 import { RealtimeCategoriasService } from '../../services/realtime-categorias.service';
 import { ProductsService } from '../../services/products.service';
 import { CommonModule } from '@angular/common';
+import { VideoOptimizerService } from '../../services/video.service';
 interface MediaFile {
   file: File;
   preview: string;
@@ -19,6 +20,7 @@ interface VideoFile {
   preview: string;
   uploadProgress?: number;
   uploadComplete?: boolean;
+  error?: string;  // Nuevo campo para manejar errores
 }
 @Component({
   selector: 'app-dashboard',
@@ -59,7 +61,7 @@ export class DashboardComponent {
   selectedMedia: MediaFile[] = [];
   selectedImagePrev: string = '';
   selectedVideos: VideoFile[] = [];
-  maxVideoSizeMB = 100; // Límite de tamaño en MB
+  maxVideoSizeMB = 500; // Límite de tamaño en MB
   constructor(
     public global: GlobalService,
     public authService: AuthPocketbaseService,
@@ -67,7 +69,7 @@ export class DashboardComponent {
     public realtimecategorias: RealtimeCategoriasService,
     public productsService: ProductsService,
     public fb: FormBuilder,
-
+    public videoService: VideoOptimizerService
   ) {
     this.pb = new PocketBase(this.apiUrl);
     this.addProductForm = this.fb.group({
@@ -109,45 +111,53 @@ export class DashboardComponent {
       this.selectedImages.splice(index, 1);
     }
 
-    onVideosChange(event: any): void {
-      const files = event.target.files;
-      if (files && files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          
-          // Validar tamaño del video
-          if (file.size > this.maxVideoSizeMB * 1024 * 1024) {
-            Swal.fire({
-              title: 'Archivo demasiado grande',
-              text: `El video ${file.name} excede el límite de ${this.maxVideoSizeMB}MB`,
-              icon: 'warning',
-              confirmButtonText: 'Entendido'
-            });
-            continue;
-          }
+    async onVideoSelected(event: Event): Promise<void> {
+      const input = event.target as HTMLInputElement;
+      const files = input.files;
+      
+      if (!files || files.length === 0) return;
     
-          // Validar tipo de archivo
-          if (!file.type.startsWith('video/')) {
-            Swal.fire({
-              title: 'Formato no soportado',
-              text: `El archivo ${file.name} no es un video válido`,
-              icon: 'warning',
-              confirmButtonText: 'Entendido'
-            });
-            continue;
-          }
+      // Obtener el límite máximo del servidor (5MB en tu caso)
+      const serverMaxSize = 104857600; // 100MB en bytes
+      const serverMaxSizeMB = (serverMaxSize / (1024 * 1024)).toFixed(1);
     
-          const reader = new FileReader();
-          reader.onload = (e: any) => {
-            this.selectedVideos.push({
-              file: file,
-              preview: e.target.result,
-              uploadProgress: 0,
-              uploadComplete: false
-            });
-          };
-          reader.readAsDataURL(file);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        console.log('Video seleccionado:', file.name, 'Tamaño:', file.size);
+        
+        // Validar tamaño contra el límite del servidor
+        if (file.size > serverMaxSize) {
+          await Swal.fire({
+            title: 'Archivo demasiado grande',
+            html: `El video <strong>${file.name}</strong> (${(file.size/(1024*1024)).toFixed(1)}MB) 
+                   excede el límite máximo de ${serverMaxSizeMB}MB permitido por el servidor.`,
+            icon: 'error',
+            confirmButtonText: 'Entendido'
+          });
+          continue;
         }
+    
+        // Resto de validaciones (tipo de archivo, etc.)
+        const validVideoTypes = ['video/mp4', 'video/webm', 'video/ogg'];
+        if (!validVideoTypes.includes(file.type)) {
+          await Swal.fire({
+            title: 'Formato no soportado',
+            text: `El archivo ${file.name} debe ser MP4, WebM u OGG`,
+            icon: 'warning',
+            confirmButtonText: 'Entendido'
+          });
+          continue;
+        }
+    
+        // Si pasa las validaciones, agregar a la lista
+        const videoUrl = URL.createObjectURL(file);
+        this.selectedVideos.push({
+          file: file,
+          preview: videoUrl,
+          uploadProgress: 0,
+          uploadComplete: false,
+          error: undefined
+        });
       }
     }
     
@@ -206,13 +216,29 @@ export class DashboardComponent {
         }
         
         // Subir videos
-        let videoUrls = [];
+       /*  let videoUrls = [];
         try {
           videoUrls = await this.uploadVideos();
         } catch (error) {
           console.error('Error al subir videos:', error);
           throw new Error('Error al subir los videos');
-        }
+        } */
+          let videoUrls = [];
+          try {
+            videoUrls = await this.uploadVideos();
+          } catch (error: unknown) {
+            let errorMessage = 'Error al subir videos';
+            if (error instanceof Error) {
+              errorMessage = error.message;
+            }
+            
+            await Swal.fire({
+              title: 'Error en videos',
+              text: errorMessage,
+              icon: 'error'
+            });
+            return;
+          }
     
         // Preparar datos del producto
         const productData: any = {
@@ -290,7 +316,7 @@ export class DashboardComponent {
     }
 
     // Método para subir videos corregido
-    private async uploadVideos(): Promise<string[]> {
+    async uploadVideos(): Promise<string[]> {
       const videoUrls: string[] = [];
       
       for (const video of this.selectedVideos) {
@@ -298,23 +324,32 @@ export class DashboardComponent {
           console.log('Subiendo video:', video.file.name, 'Tamaño:', video.file.size);
           
           const formData = new FormData();
-          formData.append('file', video.file);  // Cambiado de video_file a file
+          formData.append('video_file', video.file);  // Usar 'video_file' que coincide con tu colección
           
           console.log('Enviando video a PocketBase...');
           const record = await this.pb.collection('videos').create(formData);
           console.log('Video subido:', record);
           
-          if (record?.['file']) {  // Cambiado de video_file a file
-            const videoUrl = `${this.apiUrl}/api/files/${record['collectionId']}/${record['id']}/${record['file']}`;
+          // Verificar el campo correcto según tu colección
+          if (record?.['video_file']) {
+            const videoUrl = `${this.apiUrl}/api/files/${record['collectionId']}/${record['id']}/${record['video_file']}`;
             console.log('URL del video:', videoUrl);
             videoUrls.push(videoUrl);
           } else {
             console.error('No se encontró el archivo en la respuesta:', record);
-            throw new Error('Error al procesar el video en el servidor');
+            throw new Error('El servidor no devolvió la información del video correctamente');
           }
-        } catch (error) {
+        } catch (error: unknown) {
           console.error('Error subiendo video:', error);
-          throw new Error('Error al subir videos');
+          
+          let errorMessage = 'Error al subir el video';
+          if (error instanceof Error) {
+            errorMessage = error.message;
+          } else if (typeof error === 'string') {
+            errorMessage = error;
+          }
+          
+          throw new Error(errorMessage);
         }
       }
       

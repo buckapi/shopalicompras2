@@ -21,3 +21,30 @@
     align-items: center;
     justify-content: center;
   }
+
+  .video-previews {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .video-thumbnail {
+    max-height: 200px;
+    background: #000;
+    border-radius: 4px;
+  }
+  
+  .optimization-info {
+    display: flex;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+  
+  .video-preview-item {
+    transition: transform 0.2s;
+  }
+  
+  .video-preview-item:hover {
+    transform: translateY(-2px);
+  }
