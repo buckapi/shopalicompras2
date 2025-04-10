@@ -51,8 +51,8 @@ export class GlobalService {
     material: '',
 
   }
-  private productToEdit = new BehaviorSubject<any>(null);
-  productToEdit$ = this.productToEdit.asObservable();
+  productToEdit$ = new BehaviorSubject<any>(null);
+  /* productToEdit$ = this.productToEdit.asObservable(); */
   constructor() { 
     this.pb = new PocketBase(this.apiUrl);
   }
@@ -105,42 +105,25 @@ export class GlobalService {
   }
   
 
+  
+// Opción 1: Si trabajas con el objeto completo
 editProduct(product: any) {
-  this.product = JSON.parse(JSON.stringify(product));
+  this.productToEdit$.next(JSON.parse(JSON.stringify(product)));
   this.menuSelected = 'edit-product';
 }
-  
-/* updateProduct(product: any): Observable<any> {
-  const data = {
-      name: product.name,
-      categorias: product.categorias,
-      description: product.description,
-      price: product.price,
-      quantity: product.quantity,
-      dimensions: product.dimensions,
-      code: product.code,
-      manufacturer: product.manufacturer,
-      country: product.country,
-      material: product.material,
-      weight: product.weight,
-  };
 
-  return new Observable(observer => {
-      this.pb.collection('productos').update(product.id, data)
-          .then(record => {
-              observer.next(record);
-              observer.complete();
-          })
-          .catch(error => {
-              observer.error(error);
-          });
-  });
-} */
+// Método para actualizar (mejorado)
 updateProduct(id: string, data: any): Observable<any> {
   return new Observable(observer => {
     this.pb.collection('productos').update(id, data)
-      .then(record => observer.next(record))
-      .catch(error => observer.error(error));
+      .then(record => {
+        observer.next(record);
+        observer.complete();
+      })
+      .catch(error => {
+        console.error('Error al actualizar producto', error);
+        observer.error(error);
+      });
   });
 }
 }

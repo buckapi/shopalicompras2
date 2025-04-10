@@ -298,7 +298,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Precio</label>
-                                    <input name="price" [(ngModel)]="product.price" required class="form-control" placeholder="Precio">
+                                    <input name="price" [(ngModel)]="productToEdit.price" required class="form-control" placeholder="Precio">
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -312,49 +312,49 @@
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Cantidad</label>
-                                    <input type="number" name="quantity" [(ngModel)]="product.quantity" required class="form-control" placeholder="Cantidad">
+                                    <input type="number" name="quantity" [(ngModel)]="productToEdit.quantity" required class="form-control" placeholder="Cantidad">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Dimensiones</label>
-                                    <input type="text" name="dimensions" [(ngModel)]="product.dimensions" required class="form-control" placeholder="Dimensiones">
+                                    <input type="text" name="dimensions" [(ngModel)]="productToEdit.dimensions" required class="form-control" placeholder="Dimensiones">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Peso</label>
-                                    <input type="number" name="weight" [(ngModel)]="product.weight" required class="form-control" placeholder="Peso">
+                                    <input type="number" name="weight" [(ngModel)]="productToEdit.weight" required class="form-control" placeholder="Peso">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Codigo</label>
-                                    <input type="text" name="code" [(ngModel)]="product.code" required class="form-control" placeholder="Codigo">
+                                    <input type="text" name="code" [(ngModel)]="productToEdit.code" required class="form-control" placeholder="Codigo">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Fabricante</label>
-                                    <input type="text" name="manufacturer" [(ngModel)]="product.manufacturer" required class="form-control" placeholder="Fabricante">
+                                    <input type="text" name="manufacturer" [(ngModel)]="productToEdit.manufacturer" required class="form-control" placeholder="Fabricante">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Pais de Origen</label>
-                                    <input type="text" name="country" [(ngModel)]="product.country" required class="form-control" placeholder="Pais de Origen">
+                                    <input type="text" name="country" [(ngModel)]="productToEdit.country" required class="form-control" placeholder="Pais de Origen">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Material</label>
-                                    <input type="text" name="material" [(ngModel)]="product.material" required class="form-control" placeholder="Material">
+                                    <input type="text" name="material" [(ngModel)]="productToEdit.material" required class="form-control" placeholder="Material">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Descripcion</label>
-                                    <textarea name="description" [(ngModel)]="product.description" required class="form-control" placeholder="Descripcion" rows="4"></textarea>
+                                    <textarea name="description" [(ngModel)]="productToEdit.description" required class="form-control" placeholder="Descripcion" rows="4"></textarea>
                                 </div>
                             </div>
                     
@@ -382,8 +382,8 @@
                                 <td>{{producto.price}}</td>
                                 <td>{{producto.quantity}}</td>
                                 <td>
-                                  <a (click)="global.menuSelected = 'edit-product'" style="cursor: pointer;"><i class="icon feather icon-edit"></i> Editar</a> <br>
-                                  <a (click)="deleteProduct(producto.id)" style="cursor: pointer;"><i class="icon feather icon-trash"></i> Eliminar</a></td>
+                                  <a (click)="global.editProduct(producto)" style="cursor: pointer; color: blue;"><i class="icon feather icon-edit"></i> Editar</a> <br>
+                                  <a (click)="deleteProduct(producto.id)" style="cursor: pointer; color: red;"><i class="icon feather icon-trash"></i> Eliminar</a></td>
                                 </tr>
                             </tbody>
                           </table>
