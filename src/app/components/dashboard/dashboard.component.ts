@@ -86,6 +86,8 @@ export class DashboardComponent {
       code: [''],
       country: [''],
       material: [''],
+      videos: [''],
+
     });
   }
 
@@ -215,14 +217,7 @@ export class DashboardComponent {
           throw new Error('Error al subir las imágenes');
         }
         
-        // Subir videos
-       /*  let videoUrls = [];
-        try {
-          videoUrls = await this.uploadVideos();
-        } catch (error) {
-          console.error('Error al subir videos:', error);
-          throw new Error('Error al subir los videos');
-        } */
+      
           let videoUrls = [];
           try {
             videoUrls = await this.uploadVideos();
@@ -248,6 +243,7 @@ export class DashboardComponent {
           description: String(this.product.description || '').trim(),
           quantity: Number(this.product.quantity) || 0,
           files: [...imageUrls],
+          videos: [...videoUrls],
           dimensions: String(this.product.dimensions || '').trim(),
           weight: Number(this.product.weight) || 0,
           manufacturer: String(this.product.manufacturer || '').trim(),
@@ -274,6 +270,7 @@ export class DashboardComponent {
     
         // Resetear formulario
         this.resetForm();
+        this.global.menuSelected = 'products';
     
       } catch (error: any) {
         console.error('Error al guardar producto:', error);
@@ -358,17 +355,26 @@ export class DashboardComponent {
 
     async updateProduct() {
       try {
-        // Envía solo los campos necesarios (opcional, puedes enviar todo productToEdit)
         const data = {
           name: this.productToEdit.name,
           price: this.productToEdit.price,
           categorias: this.productToEdit.categorias,
-          // ... otros campos ...
+          description: this.productToEdit.description,
+          quantity: this.productToEdit.quantity,
+          dimensions: this.productToEdit.dimensions,
+          weight: this.productToEdit.weight,
+          manufacturer: this.productToEdit.manufacturer,
+          code: this.productToEdit.code,
+          country: this.productToEdit.country,
+          material: this.productToEdit.material,
+          files: this.productToEdit.files,
+          videos: this.productToEdit.videos,
         };
 
         await this.global.updateProduct(this.productToEdit.id, data).toPromise();
         Swal.fire('¡Éxito!', 'Producto actualizado', 'success');
         this.resetEditForm();
+        this.global.menuSelected = 'products';
       } catch (error) {
         Swal.fire('Error', 'No se pudo actualizar', 'error');
         console.error(error);
