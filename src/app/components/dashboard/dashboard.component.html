@@ -381,9 +381,10 @@
                                 <td><a (click)="global.previaProducto = producto" class="fw-medium" style="cursor: pointer;">{{producto.name}}</a></td>
                                 <td>{{producto.price}}</td>
                                 <td>{{producto.quantity}}</td>
-                                <td><a (click)="global.menuSelected = 'edit-product'" class="btn-link text-underline p-0" style="cursor: pointer;">Editar</a></td>
-                              </tr>
-                              
+                                <td>
+                                  <a (click)="global.menuSelected = 'edit-product'" style="cursor: pointer;"><i class="icon feather icon-edit"></i> Editar</a> <br>
+                                  <a (click)="deleteProduct(producto.id)" style="cursor: pointer;"><i class="icon feather icon-trash"></i> Eliminar</a></td>
+                                </tr>
                             </tbody>
                           </table>
                         </div>

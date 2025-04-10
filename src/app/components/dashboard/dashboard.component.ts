@@ -419,4 +419,36 @@ export class DashboardComponent {
   toggleProducts() {
     this.showProducts = !this.showProducts;
   }
+  async deleteProduct(id: string) {
+    try {
+      const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (result.isConfirmed) {
+        await this.pb.collection('productos').delete(id);
+        Swal.fire(
+          '¡Eliminado!',
+          'El producto ha sido eliminado.',
+          'success'
+        );
+        // Actualizar la lista de productos
+        this.productos = this.global.getProductos();
+      }
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      Swal.fire(
+        'Error',
+        'No se pudo eliminar el producto',
+        'error'
+      );
+    }
+  }
 }
