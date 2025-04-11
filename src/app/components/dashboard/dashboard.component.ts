@@ -62,7 +62,6 @@ export class DashboardComponent {
   selectedImagePrev: string = '';
   selectedVideos: VideoFile[] = [];
   maxVideoSizeMB = 500; // Límite de tamaño en MB
-  categories: any[] = [];
   constructor(
     public global: GlobalService,
     public authService: AuthPocketbaseService,
@@ -470,7 +469,7 @@ export class DashboardComponent {
         confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar'
       });
-
+  
       if (result.isConfirmed) {
         await this.pb.collection('categorias').delete(id);
         Swal.fire(
@@ -490,4 +489,6 @@ export class DashboardComponent {
       );
     }
   }
+  
+  
 }
