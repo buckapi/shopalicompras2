@@ -9,6 +9,8 @@ import { RealtimeCategoriasService } from '../../services/realtime-categorias.se
 import { ProductsService } from '../../services/products.service';
 import { CommonModule } from '@angular/common';
 import { VideoOptimizerService } from '../../services/video.service';
+declare var bootstrap: any; // Solución temporal si el import directo no funciona
+
 interface MediaFile {
   file: File;
   preview: string;
@@ -33,7 +35,7 @@ interface VideoFile {
 export class DashboardComponent {
   private pb: PocketBase;
   private apiUrl = 'https://db.buckapi.lat:8050';
-
+ 
   product = {
     name: '',
     price: 0, 
@@ -49,13 +51,19 @@ export class DashboardComponent {
     country: '',
     material: '',
   };
+  categoria = {
+    name: '',
+    files: []
+  };
   productToEdit: any = {};
   totalProductos: number = 0;
   productos: any[] = [];
+  categorias: any[] = [];
   userName: string = '';
   showCategories: boolean = false;
   showProducts: boolean = false;
   addProductForm: FormGroup;
+  addCategoryForm: FormGroup;
   selectedImage: File | null = null;
   selectedImages: { file: File, preview: string }[] = [];
   selectedMedia: MediaFile[] = [];
@@ -88,6 +96,10 @@ export class DashboardComponent {
       material: [''],
       videos: [''],
 
+    });
+    this.addCategoryForm = this.fb.group({
+      name: [''],
+      files: [''],
     });
   }
 
@@ -489,6 +501,85 @@ export class DashboardComponent {
       );
     }
   }
+  async addCategory() {
+    try {
+      // Validación mínima de datos de la categoría
+      if (!this.categoria.name || this.selectedImages.length === 0) {
+        await Swal.fire({
+          title: 'Datos incompletos',
+          text: 'Por favor complete el nombre de la categoría y suba al menos una imagen',
+          icon: 'warning',
+          confirmButtonText: 'Entendido'
+        });
+        return;
+      }
   
+      // Mostrar loading
+      Swal.fire({
+        title: 'Guardando categoría...',
+        text: 'Por favor espere',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        willOpen: () => {
+          Swal.showLoading();
+        }
+      });
+  
+      // Subir imágenes
+      let imageUrls = [];
+      try {
+        imageUrls = await this.uploadImages();
+      } catch (error) {
+        console.error('Error al subir imágenes:', error);
+        throw new Error('Error al subir las imágenes de la categoría');
+      }
+  
+      // Preparar datos de la categoría
+      const categoryData = {
+        name: String(this.categoria.name || '').trim(),
+        files: [...imageUrls]
+      };
+  
+      // Guardar categoría
+      await this.pb.collection('categorias').create(categoryData);
+  
+      // Cerrar loading y mostrar éxito
+      await Swal.fire({
+        title: '¡Éxito!',
+        text: 'Categoría guardada correctamente',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+  
+      // Resetear formulario
+      this.resetCategoryForm();
+      this.global.menuSelected = 'categories';
+  
+    } catch (error: any) {
+      console.error('Error al guardar categoría:', error);
+      
+      // Mostrar mensaje de error específico si está disponible
+      const errorMessage = error.message || 'Ocurrió un problema al guardar la categoría';
+      
+      await Swal.fire({
+        title: 'Error',
+        text: errorMessage,
+        icon: 'error',
+        confirmButtonText: 'Entendido'
+      });
+    }
+  }
+  
+  // Método para resetear el formulario de categoría
+  resetCategoryForm(): void {
+    this.categoria = { 
+      name: '',
+      files: []
+    }; 
+    this.selectedImages = [];
+    // Actualizar la lista de categorías si es necesario
+    this.categorias = this.global.getCategorias();
+  } 
   
 }
