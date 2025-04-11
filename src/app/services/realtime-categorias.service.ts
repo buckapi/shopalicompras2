@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class RealtimeCategoriasService implements OnDestroy {
   private pb: PocketBase;
   private categoriasSubject = new BehaviorSubject<any[]>([]);
-
+  public categorias: any[] = [];
   // Esta es la propiedad que expondrá el Observable para que los componentes puedan suscribirse a ella
   public categorias$: Observable<any[]> =
     this.categoriasSubject.asObservable();

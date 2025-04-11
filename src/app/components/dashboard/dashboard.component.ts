@@ -62,6 +62,7 @@ export class DashboardComponent {
   selectedImagePrev: string = '';
   selectedVideos: VideoFile[] = [];
   maxVideoSizeMB = 500; // Límite de tamaño en MB
+  categories: any[] = [];
   constructor(
     public global: GlobalService,
     public authService: AuthPocketbaseService,
@@ -453,6 +454,38 @@ export class DashboardComponent {
       Swal.fire(
         'Error',
         'No se pudo eliminar el producto',
+        'error'
+      );
+    }
+  }
+  async deleteCategory(id: string) {
+    try {
+      const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (result.isConfirmed) {
+        await this.pb.collection('categorias').delete(id);
+        Swal.fire(
+          '¡Eliminado!',
+          'La categoria ha sido eliminada.',
+          'success'
+        );
+        // Actualizar la lista de categorias
+        this.realtimecategorias.categorias = this.global.getCategorias();
+      }
+    } catch (error) {
+      console.error('Error al eliminar la categoria:', error);
+      Swal.fire(
+        'Error',
+        'No se pudo eliminar la categoria',
         'error'
       );
     }

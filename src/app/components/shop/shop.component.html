@@ -334,19 +334,7 @@
                                                         <i class="fa-solid fa-eye d-md-none d-block"></i>
                                                         <span class="d-md-block d-none">Ver producto</span>
                                                     </a>
-                                                    <div class="btn btn-primary meta-icon dz-wishicon" *ngIf="authService.isAdmin()" 
-                                                        (click)="global.setRoute('dashboard'); global.editProduct(product)">
-                                                    <i class="icon feather icon-edit dz-edit"></i>
-                                                    <i class="icon feather icon-edit-on dz-edit-fill"></i>
-                                                    </div>
-                                                    <div class="btn btn-primary meta-icon dz-wishicon" *ngIf="authService.isAdmin()">
-                                                        <i class="icon feather icon-trash dz-trash"></i>
-                                                        <i class="icon feather icon-trash-on dz-trash-fill"></i>
-                                                    </div>
-                                                    <div class="btn btn-primary meta-icon dz-carticon" *ngIf="!authService.isAdmin()">
-                                                        <i class="flaticon flaticon-basket"></i>
-                                                        <i class="flaticon flaticon-shopping-basket-on dz-heart-fill"></i>
-                                                    </div>
+                                                    
                                                 </div>							
                                             </div>
                                             <div class="dz-content">
