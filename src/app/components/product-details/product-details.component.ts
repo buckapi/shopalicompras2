@@ -77,34 +77,25 @@ getCategoryNameById(categoryId: number): string {
     return 'Categoría no disponible';
   }
 }
- addToCart() {
-      if (this.product) { // Verifica que el producto esté definido
-        // Agregar el producto al carrito
-        this.global.addToCart(this.product, this.quantity);
-    
-        // Reiniciar la cantidad
-        this.quantity = 1;
-    
-        // Mostrar un alert con SweetAlert2
-        Swal.fire({
-          icon: 'success',
-          title: 'Producto agregado al carrito',
-          text: `¡El producto ${this.product.name} ha sido agregado al carrito!`,
-          showConfirmButton: true,
-          timer: 2000 // Se cerrará automáticamente después de 2 segundos
-        });
-      } else {
-        console.error('El producto no está definido');
-      }
-    } 
-incrementQuantity() {
-  this.quantity++;
-}
-
-decrementQuantity() {
-  if (this.quantity > 1) {
-    this.quantity--;
-  }
-}
+  addToCart() {
+       if (this.product) { // Verifica que el producto esté definido
+         // Agregar el producto al carrito
+         this.global.addToCart(this.product, this.quantity);
+     
+         // Reiniciar la cantidad
+         this.quantity = 1;
+     
+         // Mostrar un alert con SweetAlert2
+         Swal.fire({
+           icon: 'success',
+           title: 'Producto agregado al carrito',
+           text: `¡El producto ${this.product.name} ha sido agregado al carrito!`,
+           showConfirmButton: true,
+           timer: 2000 // Se cerrará automáticamente después de 2 segundos
+         });
+       } else {
+         console.error('El producto no está definido');
+       }
+     } 
 
 }

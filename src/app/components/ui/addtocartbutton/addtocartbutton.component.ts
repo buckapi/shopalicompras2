@@ -50,7 +50,7 @@ export class AddtocartbuttonComponent {
     }
   }
 
-  addToCart(): void {
+ /*  addToCart(): void {
     if (!this.product) return;
 
     this.global.addToCart(this.product, this.quantity);
@@ -67,8 +67,36 @@ export class AddtocartbuttonComponent {
         panelClass: ['success-snackbar']
       }
     );
+  } */
+
+    // addtocartbutton.component.ts
+addToCart() {
+  if (!this.product) {
+    console.error('No hay producto definido');
+    return;
   }
 
+  console.log('Agregando producto:', this.product.id); // Debug
+  
+  this.global.addToCart({
+    productId: this.product.id,
+    name: this.product.name,
+    price: this.product.price,
+    quantity: this.quantity,
+    image: this.product.files?.[0] || ''
+  });
+
+  this.showSuccessNotification();
+  this.resetQuantity();
+}
+
+private showSuccessNotification() {
+  this.snackBar.open('Producto agregado al carrito', 'Cerrar', {
+    duration: 2000,
+    verticalPosition: 'top',
+    panelClass: ['success-snackbar']
+  });
+}
   private showMaxQuantityAlert(): void {
     this.snackBar.open(
       `⚠️ No puedes agregar más de ${this.maxQuantity} unidades`, 
