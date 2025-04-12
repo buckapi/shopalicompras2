@@ -123,11 +123,8 @@
                                     <tr *ngFor="let categoria of (realtimecategorias.categorias$ | async)">
                                         <td><a class="fw-medium">{{ categoria.name }}</a></td>
                                         <td><img src="{{categoria.files[0]}}" style="width: 50px;"></td>
-                                        <td><a href="#categoryModal" data-bs-toggle="modal" class="btn-link text-underline p-0" style="cursor: pointer; color: blue;">  <i class="icon feather icon-edit"></i> Editar</a> <br>
-                                        <a (click)="deleteCategory(categoria.id)" data-bs-toggle="modal" class="btn-link text-underline p-0" style="cursor: pointer; color: red;"> <i class="icon feather icon-trash"></i> Eliminar</a></td>
-
+                                        <td><a (click)="deleteCategory(categoria.id)" data-bs-toggle="modal" class="btn-link text-underline p-0" style="cursor: pointer; color: red;"> <i class="icon feather icon-trash"></i> Eliminar</a></td>
                                     </tr>
-                                   
                                 </tbody>
                             </table>
                         </div>
@@ -404,9 +401,9 @@
                           </nav>
                         </div>
                                   </div>
-                              </div>
+                    </div>
                 </section>
-                 <div class="modal quick-view-modal fade" id="add-category" tabindex="-1" aria-hidden="true">
+                <div class="modal quick-view-modal fade" id="add-category" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg"> 
                     <div class="modal-content">
                       <div class="modal-header">
@@ -468,129 +465,7 @@
                       </div>
                     </div>
                   </div>
-                </div> 
-                
-                 
-                <div class="modal quick-view-modal fade" id="categoryModal">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <i class="icon feather icon-x"></i>
-                        </button>
-                        <div class="modal-body">
-                          <div class="row g-xl-4 g-3">
-                            <div class="col-xl-6 col-md-6">
-                              <div class="dz-product-detail mb-0">
-                                <div class="swiper-btn-center-lr">
-                                  <div class="swiper quick-modal-swiper2">
-                                    <div class="swiper-wrapper" id="lightgallery">
-                                      <div class="swiper-slide">
-                                        <div class="dz-media DZoomImage">
-                                         <!--  <a class="mfp-link lg-item">
-                                            <i class="feather icon-maximize dz-maximize top-right"></i>
-                                          </a> -->
-<!--                                           <img src="{{categoria.images[0]}}" alt="image" *ngIf="categoria.images.length > 0" alt="image">
- -->                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <!-- <div class="swiper quick-modal-swiper thumb-swiper-lg thumb-sm swiper-vertical">
-                                    <div class="swiper-wrapper">
-                                      <div class="swiper-slide">
-                                        <img src="{{categoria.images[0]}}" alt="image" *ngIf="categoria.images.length > 0" alt="image">
-                                    </div>
-                                    </div>
-                                  </div> -->
-                                </div>	
-                              </div>	
-                            </div>
-                            <div class="col-xl-6 col-md-6">
-                              <div class="dz-product-detail style-2 ps-xl-3 ps-0 pt-2 mb-0">
-                                <div class="dz-content">
-                                  <div class="dz-content-footer">
-                                    <div class="dz-content-start">
-                                      <span class="badge bg-secondary mb-2">Categorias</span>
-                                      <h4 class="title mb-1"><a></a></h4>
-                                     
-                                    </div>
-                                  </div>
-                                  <div class=" cart-btn">
-                                    <a class="btn btn-secondary text-uppercase">
-                                      <i class="icon feather icon-edit"></i> 
-                                        Actualizar</a>
-                                    <a  class="btn btn-md btn-outline-secondary btn-icon">
-                                      <i class="icon feather icon-trash-2"></i>
-                                      <span>Cancelar</span>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal quick-view-modal fade" id="add-category"  tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <i class="icon feather icon-x"></i>
-                        </button>
-                        <div class="modal-body">
-                          <div class="row g-xl-4 g-3">
-                            <div class="col-xl-6 col-md-6">
-                              <div class="dz-product-detail mb-0">
-                                <div class="swiper-btn-center-lr">
-                                  <div class="swiper quick-modal-swiper2">
-                                    <div class="swiper-wrapper" id="lightgallery">
-                                      <div class="swiper-slide">
-                                        <div class="dz-media DZoomImage">
-                                         <!--  <a class="mfp-link lg-item">
-                                            <i class="feather icon-maximize dz-maximize top-right"></i>
-                                          </a> -->
-<!--                                           <img src="{{categoria.images[0]}}" alt="image" *ngIf="categoria.images.length > 0" alt="image">
- -->                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <!-- <div class="swiper quick-modal-swiper thumb-swiper-lg thumb-sm swiper-vertical">
-                                    <div class="swiper-wrapper">
-                                      <div class="swiper-slide">
-                                        <img src="{{categoria.images[0]}}" alt="image" *ngIf="categoria.images.length > 0" alt="image">
-                                    </div>
-                                    </div>
-                                  </div> -->
-                                </div>	
-                              </div>	
-                            </div>
-                            <div class="col-xl-6 col-md-6">
-                              <div class="dz-product-detail style-2 ps-xl-3 ps-0 pt-2 mb-0">
-                                <div class="dz-content">
-                                  <div class="dz-content-footer">
-                                    <div class="dz-content-start">
-                                      <span class="badge bg-secondary mb-2">Categorias</span>
-                                      <h4 class="title mb-1"><a></a></h4>
-                                     
-                                    </div>
-                                  </div>
-                                  <div class=" cart-btn">
-                                    <a class="btn btn-secondary text-uppercase">
-                                      <i class="icon feather icon-edit"></i> 
-                                        Actualizar</a>
-                                    <a  class="btn btn-md btn-outline-secondary btn-icon">
-                                      <i class="icon feather icon-trash-2"></i>
-                                      <span>Cancelar</span>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                </div>
             </div>
           </div>
     </div>

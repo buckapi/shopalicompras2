@@ -119,9 +119,9 @@
                     <div class="shop-box style-1 wow fadeInUp" data-wow-delay="0.2s">
                       <div class="dz-media">
                          
-                        <img  src="{{categoria.files[0]}}" alt="image" *ngIf="categoria.files.length > 0">
+                        <img  src="{{categoria.files[0]}}" alt="image" *ngIf="categoria.files.length > 0" style="width: 50%;">
                       </div>
-                      <h6 class="product-name"><a (click)="global.setRoute('product-details')">
+                      <h6 class="product-name"><a (click)="global.setRoute('shop')">
                         {{categoria.name}}
                       </a></h6>
                     </div>
@@ -234,25 +234,11 @@
                 </div>
               </div>	
             </div>
-            <!-- <div class="col-lg-6 col-md-12">
-              <div class="site-filters clearfix style-1 align-items-center wow fadeInUp ms-lg-auto" data-wow-delay="0.4s">
-                <ul class="filters" data-bs-toggle="buttons" *ngFor="let categoria of (realtimecategorias.categorias$ | async)">
-                  <li class="btn active">
-                    <input type="radio">
-                    <a href="javascript:void(0);">{{categoria.all}}</a> 
-                  </li>
-                  <li data-filter=".Dresses" class="btn">
-                    <input type="radio">
-                    <a href="javascript:void(0);">{{categoria.name}}</a> 
-                  </li>
-                </ul>			
-              </div>
-            </div> -->
+            
             <div class="col-lg-6 col-md-12">
-              <div class="site-filters clearfix style-1 align-items-center wow fadeInUp ms-lg-auto" data-wow-delay="0.4s" *ngFor="let categoria of (realtimecategorias.categorias$ | async)">
-                      <ul class="filters" data-bs-toggle="buttons">
-                        
-                      <li  class="btn me-2">
+              <div class="site-filters clearfix style-1 align-items-center wow fadeInUp ms-lg-auto" data-wow-delay="0.4s" >
+                      <ul class="filters" data-bs-toggle="buttons">                        
+                      <li  class="btn me-2" *ngFor="let categoria of (realtimecategorias.categorias$ | async)" >
                           <input type="radio">
                           <a >{{categoria.name}}</a> 
                       </li>
@@ -268,29 +254,25 @@
                 <div class="shop-card">
                   <div class="dz-media">
                     <img src="{{producto.files[0]}}" alt="image" >
-                    <div class="shop-meta">
-                      <a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" 
+                    <div class="row shop-meta">
+                      <a  class="col-6 btn btn-secondary btn-md btn-rounded" 
                       (click)="global.setQuick(producto)"
                       data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <i class="fa-solid fa-eye d-md-none d-block"></i>
+                        <span class="d-md-block d-none" style="cursor: pointer;" >Vista Rápida</span>
+                      </a>
+                      <a (click)="global.setProduct('product-details',producto)" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fa-solid fa-eye d-md-none d-block"></i>
                         <span class="d-md-block d-none" style="cursor: pointer;" >Ver detalles</span>
                       </a>
-                      <!-- <div class="btn btn-primary meta-icon dz-wishicon">
-                        <i class="icon feather icon-heart dz-heart"></i>
-                        <i class="icon feather icon-heart-on dz-heart-fill"></i>
-                      </div> -->
                       <div class="btn btn-primary meta-icon dz-carticon">
                         <i class="flaticon flaticon-basket"></i>
-                        <i class="flaticon flaticon-basket-on dz-heart-fill"></i>
                       </div>
                     </div>							
                   </div>
                   <div class="dz-content">
                     <h5 class="title"><a >{{producto.name}}</a></h5>
                     <h5 class="price">${{producto.price}}</h5>
-                  </div>Cozy Knit Cardigan Sweater
-                  <div class="product-tag">
-                    <span class="badge ">Get 20% Off</span>
                   </div>
                 </div>
               </li>

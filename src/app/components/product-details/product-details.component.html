@@ -8,28 +8,47 @@
             </ul>
         </nav>
     </div>
-    
+   
     <section class="content-inner py-0">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-6 col-md-6">
                     <div class="dz-product-detail sticky-top">
-                        <div class="swiper-btn-center-lr">
-                            <!-- Slider principal -->
+                        <div class="swiper-btn-center-lr">                           
                             <div class="swiper product-gallery-swiper2">
                                 <div class="swiper-wrapper" id="lightgallery">
                                     <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
                                         <div class="dz-media DZoomImage rounded">
-                                            <a class="mfp-link lg-item" href="{{file}}">
+                                            <a class="mfp-link lg-item">
                                                 <i class="feather icon-maximize dz-maximize top-right"></i>
                                             </a>
-                                            <img src="{{file}}" alt="image">
+                                            <img src="{{file}}" alt="image" style="min-width: 43px !important;">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Slider de miniaturas vertical -->
+                         
+                            <div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
+                                        <img src="{{file}}" alt="image" style="min-width: 43px !important;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>	
+                    </div>	
+                </div>
+                <!-- <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
+                    <div class="dz-product-detail sticky-top style-3">
+                        <div class="swiper-btn-center-lr" >
+                            <div class="swiper product-gallery-swiper2" >
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
+                                        <img src="{{file}}" alt="image">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
@@ -38,8 +57,33 @@
                                 </div>
                             </div>
                         </div>	
-                    </div>	
+                    </div>
                 </div>
+                 <div class="col-xl-6 col-md-6">
+                    <div class="dz-product-detail sticky-top">
+                        <div class="swiper-btn-center-lr">
+                            <div class="swiper product-gallery-swiper2 rounded" >
+                                <div class="swiper-wrapper" id="lightgallery2">
+                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
+                                        <div class="dz-media DZoomImage">
+                                            <a class="mfp-link lg-item" href="{{file}}" >
+                                                <i class="feather icon-maximize dz-maximize top-left"></i>
+                                            </a>
+                                            <img src="{{file}}" alt="image">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper product-gallery-swiper thumb-swiper-lg">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
+                                        <img src="{{file}}" alt="image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>							
+                    </div>	
+                </div> --> 
                 <div class="col-xl-6 col-md-6">
                     <div class="dz-product-detail style-2 p-t50">
                         <div class="dz-content">
@@ -48,36 +92,7 @@
 <!--                                     <span class="badge bg-purple mb-2">SALE 20% Off</span>
  -->                                    <h4 class="title mb-1">{{global.previaProducto.name}}</h4>
                                     <div class="review-num">
-                                        <!-- <ul class="dz-rating me-2">
-                                            <li>
-                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#FF8A00"></path>
-                                                </svg>
-                                            </li>	
-                                            <li>
-                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#FF8A00"></path>
-                                                </svg>
-                                            </li>
-                                            <li>
-                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#FF8A00"></path>
-                                                </svg>
-                                            </li>
-                                            <li>
-                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path opacity="0.2" d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#5E626F"></path>
-                                                </svg>
-
-                                            </li>
-                                            <li>
-                                                <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path opacity="0.2" d="M6.74805 0.234375L8.72301 4.51608L13.4054 5.07126L9.9436 8.27267L10.8625 12.8975L6.74805 10.5944L2.63355 12.8975L3.5525 8.27267L0.090651 5.07126L4.77309 4.51608L6.74805 0.234375Z" fill="#5E626F"></path>
-                                                </svg>
-                                            </li>	
-                                        </ul> -->
-                                       <!--  <span class="text-secondary me-2">4.7 Rating</span>
-                                        <a href="javascript:void(0);">(5 customer reviews)</a> -->
+                                      
                                     </div>
                                 </div>
                             </div>
