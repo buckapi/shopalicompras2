@@ -1,18 +1,34 @@
 <div class="cart-btn">
-    <div class="meta-content m-b20 d-flex align-items-end">
-        <div class="btn-quantity quantity-sm light d-xl-none d-blcok d-sm-block">
-            <label class="form-label">Cantidad</label>
-            <input  type="text" value="1" name="demo_vertical2">
-        </div>
-    </div> 
-    <div></div>
     <div class="product-num">
-        <div class="btn-quantity light d-xl-block d-sm-none d-none">
+        <div class="btn-quantity light">
             <label class="form-label">Cantidad</label>
-            <input  type="number" value="1" name="demo_vertical2" [(ngModel)]="quantity" min="1" (ngModelChange)="onQuantityChange()">
+            <div class="quantity-controls">
+                <button class="btn btn-outline-secondary quantity-btn" 
+                        (click)="decrement()"
+                        [disabled]="quantity <= 1">
+                    -
+                </button>
+                
+                <input type="number" 
+                       class="form-control quantity-input" 
+                       [(ngModel)]="quantity" 
+                       min="1" 
+                       [max]="maxQuantity"
+                       (change)="validateQuantity()">
+                
+                <button class="btn btn-outline-secondary quantity-btn" 
+                        (click)="increment()"
+                        [disabled]="quantity >= maxQuantity">
+                    +
+                </button>
+            </div>
         </div>
-        <button class="btn btn-secondary text-uppercase" (click)="addToCart()">
+        
+        <button class="btn btn-secondary text-uppercase add-to-cart-btn" 
+                (click)="addToCart()"
+                [disabled]="!product">
+            <i class="fas fa-cart-plus me-2"></i>
             Agregar al carrito
         </button>
-    </div>      
+    </div>
 </div>

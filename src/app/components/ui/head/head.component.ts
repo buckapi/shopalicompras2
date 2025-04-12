@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GlobalService } from '../../../services/global.service';
 import { AuthPocketbaseService } from '../../../services/auth-pocketbase.service';
 import { RealtimeProductosService } from '../../../services/realtime-productos.service';
+import Swal from 'sweetalert2';
 interface CartItem {
   productId: string;
   name: string;
@@ -23,6 +24,8 @@ export class HeadComponent {
   carItems: CartItem[] = [];
   carTotalPrice: number = 0;
   carItemsCount: number = 0;
+  itemsCount: number = 0;
+  unitsCount: number = 0;
   productos: any[] = [];
   product: any; // Asegúrate de definir el tipo de tu producto
   quantity: number = 1; // Cantidad por defecto
@@ -32,7 +35,10 @@ constructor(
   public global: GlobalService,
   public authService: AuthPocketbaseService,
   public realtimeproductos: RealtimeProductosService
-){}
+){
+  this.itemsCount = this.global.getUniqueItemsCount(); // Productos diferentes
+this.unitsCount = this.global.getTotalUnitsCount(); // Total de unidades
+}
 // Agregar console.log para debuggear
 ngOnInit(): void {  
   this.loadCart();    
@@ -51,9 +57,25 @@ loadCart() {
   this.carItemsCount = this.global.getTotalItems();
 }
 
-removeFromCart(productId: string) {
+/* removeFromCart(productId: string) {
   this.global.removeFromCart(productId);
-}
+} */
+  async removeFromCart(productId: string) {
+    const confirm = await Swal.fire({
+      title: '¿Eliminar producto?',
+      text: '¿Estás seguro de que quieres eliminar este producto del carrito?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    });
+  
+    if (confirm.isConfirmed) {
+      this.global.removeFromCart(productId);
+    }
+  }
 updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   this.carItemsCount = cart.reduce((total: number, item: any) => total + item.quantity, 0);

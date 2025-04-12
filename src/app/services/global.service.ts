@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs'; // Add this line
 import PocketBase from 'pocketbase';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 interface CartItem {
   productId: string;
   name: string;
@@ -59,15 +59,11 @@ export class GlobalService {
 
   }
   productToEdit$ = new BehaviorSubject<any>(null);
-  constructor() { 
+  constructor(
+    public snackBar: MatSnackBar
+  ) { 
     this.pb = new PocketBase(this.apiUrl);
-    /* // Cargar carrito desde localStorage si existe
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      this.cartItems = JSON.parse(savedCart);
-      this.updateCartCount();
-    } */
-      this.loadCart();
+    this.loadCart();
   }
   public pb: PocketBase;
   private apiUrl = 'https://db.buckapi.lat:8050';
@@ -163,10 +159,22 @@ public updateCartCount() {
   this.cartCount.next(count);
 }
 // Método para eliminar un producto del carrito
+// En global.service.ts
 removeFromCart(productId: string) {
+  // Filtrar el array para eliminar el producto con el ID especificado
   this.cartItems = this.cartItems.filter(item => item.productId !== productId);
+  
+  // Guardar los cambios en localStorage
   this.saveCart();
-  this.updateCartCount();
+  
+  // Notificar a los componentes suscritos
+  this.cartUpdated$.next(this.cartItems);
+  
+  // Opcional: Mostrar notificación
+  this.snackBar.open('Producto eliminado del carrito', 'Cerrar', {
+    duration: 2000,
+    verticalPosition: 'top'
+  });
 }
 
 getCartItems(): CartItem[] {
@@ -180,9 +188,19 @@ clearCart() {
 }
 
 getTotalItems(): number {
+  return this.cartItems.length; // Esto devuelve el número de productos diferentes
+}
+// Método para obtener el total de productos diferentes
+getUniqueItemsCount(): number {
+  return this.cartItems.length;
+}
+
+// Método para obtener el total de unidades (suma de quantities)
+getTotalUnitsCount(): number {
   return this.cartItems.reduce((total, item) => total + item.quantity, 0);
 }
 
+// Método para obtener el precio total
 getTotalPrice(): number {
   return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 }

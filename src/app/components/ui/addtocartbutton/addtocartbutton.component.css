@@ -1,5 +1,50 @@
-/* En el archivo de estilos */
+
 .success-snackbar {
     background-color: #4CAF50;
     color: white;
   }
+
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.quantity-input {
+  width: 60px;
+  text-align: center;
+  margin: 0 5px;
+  -moz-appearance: textfield;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-btn {
+  width: 40px;
+  font-weight: bold;
+}
+
+.add-to-cart-btn {
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.add-to-cart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .success-snackbar {
+  background-color: #28a745;
+  color: white;
+}
+
+::ng-deep .warning-snackbar {
+  background-color: #ffc107;
+  color: #212529;
+}
