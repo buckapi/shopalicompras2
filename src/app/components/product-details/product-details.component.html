@@ -39,51 +39,6 @@
                         </div>	
                     </div>	
                 </div>
-                <!-- <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
-                    <div class="dz-product-detail sticky-top style-3">
-                        <div class="swiper-btn-center-lr" >
-                            <div class="swiper product-gallery-swiper2" >
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
-                                        <img src="{{file}}" alt="image">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
-                                        <img src="{{file}}" alt="image">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>	
-                    </div>
-                </div>
-                 <div class="col-xl-6 col-md-6">
-                    <div class="dz-product-detail sticky-top">
-                        <div class="swiper-btn-center-lr">
-                            <div class="swiper product-gallery-swiper2 rounded" >
-                                <div class="swiper-wrapper" id="lightgallery2">
-                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
-                                        <div class="dz-media DZoomImage">
-                                            <a class="mfp-link lg-item" href="{{file}}" >
-                                                <i class="feather icon-maximize dz-maximize top-left"></i>
-                                            </a>
-                                            <img src="{{file}}" alt="image">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper product-gallery-swiper thumb-swiper-lg">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
-                                        <img src="{{file}}" alt="image">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>							
-                    </div>	
-                </div> --> 
                 <div class="col-xl-6 col-md-6">
                     <div class="dz-product-detail style-2 p-t50">
                         <div class="dz-content">
@@ -96,45 +51,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <p class="para-text">
-                                {{ getLimitedDescription() }} 
-                            </p> -->
                             <p class="para-text">{{global.previaProducto.description}}</p>
                             <div class="meta-content m-b20">
                                 <span class="price-name">Precio</span>
                                <!--  <span class="price">$ {{global.previaProducto.price}} <del>$132.17</del></span> -->
                                <span class="price">$ {{global.previaProducto.price}}</span>
                             </div>
-                            <div class="product-num gap-md-2 gap-xl-0">
-                                <div class="btn-quantity light">
-                                    <label class="form-label">Cantidad</label>
-                                    <input  type="number" value="1" name="demo_vertical2" [(ngModel)]="quantity" min="1" >
-                                </div>
-                                <!-- <div class="meta-content">
-                                    <label class="form-label">Color</label>
-                                    <div class="d-flex align-items-center color-filter">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel21" value="#24262B" aria-label="..." checked>
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel22" value="#8CB2D1" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel23" value="#0D775E" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel24" value="#FEC4C4" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div> -->
-                            </div>
-                            <div class="btn-group cart-btn">
-                                <button (click)="addToCart(product)">Añadir al carrito</button>
-                            </div>
+                            <div class=" cart-btn">
+                                <app-addtocartbutton 
+                                  [product]="global.previaProducto"
+                                  [(quantity)]="quantity">
+                                </app-addtocartbutton>
+                              </div>
                             <div class="dz-info">
                                 <ul>
                                     <li><strong>Codigo:</strong></li>
@@ -143,17 +71,7 @@
                                 <ul>
                                     <li><strong>Categoria:</strong></li>
                                     <li><a >{{global.previaProducto.categorias}}</a></li>												
-                                </ul><!-- 
-                               
-                                <ul class="social-icon">
-                                    <li><strong>Compartir:</strong></li>
-                                    <li>
-                                        <a href="https://www.facebook.com/dexignzone" target="_blank">
-                                            <i class="fa-brands fa-whatsapp"></i>
-                                        </a>
-                                    </li>
-                                   
-                                </ul> -->
+                                </ul>
                             </div>
                             
                             <ul class="d-md-flex d-block align-items-center">

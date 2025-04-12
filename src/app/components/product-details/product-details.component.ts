@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swiper from 'swiper';
 import { GlobalService } from '../../services/global.service';
-import { CarService } from '../../services/car.service';
 import { RealtimeCategoriasService } from '../../services/realtime-categorias.service';
-
+import Swal from 'sweetalert2';
+import { AddtocartbuttonComponent } from '../ui/addtocartbutton/addtocartbutton.component';
 interface Product {
   id: number;
   name: string;
@@ -26,7 +26,7 @@ interface Product {
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, AddtocartbuttonComponent],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
@@ -47,13 +47,11 @@ export class ProductDetailsComponent {
   }
   product: any; // Asegúrate de definir el tipo de tu producto
   quantity: number = 1; // Cantidad por defecto
-  cartQuantity: number = 0;
   selectedProduct: any;
   categories: any[] = [];
 constructor(
   public global: GlobalService,
-  public carService: CarService,
-  public realtimeCategorias: RealtimeCategoriasService
+  public realtimeCategorias: RealtimeCategoriasService,
 ) {
   this.realtimeCategorias.categorias$.subscribe((data: any[]) => {
     this.categories = data;
@@ -79,83 +77,33 @@ getCategoryNameById(categoryId: number): string {
     return 'Categoría no disponible';
   }
 }
-addToCart(product: any) {
-  // If the cart is not initialized, create an empty array
-  if (!this.global.cart) {
-    this.global.cart = [];
-  }
-
-  // Check if the product is already in the cart
-  const existingProduct = this.global.cart.find(item => item.productId === product.id);
-
-  if (existingProduct) {
-    // Increase quantity if the product already exists
-    existingProduct.quantity += 1;
-  } else {
-    // Add new product with quantity 1
-    this.global.cart.push({ ...product, quantity: 1, productId: product.id });
-  }
-
-  // Save the updated cart to localStorage
-  this.saveCartToLocalStorage();
-}
-/* getLimitedDescription(): string {
-  return this.global.previaProducto.description.length > 800 
-      ? this.global.previaProducto.description.substring(0, 800) + '...' 
-      : this.global.previaProducto.description;
-} */
-/* addToCart(product: any) {
-  // Verificar que el producto no sea undefined o null
-  if (!product || !product.id) {
-    console.error('Producto inválido:', product);
-    return;
-  }
-
-  // Si el carrito no existe, inicialízalo
-  if (!this.global.cart) {
-    this.global.cart = [];
-  }
-
-  // Verificar si el producto ya está en el carrito
-  const existingProduct = this.global.cart.find(item => item.productId === product.id);
-
-  // Si el producto ya está en el carrito, solo incrementamos su cantidad
-  if (existingProduct) {
-    existingProduct.quantity += 1;
-  } else {
-    // Si el producto no está en el carrito, lo agregamos con cantidad 1
-    this.global.cart.push({ ...product, quantity: 1, productId: this.global.productSelected.id });
-  }
-
-  // Guardar en localStorage
-  this.saveCartToLocalStorage();
-}
- */
-
-saveCartToLocalStorage() {
-  // Update cart quantity
-  this.global.updateCartQuantity();
-
-  // Save the updated cart in localStorage
-  localStorage.setItem('cart', JSON.stringify(this.global.cart));
-
-  // Update the cart status to show if the cart has products
-  this.global.cartStatus$.next(this.global.cart.length > 0);
+ addToCart() {
+      if (this.product) { // Verifica que el producto esté definido
+        // Agregar el producto al carrito
+        this.global.addToCart(this.product, this.quantity);
+    
+        // Reiniciar la cantidad
+        this.quantity = 1;
+    
+        // Mostrar un alert con SweetAlert2
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto agregado al carrito',
+          text: `¡El producto ${this.product.name} ha sido agregado al carrito!`,
+          showConfirmButton: true,
+          timer: 2000 // Se cerrará automáticamente después de 2 segundos
+        });
+      } else {
+        console.error('El producto no está definido');
+      }
+    } 
+incrementQuantity() {
+  this.quantity++;
 }
 
-ngOnInit() {
-  // Listen to cart quantity changes and update accordingly
-  this.global.cartQuantity$.subscribe(quantity => {
-    this.global.cartQuantity = quantity;
-    this.global.updateCartQuantity();
-  });
-
-  // Load the cart from localStorage if it exists
-  const savedCart = localStorage.getItem('cart');
-  if (savedCart) {
-    this.global.cart = JSON.parse(savedCart);
-  } else {
-    this.global.cart = []; // Ensure cart is an empty array if nothing is stored
+decrementQuantity() {
+  if (this.quantity > 1) {
+    this.quantity--;
   }
 }
 

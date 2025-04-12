@@ -16,11 +16,11 @@ import { GlobalService } from './services/global.service';
 import { ScriptLoaderService } from './services/script-loader.service';
 import { ScriptStoreService } from './services/script-store.service';
 import { ProductsService } from './services/products.service';
-import { CarService } from './services/car.service';
 import Swiper from 'swiper';
 import Swal from 'sweetalert2';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddtocartbuttonComponent } from './components/ui/addtocartbutton/addtocartbutton.component';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
@@ -37,7 +37,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CheckoutComponent,
     ProductDetailsComponent,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    AddtocartbuttonComponent
 
   ],
   templateUrl: './app.component.html',
@@ -50,9 +51,8 @@ export class AppComponent {
   constructor (
     public global: GlobalService,
     private scriptLoader: ScriptLoaderService,
-    private scriptStore: ScriptStoreService,
-    public carService: CarService,
     public productService: ProductsService,
+    public scriptStore: ScriptStoreService,
     @Inject(PLATFORM_ID) private platformId: Object
   )
     {}
@@ -105,32 +105,14 @@ export class AppComponent {
       } else {
           console.error('localStorage o document no están disponibles en este entorno.');
       }
-  }
-  
-      
+  }   
     isImage(image: string): boolean {
       return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(image);
     }
-   /*  addToCart() {
-      // Agregar el producto al carrito
-      this.carService.addProduct(this.product, this.quantity);
-    
-      // Reiniciar la cantidad
-      this.quantity = 1;
-    
-      // Mostrar un alert con SweetAlert2
-      Swal.fire({
-        icon: 'success',
-        title: 'Producto agregado al carrito',
-        text: `¡El producto ${this.product.name} ha sido agregado al carrito!`,
-        showConfirmButton: true,
-        timer: 2000 // Se cerrará automáticamente después de 2 segundos
-      });
-    } */
     addToCart() {
       if (this.product) { // Verifica que el producto esté definido
         // Agregar el producto al carrito
-        this.carService.addProduct(this.product, this.quantity);
+        this.global.addToCart(this.product, this.quantity);
     
         // Reiniciar la cantidad
         this.quantity = 1;
@@ -146,6 +128,6 @@ export class AppComponent {
       } else {
         console.error('El producto no está definido');
       }
-    }
+    } 
 
   }

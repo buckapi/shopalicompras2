@@ -193,7 +193,9 @@
                                     <div class="col-md-12 col-sm-12 col-xxxl-12" *ngFor="let producto of (realtimeproductos.productos$ | async); let i = index">
                                         <div class="dz-shop-card style-2">
                                             <div class="dz-media">
-                                                <img src="{{producto.files[0]}}" alt="image">
+                                                <img src="{{producto.files[0]}}" alt="image" 
+                                                (click)="global.setQuick(producto)" 
+                                                style="cursor: pointer; width: 400px; height: 400px; object-fit: fill;">                                               
                                             </div>
                                             <div class="dz-content">
                                                 <div class="dz-header">
@@ -213,20 +215,14 @@
                                                         <div class="d-flex align-items-center mb-xl-3 mb-2">
                                                             <div class="meta-content m-0">
                                                                 <span class="price-name">Precio</span>
-                                                                <span class="price">$ {{producto.price}}</span>
+                                                                <span class="price">$USD {{producto.price}}</span>
                                                             </div>
                                                         </div>
                                                         <div class="d-flex">
-                                                            <a  class="btn btn-secondary btn-md btn-icon">
+                                                            <a (click) ="global.setProduct('product-details',producto)" class="btn btn-secondary btn-md btn-icon">
                                                                 <i class="icon feather icon-shopping-cart d-md-none d-block"></i>
-                                                                <span class="d-md-block d-none">Agregar al carrito</span>
+                                                                <span class="d-md-block d-none">Ver producto</span>
                                                             </a>
-                                                            <!-- <div class="bookmark-btn style-1">
-                                                                <input class="form-check-input" type="checkbox" id="favoriteCheck1">
-                                                                <label class="form-check-label" for="favoriteCheck1">
-                                                                    <i class="fa-solid fa-heart"></i>
-                                                                </label>
-                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -242,18 +238,19 @@
                                     <div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30"*ngFor="let producto of (realtimeproductos.productos$ | async); let i = index" >
                                         <div class="shop-card style-1">
                                             <div class="dz-media">
-                                                <img src="{{producto.files[0]}}" alt="image">
+                                                <img src="{{producto.files[0]}}" alt="image" 
+                                                (click)="global.setQuick(producto)" 
+                                                style="cursor: pointer; width: 400px; height: 400px; object-fit: fill;">
                                                 <div class="shop-meta">
-                                                    <a href="javascript:void(0);"  (click) ="global.setProduct('product-details',producto)" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    <a   (click) ="global.setProduct('product-details',producto)" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                         <i class="fa-solid fa-eye d-md-none d-block"></i>
                                                         <span class="d-md-block d-none">Ver producto</span>
-                                                    </a>
-                                                    
+                                                    </a>                                                    
                                                 </div>							
                                             </div>
                                             <div class="dz-content">
                                                 <h5 class="title"><a (click)="global.setProduct('product-details',producto)" style="cursor: pointer;">{{producto.name}}</a></h5>
-                                                <h5 class="price">$ {{producto.price}}</h5>
+                                                <h5 class="price">$USD {{producto.price}}</h5>
                                             </div>
                                            <!--  <div class="product-tag">
                                                 <span class="badge ">Get 20% Off</span>

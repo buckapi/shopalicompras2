@@ -2,19 +2,27 @@ import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GlobalService } from '../../../services/global.service';
 import { AuthPocketbaseService } from '../../../services/auth-pocketbase.service';
-import { CarService } from '../../../services/car.service';
 import { RealtimeProductosService } from '../../../services/realtime-productos.service';
+interface CartItem {
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+}
+
 @Component({
   selector: 'app-head',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ],
   templateUrl: './head.component.html',
   styleUrl: './head.component.css'
 })
 export class HeadComponent {
   isMenuOpen = false;
-  carItems: any[] = [];
+  carItems: CartItem[] = [];
   carTotalPrice: number = 0;
+  carItemsCount: number = 0;
   productos: any[] = [];
   product: any; // Asegúrate de definir el tipo de tu producto
   quantity: number = 1; // Cantidad por defecto
@@ -23,21 +31,32 @@ export class HeadComponent {
 constructor(
   public global: GlobalService,
   public authService: AuthPocketbaseService,
-  public carService: CarService,
   public realtimeproductos: RealtimeProductosService
 ){}
-ngOnInit(): void {
-  this.carItems = this.carService.getCart();
-  this.carTotalPrice = this.carItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+// Agregar console.log para debuggear
+ngOnInit(): void {  
+  this.loadCart();    
+  // Suscribirse a actualizaciones del carrito
+  this.global.cartUpdated$.subscribe(() => this.loadCart());
+    // Escuchar cambios en otras pestañas
+  window.addEventListener('storage', (event: StorageEvent) => {
+    if (event.key === 'cart') {
+      this.loadCart();
+    }
+  });
+}
+loadCart() {
+  this.carItems = this.global.getCartItems();
+  this.carTotalPrice = this.global.getTotalPrice();
+  this.carItemsCount = this.global.getTotalItems();
 }
 
-updateCart() {
-  this.carItems = this.carService.getCart();
-  this.carTotalPrice = this.carItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+removeFromCart(productId: string) {
+  this.global.removeFromCart(productId);
 }
-removeProduct(item: any) {
-  this.carService.cart = this.carService.cart.filter(cartItem => cartItem.product.id !== item.product.id);
-  this.updateCart(); // Actualiza la vista después de eliminar el producto
+updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  this.carItemsCount = cart.reduce((total: number, item: any) => total + item.quantity, 0);
 }
 
 showMenu() {
@@ -95,15 +114,5 @@ toggleCart() {
     document.body.style.overflow = cartOffcanvas.classList.contains('show') ? 'hidden' : '';
   }
 } 
-// Función para navegación
-/* closeMenuAndNavigate(route: string) {
-  this.global.setRoute(route);
-  
-  // Cierra cualquier offcanvas abierto
-  const openCanvases = document.querySelectorAll('.offcanvas.show');
-  openCanvases.forEach(canvas => {
-    canvas.classList.remove('show');
-  });
-  document.body.style.overflow = '';
-} */
+
 }

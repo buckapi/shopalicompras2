@@ -27,6 +27,7 @@
               }
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": []
@@ -96,7 +97,7 @@
   "cli": {
     "analytics": false,
     "cache": {
-      "path": "/root/.angular/cache"
+      "path": ".angular/cache"
     }
   }
 }

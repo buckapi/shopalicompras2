@@ -34157,7 +34157,8 @@ body .working-location {
       .dz-product-detail.style-2 .dz-content .cart-btn .woocommerce #place_order, .woocommerce .dz-product-detail.style-2 .dz-content .cart-btn #place_order {
         margin: 5px 5px;
         border-radius: 10px;
-        padding: 12px 20px; }
+        padding: 12px 12px;
+       }
     @media only screen and (max-width: 1199px) {
       .dz-product-detail.style-2 {
         padding-left: 0;

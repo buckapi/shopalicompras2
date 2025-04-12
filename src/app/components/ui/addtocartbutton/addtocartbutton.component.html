@@ -1,0 +1,18 @@
+<div class="cart-btn">
+    <div class="meta-content m-b20 d-flex align-items-end">
+        <div class="btn-quantity quantity-sm light d-xl-none d-blcok d-sm-block">
+            <label class="form-label">Cantidad</label>
+            <input  type="text" value="1" name="demo_vertical2">
+        </div>
+    </div> 
+    <div></div>
+    <div class="product-num">
+        <div class="btn-quantity light d-xl-block d-sm-none d-none">
+            <label class="form-label">Cantidad</label>
+            <input  type="number" value="1" name="demo_vertical2" [(ngModel)]="quantity" min="1" (ngModelChange)="onQuantityChange()">
+        </div>
+        <button class="btn btn-secondary text-uppercase" (click)="addToCart()">
+            Agregar al carrito
+        </button>
+    </div>      
+</div>
