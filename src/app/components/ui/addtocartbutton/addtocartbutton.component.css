@@ -91,3 +91,24 @@ app-addtocartbutton .add-to-cart-btn {
   background-color: #ffc107 !important;
   color: #212529 !important;
 }
+
+/* En addtocartbutton.component.css */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.quantity-input {
+  width: 50px;
+  text-align: center;
+  margin: 0 5px;
+}

@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './addtocartbutton.component.html',
   styleUrls: ['./addtocartbutton.component.css']
 })
-export class AddtocartbuttonComponent {
+export class  AddtocartbuttonComponent {
   @Input() product: any;
   @Input() maxQuantity: number = 99; // Nueva propiedad de entrada
   @Input() quantity: number = 1;
@@ -50,27 +50,7 @@ export class AddtocartbuttonComponent {
     }
   }
 
- /*  addToCart(): void {
-    if (!this.product) return;
-
-    this.global.addToCart(this.product, this.quantity);
-    this.showSuccessNotification();
-    this.resetQuantity();
-  }
-
-  private showSuccessNotification(): void {
-    this.snackBar.open(
-      `✅ ${this.quantity} ${this.quantity > 1 ? 'unidades' : 'unidad'} de ${this.product.name} agregadas al carrito`, 
-      'Cerrar', {
-        duration: 3000,
-        verticalPosition: 'top',
-        panelClass: ['success-snackbar']
-      }
-    );
-  } */
-
-    // addtocartbutton.component.ts
-addToCart() {
+/* addToCart() {
   if (!this.product) {
     console.error('No hay producto definido');
     return;
@@ -88,8 +68,22 @@ addToCart() {
 
   this.showSuccessNotification();
   this.resetQuantity();
-}
+} */
+// En addtocartbutton.component.ts
+addToCart() {
+  if (!this.product) {
+    console.error('No hay producto definido');
+    return;
+  }
 
+  console.log('Agregando producto:', this.product.id); // Debug
+  
+  // CORRECCIÓN: Pasar los parámetros correctamente al servicio
+  this.global.addToCart(this.product, this.quantity);
+
+  this.showSuccessNotification();
+  this.resetQuantity();
+}
 private showSuccessNotification() {
   this.snackBar.open('Producto agregado al carrito', 'Cerrar', {
     duration: 2000,
@@ -111,5 +105,6 @@ private showSuccessNotification() {
   private resetQuantity(): void {
     this.quantity = 1;
     this.quantityChange.emit(this.quantity);
+    // No necesitas el setTimeout si usas ChangeDetectionStrategy.OnPush
   }
 }

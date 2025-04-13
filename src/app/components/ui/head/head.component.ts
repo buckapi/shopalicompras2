@@ -57,10 +57,10 @@ loadCart() {
   this.carItemsCount = this.global.getTotalItems();
 }
 
-/* removeFromCart(productId: string) {
+removeFromCart(productId: string) {
   this.global.removeFromCart(productId);
-} */
-  async removeFromCart(productId: string) {
+}
+  /* async removeFromCart(productId: string) {
     const confirm = await Swal.fire({
       title: '¿Eliminar producto?',
       text: '¿Estás seguro de que quieres eliminar este producto del carrito?',
@@ -75,7 +75,7 @@ loadCart() {
     if (confirm.isConfirmed) {
       this.global.removeFromCart(productId);
     }
-  }
+  } */
 updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   this.carItemsCount = cart.reduce((total: number, item: any) => total + item.quantity, 0);

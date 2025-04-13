@@ -149,6 +149,7 @@ addToCart(product: any, quantity: number = 1) {
   this.saveCart();
   this.cartUpdated$.next(this.cartItems ); // Notificar a los suscriptores
 }
+
 public saveCart() {
   localStorage.setItem('cart', JSON.stringify(this.cartItems));
   this.updateCartCount();

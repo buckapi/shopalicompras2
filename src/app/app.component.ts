@@ -66,7 +66,7 @@ export class AppComponent {
             'vendor/bootstrap/dist/js/bootstrap.bundle.min.js',
             'vendor/bootstrap-select/dist/js/bootstrap-select.min.js',
             'vendor/bootstrap-touchspin/bootstrap-touchspin.js',
-            'vendor/swiper/swiper-bundle.min.js',
+             'vendor/swiper/swiper-bundle.min.js', 
             'vendor/magnific-popup/magnific-popup.js',
             'vendor/imagesloaded/imagesloaded.js',
             'vendor/masonry/masonry-4.2.2.js',
@@ -81,8 +81,8 @@ export class AppComponent {
             'js/dz.carousel.js',
             'js/dz.ajax.js',
             'js/custom.min.js',
-            'js/dashbord-account.js'
-          ])
+            /* 'js/dashbord-account.js' */
+           ])
           .then((data) => {
             console.log('Todos los scripts se han cargado correctamente', data);
           })

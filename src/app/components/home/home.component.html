@@ -113,7 +113,7 @@
         <div class="container-fluid p-0">
           <div class="row">
             <div class="col-lg-8 left-box">
-              <div class="swiper swiper-shop">
+             <!--  <div class="swiper swiper-shop">
                 <div class="swiper-wrapper">
                   <div class="swiper-slide" *ngFor="let categoria of (realtimecategorias.categorias$ | async)">
                     <div class="shop-box style-1 wow fadeInUp" data-wow-delay="0.2s">
@@ -128,7 +128,27 @@
                   </div>
                   
                 </div>
-              </div>
+              </div> -->
+              <div class="swiper swiper-shop">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" *ngFor="let categoria of (realtimecategorias.categorias$ | async)">
+                        <div class="shop-box style-1 wow fadeInUp" data-wow-delay="0.2s">
+                            <div class="dz-media">
+                                <img src="{{categoria.files[0]}}" alt="image" *ngIf="categoria.files.length > 0" style="width: 50%;">
+                            </div>
+                            <h6 class="product-name"><a (click)="global.setRoute('shop')">
+                                {{categoria.name}}
+                            </a></h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- 
+                <div class="swiper-pagination"></div>
+                
+               
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div> -->
+            </div>
             </div>
             <div class="col-lg-4 right-box">
               <div>
@@ -161,7 +181,7 @@
             <div class="col-lg-6 col-md-12 m-b30">
               <div class="about-thumb wow fadeInUp  position-relative" data-wow-delay="0.2s">
                 <div class="dz-media h-100">	
-                  <img src="images/women.png" alt="">
+                  <img src="images/women2.png" alt="">
                 </div>	
                 <a (click)="global.setRoute('about')" class="btn btn-outline-secondary btn-light btn-xl">Alicompras - Importaciones</a>	
               </div>
@@ -197,7 +217,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="shop-card style-6 wow fadeInUp" data-wow-delay="0.8s">
                       <div class="dz-media">
-                        <img src="images/shop/product/medium/1.png" alt="image">
+                        <img src="https://www.2cargoxpress.com/wp-content/uploads/2023/07/joven-mensajero-su-colega-descargando-cajas-carton-furgoneta-reparto-1.jpg" alt="image">
                       </div>
                       <div class="dz-content">
                         <a (click)="global.setRoute('contact')" class="btn btn-outline-secondary btn-light btn-md">¿Quieres comprar en USA?</a>
@@ -207,7 +227,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="shop-card style-6 wow fadeInUp" data-wow-delay="1.0s">
                       <div class="dz-media">
-                        <img src="images/shop/product/medium/2.png" alt="image">
+                        <img src="https://imgs.search.brave.com/7HIqDfpLbdwQdfMb273f3yi-YUAJqRyRpXkI_IN1Z1s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kMWlo/OGp1Z2VvMm01bS5j/bG91ZGZyb250Lm5l/dC8yMDI0LzExL2lt/cG9ydGFyX2RlX2No/aW5hLmpwZw" alt="image">
                       </div>
                       <div class="dz-content">
                         <a (click)="global.setRoute('contact')" class="btn btn-outline-secondary btn-light btn-md">¿Deseas importar desde China?</a>
