@@ -254,8 +254,7 @@
                 <div class="shop-card">
                   <div class="dz-media">
                     <img src="{{producto.files[0]}}" alt="image" 
-                    (click)="global.setQuick(producto)" 
-                    style="cursor: pointer; width: 400px; height: 400px; object-fit: fill;">
+                    >
                     <div class="row shop-meta">
                       <a  class="col-6 btn btn-secondary btn-md btn-rounded" 
                       (click)="global.setQuick(producto)"
@@ -265,7 +264,8 @@
                       </a>
                       
                       <div class="btn btn-primary meta-icon dz-carticon">
-                        <i class="flaticon flaticon-basket"></i>
+                        <i class="flaticon flaticon-basket"><a 
+                          data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="global.setQuick(producto)" style="cursor: pointer;"></a></i>
                       </div>
                     </div>							
                   </div>
