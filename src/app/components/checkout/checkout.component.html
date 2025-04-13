@@ -3,7 +3,7 @@
     <div class="dz-bnr-inr bg-secondary overlay-black-light" style="background-image:url(images/background/bg1.jpg);">
         <div class="container">
             <div class="dz-bnr-inr-entry">
-                <h1>Shop Checkout</h1>
+                <h1>Alicompras</h1>
                 <nav aria-label="breadcrumb" class="breadcrumb-row">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a> Inicio</a></li>
@@ -22,149 +22,95 @@
                 <div class="col-xl-8">
                     <h4 class="title m-b15">Información de contácto</h4>
                       
-                   <!--  <form class="row">
+                   <!-- Reemplaza solo las partes relevantes del formulario -->
+                    <form [formGroup]="checkoutForm" class="row" id="checkoutForm">
                         <div class="col-md-6">
-                            <div class="form-group m-b25">
-                                <label class="label-title">Nombre y apellido</label>
-                                <input name="dzName" required="" class="form-control">
-                            </div>
+                        <div class="form-group m-b25">
+                            <label class="label-title">Nombre y apellido</label>
+                            <input formControlName="name" required class="form-control">
+                        </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group m-b25">
-                                <label class="label-title">Telefono</label>
-                                <input name="dzName" required="" class="form-control">
-                            </div>
+                        <div class="form-group m-b25">
+                            <label class="label-title">Teléfono</label>
+                            <input formControlName="phone" required class="form-control">
+                        </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group m-b25">
-                                <label class="label-title">Correo Electrónico *</label>
-                                <input name="dzName" required="" class="form-control">
-                            </div>
+                        <div class="form-group m-b25">
+                            <label class="label-title">Correo Electrónico *</label>
+                            <input formControlName="email" required class="form-control">
+                        </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="m-b25">
-                                <label class="label-title">Estado *</label>
-                                <select class="default-select form-select w-100">
-                                    <option selected>India</option>
-                                    <option value="1">Another option</option>
-                                    <option value="2">UK</option>
-                                    <option value="3">Iraq</option>
-                                </select>	
-                            </div>
+                        <div class="m-b25">
+                            <label class="label-title">Estado *</label>
+                            <select formControlName="estado" class="default-select form-select w-100">
+                            <option value="" disabled selected>Seleccione un estado</option>
+                            <option *ngFor="let estado of estados" [value]="estado.nombre">
+                                {{estado.nombre}}
+                            </option>
+                            </select>
+                        </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="m-b25">
-                                <label class="label-title">Ciudad *</label>
-                                <select class="default-select form-select w-100">
-                                    <option selected>Kota</option>
-                                    <option value="1">Another option</option>
-                                    <option value="2">Jaipur</option>
-                                    <option value="3">Udaipur</option>
-                                </select>	
-                            </div>
+                        <div class="m-b25">
+                            <label class="label-title">Ciudad *</label>
+                            <select formControlName="ciudad" class="default-select form-select w-100" 
+                                    [disabled]="!checkoutForm.get('estado')?.value || ciudades.length === 0">
+                            <option value="" disabled selected>Seleccione una ciudad</option>
+                            <option *ngFor="let ciudad of ciudades" [value]="ciudad">
+                                {{ciudad}}
+                            </option>
+                            </select>
+                        </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group m-b25">
-                                <label class="label-title">Dirección *</label>
-                                <input name="dzName" required="" class="form-control m-b15" placeholder="Calle y nombre de la calle">
-                                <input name="dzName" required="" class="form-control" placeholder="Apartamento, suite, unidad, etc. (opcional)">
-                            </div>
+                        <div class="form-group m-b25">
+                            <label class="label-title">Dirección *</label>
+                            <input formControlName="address" required class="form-control m-b15" placeholder="Calle y nombre de la calle">
+                            <input formControlName="apartment" class="form-control" placeholder="Apartamento, suite, unidad, etc. (opcional)">
+                        </div>
                         </div>
                         <div class="col-md-12 m-b25">
-                            <div class="form-group">
-                                <label class="label-title">Notas del pedido (opcional)</label>
-                                <textarea id="comments" placeholder="Notas sobre su pedido, por ejemplo, notas para la entrega." class="form-control" name="comment" cols="90" rows="5" required="required"></textarea>
-                            </div>
+                        <div class="form-group">
+                            <label class="label-title">Notas del pedido (opcional)</label>
+                            <textarea formControlName="comment" placeholder="Notas sobre su pedido, por ejemplo, notas para la entrega." 
+                                    class="form-control" cols="90" rows="5"></textarea>
                         </div>
-                    </form> -->
-                    <form class="row" id="checkoutForm">
-                        <div class="col-md-6">
-                            <div class="form-group m-b25">
-                                <label class="label-title">Nombre y apellido</label>
-                                <input name="name" required class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group m-b25">
-                                <label class="label-title">Teléfono</label>
-                                <input name="phone" required class="form-control">
-                            </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group m-b25">
-                                <label class="label-title">Correo Electrónico *</label>
-                                <input name="email" required class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="m-b25">
-                                <label class="label-title">Estado *</label>
-                                <select name="state" class="default-select form-select w-100">
-                                    <option selected>India</option>
-                                    <option value="1">Another option</option>
-                                    <option value="2">UK</option>
-                                    <option value="3">Iraq</option>
-                                </select>	
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="m-b25">
-                                <label class="label-title">Ciudad *</label>
-                                <select name="city" class="default-select form-select w-100">
-                                    <option selected>Kota</option>
-                                    <option value="1">Another option</option>
-                                    <option value="2">Jaipur</option>
-                                    <option value="3">Udaipur</option>
-                                </select>	
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group m-b25">
-                                <label class="label-title">Dirección *</label>
-                                <input name="address" required class="form-control m-b15" placeholder="Calle y nombre de la calle">
-                                <input name="apartment" class="form-control" placeholder="Apartamento, suite, unidad, etc. (opcional)">
-                            </div>
-                        </div>
-                        <div class="col-md-12 m-b25">
-                            <div class="form-group">
-                                <label class="label-title">Notas del pedido (opcional)</label>
-                                <textarea id="comments" placeholder="Notas sobre su pedido, por ejemplo, notas para la entrega." class="form-control" name="comment" cols="90" rows="5"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <button type="button" class="btn btn-primary" onclick="sendToWhatsApp()">Enviar a WhatsApp</button>
+                        <button type="button" class="btn btn-primary" (click)="sendToWhatsApp()">Enviar a WhatsApp</button>
                         </div>
                     </form>
                 </div>
                 <div class="col-xl-4 side-bar">
                     <h4 class="title m-b15">Su pedido</h4>
                     <div class="order-detail sticky-top">
-                        <div class="cart-item style-1">
+                        <div class="cart-item style-1" *ngFor="let item of global.getCartItems()">
                             <div class="dz-media">
-                                <img src="images/shop/shop-cart/pic1.jpg" alt="/">
+                                <img [src]="item.image" alt="{{ item.name }}">
                             </div>
                             <div class="dz-content">
-                                <h6 class="title mb-0">Sophisticated <br>Swagger Suit</h6>
-                                <span class="price">$40.00</span>
-                            </div>
-                        </div>
-                        <div class="cart-item style-1 mb-0">
-                            <div class="dz-media">
-                                <img src="images/shop/shop-cart/pic2.jpg" alt="/">
-                            </div>
-                            <div class="dz-content">
-                                <h6 class="title mb-0">Cozy Knit Cardigan Sweater</h6>
-                                <span class="price">$36.00</span>
+                                <h6 class="title mb-0">{{ item.name }}</h6>
+                                <div class="d-flex align-items-center">
+                                    <div class="btn-quantity  quantity-sm me-3">
+                                        <h6 class="dz-price mb-0">{{ item.quantity }}</h6>
+                                    </div>
+                                   
+                                    <h6 class="dz-price mb-0">
+                                        $USD {{ item.price * item.quantity }}</h6>
+                                </div>
                             </div>
                         </div>
                         <table>
                             <tbody>
                                 <tr class="subtotal">
                                     <td>Subtotal</td>
-                                    <td class="price">$100</td>
+                                    <td class="price">$USD {{ carTotalPrice }}</td>
                                 </tr>
                                 <tr class="title">
-                                    <td><h6 class="title font-weight-500">Domicilio</h6></td>
+                                    <td><h6 class="title font- weight-500">Domicilio</h6></td>
                                     <td></td>
                                 </tr>
                                 <tr class="shipping">
@@ -182,13 +128,8 @@
                                           </label>
                                         </div>
                                     </td>
-                                    <td class="price">25.75</td>
                                 </tr>
-                                <tr class="total">
-                                    <td>Total</td>
-                                    <td class="price">$125.75</td>
-                                    
-                                </tr>
+                              
                             </tbody>
                         </table>
                         
@@ -230,9 +171,7 @@
                                         <label class="form-check-label" for="flexRadioDefault4">
                                             Paypal /Binance /Zinly
                                         </label>
-                                        <!-- <img src="images/shop/payment.jpg" alt="/">
-                                        <a href="javascript:void(0);">What is PayPal?</a> -->
-                                    </div>
+                                        </div>
                                 </div>
                                 <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#accordionFaq1">
                                     <div class="accordion-body">
@@ -250,6 +189,7 @@
                         </div>
                         <a class="btn btn-secondary w-100">Hacer pedido</a>
                     </div>
+                    
                 </div>
             </div>
         </div>

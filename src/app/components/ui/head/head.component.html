@@ -138,7 +138,6 @@
           <div class="tab-content pt-4" id="dz-shopcart-sidebar">
             <div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
               <div class="shop-sidebar-cart">
-               <!-- En head.component.html -->
                <ul class="sidebar-cart-list">
                 <li *ngFor="let item of carItems">
                   <div class="cart-widget">
@@ -150,12 +149,12 @@
                       <div class="d-flex align-items-center">
                         <div class="btn-quantity light quantity-sm me-3">
                           <input type="text" [value]="item.quantity" name="demo_vertical2" readonly>
-                          <span class="quantity-text">x{{ item.quantity }}</span>
+                          <span class="quantity-text">{{ item.quantity }}</span>
                         </div>
-                        <h6 class="dz-price mb-0">${{ item.price * item.quantity }}</h6>
+                        <h6 class="dz-price mb-0">$USD {{ item.price * item.quantity }}</h6>
                       </div>
                     </div>
-                    <a class="dz-close" (click)="removeFromCart(item.productId)">
+                    <a class="dz-close" (click)="global.removeFromCart(item.productId)">
                       <i class="ti-close"></i>
                     </a>
                   </div>
@@ -183,7 +182,7 @@
                       </div>
                     </div>
                   </div>
-                  <a (click)="global.setRoute('checkout')" class="btn btn-outline-secondary btn-block m-b20">Checkout</a>
+                  <a (click)="global.setRoute('checkout')" class="btn btn-outline-secondary btn-block m-b20">Procesar compra</a>
                   <a (click)="global.setRoute('car')" class="btn btn-secondary btn-block">Ver Carrito</a>
                 </div>
               </div>
