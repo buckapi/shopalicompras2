@@ -110,3 +110,20 @@
       display: flex;
     }
   }
+
+  .btn-quantity {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .btn-quantity .btn-sm {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .btn-quantity .form-control {
+    width: 50px;
+    text-align: center;
+    padding: 0.15rem;
+  }

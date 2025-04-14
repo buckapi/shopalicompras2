@@ -4,6 +4,8 @@ import { GlobalService } from '../../../services/global.service';
 import { AuthPocketbaseService } from '../../../services/auth-pocketbase.service';
 import { RealtimeProductosService } from '../../../services/realtime-productos.service';
 import Swal from 'sweetalert2';
+import { AddtocartbuttonComponent } from '../addtocartbutton/addtocartbutton.component';
+import { FormsModule } from '@angular/forms';
 interface CartItem {
   productId: string;
   name: string;
@@ -15,7 +17,7 @@ interface CartItem {
 @Component({
   selector: 'app-head',
   standalone: true,
-  imports: [CommonModule, ],
+  imports: [CommonModule, FormsModule, ],
   templateUrl: './head.component.html',
   styleUrl: './head.component.css'
 })
@@ -51,10 +53,13 @@ ngOnInit(): void {
     }
   });
 }
+// Modificar loadCart para incluir todos los contadores
 loadCart() {
   this.carItems = this.global.getCartItems();
   this.carTotalPrice = this.global.getTotalPrice();
   this.carItemsCount = this.global.getTotalItems();
+  this.itemsCount = this.global.getUniqueItemsCount();
+  this.unitsCount = this.global.getTotalUnitsCount();
 }
 
 removeFromCart(productId: string) {
@@ -119,7 +124,6 @@ onDocumentClick(event: MouseEvent) {
   }
 }
 // Controlar visibilidad del buscador
-// Controlar visibilidad del buscador
 toggleSearch() {
   const searchOffcanvas = document.getElementById('offcanvasTop');
   if (searchOffcanvas) {
@@ -137,4 +141,24 @@ toggleCart() {
   }
 } 
 
+
+// Modificar resetCart para reiniciar todos los contadores
+resetCart() {
+  this.carItems = [];
+  this.carTotalPrice = 0;
+  this.carItemsCount = 0;
+  this.itemsCount = 0;
+  this.unitsCount = 0;
+}
+increaseQuantity(item: CartItem) {
+  this.global.updateQuantity(item.productId, item.quantity + 1);
+  this.loadCart(); // Actualiza la vista
+}
+
+decreaseQuantity(item: CartItem) {
+  if (item.quantity > 1) {
+    this.global.updateQuantity(item.productId, item.quantity - 1);
+    this.loadCart(); // Actualiza la vista
+  }
+}
 }

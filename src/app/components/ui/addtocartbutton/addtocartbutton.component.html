@@ -2,26 +2,24 @@
     <div class="product-num">
         <div class="btn-quantity  d-xl-block">
             <label class="form-label">Cantidad</label>
-            <div class="quantity-controls">
-                <button class="btn btn-outline-secondary quantity-btn" 
+            <div class="btn-quantity light quantity-sm me-3">
+                <button class="btn btn-sm btn-outline-secondary" 
                         (click)="decrement()"
                         [disabled]="quantity <= 1">
-                    -
+                  -
                 </button>
-                
                 <input type="number" 
                        class="form-control quantity-input" 
                        [(ngModel)]="quantity" 
                        min="1" 
                        [max]="maxQuantity"
                        (change)="validateQuantity()">
-                
-                <button class="btn btn-outline-secondary quantity-btn" 
+                <button class="btn btn-sm btn-outline-secondary" 
                         (click)="increment()"
                         [disabled]="quantity >= maxQuantity">
-                    +
+                  +
                 </button>
-            </div>
+              </div>
         </div>
         
         <button class="btn btn-secondary text-uppercase add-to-cart-btn" 

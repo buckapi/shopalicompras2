@@ -18,73 +18,89 @@
     <!-- inner page banner End-->
     <div class="content-inner-1">
         <div class="container">
-            <div class="row shop-checkout">
+            <form [formGroup]="checkoutForm" (ngSubmit)="sendToWhatsApp()" class="row shop-checkout">
                 <div class="col-xl-8">
                     <h4 class="title m-b15">Información de contácto</h4>
                       
-                   <!-- Reemplaza solo las partes relevantes del formulario -->
-                    <form [formGroup]="checkoutForm" class="row" id="checkoutForm">
+                    <div class="row">
                         <div class="col-md-6">
-                        <div class="form-group m-b25">
-                            <label class="label-title">Nombre y apellido</label>
-                            <input formControlName="name" required class="form-control">
-                        </div>
+                            <div class="form-group m-b25">
+                                <label class="label-title">Nombre y apellido *</label>
+                                <input formControlName="name" required class="form-control">
+                                <div *ngIf="checkoutForm.get('name')?.invalid && checkoutForm.get('name')?.touched" class="text-danger">
+                                    Por favor ingrese su nombre
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                        <div class="form-group m-b25">
-                            <label class="label-title">Teléfono</label>
-                            <input formControlName="phone" required class="form-control">
-                        </div>
-                        </div>
-                        <div class="col-md-12">
-                        <div class="form-group m-b25">
-                            <label class="label-title">Correo Electrónico *</label>
-                            <input formControlName="email" required class="form-control">
-                        </div>
+                            <div class="form-group m-b25">
+                                <label class="label-title">Teléfono *</label>
+                                <input formControlName="phone" required class="form-control">
+                                <div *ngIf="checkoutForm.get('phone')?.invalid && checkoutForm.get('phone')?.touched" class="text-danger">
+                                    Por favor ingrese su teléfono
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12">
-                        <div class="m-b25">
-                            <label class="label-title">Estado *</label>
-                            <select formControlName="estado" class="default-select form-select w-100">
-                            <option value="" disabled selected>Seleccione un estado</option>
-                            <option *ngFor="let estado of estados" [value]="estado.nombre">
-                                {{estado.nombre}}
-                            </option>
-                            </select>
-                        </div>
+                            <div class="form-group m-b25">
+                                <label class="label-title">Correo Electrónico *</label>
+                                <input formControlName="email" required class="form-control">
+                                <div *ngIf="checkoutForm.get('email')?.invalid && checkoutForm.get('email')?.touched" class="text-danger">
+                                    Por favor ingrese un email válido
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12">
-                        <div class="m-b25">
-                            <label class="label-title">Ciudad *</label>
-                            <select formControlName="ciudad" class="default-select form-select w-100" 
-                                    [disabled]="!checkoutForm.get('estado')?.value || ciudades.length === 0">
-                            <option value="" disabled selected>Seleccione una ciudad</option>
-                            <option *ngFor="let ciudad of ciudades" [value]="ciudad">
-                                {{ciudad}}
-                            </option>
-                            </select>
-                        </div>
+                            <div class="m-b25">
+                                <label class="label-title">Estado *</label>
+                                <select formControlName="estado" class="default-select form-select w-100">
+                                    <option value="" disabled selected>Seleccione un estado</option>
+                                    <option *ngFor="let estado of estados" [value]="estado.nombre">
+                                        {{estado.nombre}}
+                                    </option>
+                                </select>
+                                <div *ngIf="checkoutForm.get('estado')?.invalid && checkoutForm.get('estado')?.touched" class="text-danger">
+                                    Por favor seleccione un estado
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12">
-                        <div class="form-group m-b25">
-                            <label class="label-title">Dirección *</label>
-                            <input formControlName="address" required class="form-control m-b15" placeholder="Calle y nombre de la calle">
-                            <input formControlName="apartment" class="form-control" placeholder="Apartamento, suite, unidad, etc. (opcional)">
+                            <div class="m-b25">
+                                <label class="label-title">Ciudad *</label>
+                                <select formControlName="ciudad" class="default-select form-select w-100" 
+                                        [disabled]="!checkoutForm.get('estado')?.value || ciudades.length === 0">
+                                    <option value="" disabled selected>Seleccione una ciudad</option>
+                                    <option *ngFor="let ciudad of ciudades" [value]="ciudad">
+                                        {{ciudad}}
+                                    </option>
+                                </select>
+                                <div *ngIf="checkoutForm.get('ciudad')?.invalid && checkoutForm.get('ciudad')?.touched" class="text-danger">
+                                    Por favor seleccione una ciudad
+                                </div>
+                            </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group m-b25">
+                                <label class="label-title">Dirección *</label>
+                                <input formControlName="address" required class="form-control m-b15" placeholder="Calle y nombre de la calle">
+                                <div *ngIf="checkoutForm.get('address')?.invalid && checkoutForm.get('address')?.touched" class="text-danger">
+                                    Por favor ingrese su dirección
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12 m-b25">
-                        <div class="form-group">
-                            <label class="label-title">Notas del pedido (opcional)</label>
-                            <textarea formControlName="comment" placeholder="Notas sobre su pedido, por ejemplo, notas para la entrega." 
-                                    class="form-control" cols="90" rows="5"></textarea>
+                            <div class="form-group">
+                                <label class="label-title">Notas del pedido (opcional)</label>
+                                <textarea formControlName="comment" placeholder="Notas sobre su pedido, por ejemplo, notas para la entrega." 
+                                        class="form-control" cols="90" rows="5"></textarea>
+                            </div>
                         </div>
-                        </div>
-                        <div class="col-md-12">
-                        <button type="button" class="btn btn-primary" (click)="sendToWhatsApp()">Enviar a WhatsApp</button>
-                        </div>
-                    </form>
+                        
+
+                    </div>
                 </div>
-                <div class="col-xl-4 side-bar">
+                
+                <div class="col-xl-4 side-bar" *ngIf="global.getCartItems().length > 0">
                     <h4 class="title m-b15">Su pedido</h4>
                     <div class="order-detail sticky-top">
                         <div class="cart-item style-1" *ngFor="let item of global.getCartItems()">
@@ -94,7 +110,7 @@
                             <div class="dz-content">
                                 <h6 class="title mb-0">{{ item.name }}</h6>
                                 <div class="d-flex align-items-center">
-                                    <div class="btn-quantity  quantity-sm me-3">
+                                    <div class="btn-quantity quantity-sm me-3">
                                         <h6 class="dz-price mb-0">{{ item.quantity }}</h6>
                                     </div>
                                    
@@ -109,36 +125,44 @@
                                     <td>Subtotal</td>
                                     <td class="price">$USD {{ carTotalPrice }}</td>
                                 </tr>
-                                <tr class="title">
-                                    <td><h6 class="title font- weight-500">Domicilio</h6></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="shipping">
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                          <input class="form-check-input radio" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                          <label class="form-check-label" for="flexRadioDefault1">
-                                            Envio a Mérida
-                                          </label>
-                                        </div>
-                                        <div class="custom-control custom-checkbox">
-                                          <input class="form-check-input radio" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                          <label class="form-check-label" for="flexRadioDefault2">
-                                            Envio a el resto del pais
-                                          </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                              
                             </tbody>
                         </table>
-                        
+                        <div class="col-md-12">
+                            <h4 class="title m-b15">Método de envío</h4>
+                            <div class="form-group m-b25">
+                                <table>
+                                    <tr class="shipping">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" formControlName="shippingMethod" 
+                                                       id="envioMerida" value="envio_merida" required>
+                                                <label class="form-check-label" for="envioMerida">
+                                                    Envio a Mérida
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" formControlName="shippingMethod" 
+                                                       id="envioNacional" value="envio_nacional" required>
+                                                <label class="form-check-label" for="envioNacional">
+                                                    Envio a el resto del pais
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div *ngIf="checkoutForm.get('shippingMethod')?.invalid && checkoutForm.get('shippingMethod')?.touched" class="text-danger">
+                                    Por favor seleccione un método de envío
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="title m-t20 m-b15">Método de pago</h4>
                         <div class="accordion dz-accordion accordion-sm" id="accordionFaq1">
                             <div class="accordion-item">
                                 <div class="accordion-header" id="heading1">
-                                    <div class="accordion-button collapsed custom-control custom-checkbox border-0" data-bs-toggle="collapse" data-bs-target="#collapse1" role="navigation"  aria-expanded="true" aria-controls="collapse1">
-                                        <input class="form-check-input radio" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
-                                        <label class="form-check-label" for="flexRadioDefault3">
+                                    <div class="accordion-button collapsed custom-control custom-checkbox border-0" data-bs-toggle="collapse" data-bs-target="#collapse1" role="navigation" aria-expanded="true" aria-controls="collapse1">
+                                        <input class="form-check-input radio" type="radio" formControlName="paymentMethod" 
+                                               id="transferencia" value="transferencia" required>
+                                        <label class="form-check-label" for="transferencia">
                                             Transferencia Bancaria
                                         </label>
                                     </div>
@@ -152,8 +176,9 @@
                             <div class="accordion-item">
                                 <div class="accordion-header" id="heading2">
                                     <div class="accordion-button collapsed custom-control custom-checkbox border-0" data-bs-toggle="collapse" data-bs-target="#collapse2" role="navigation" aria-expanded="true" aria-controls="collapse2">
-                                        <input class="form-check-input radio" type="radio" name="flexRadioDefault" id="flexRadioDefault5">
-                                        <label class="form-check-label" for="flexRadioDefault5">
+                                        <input class="form-check-input radio" type="radio" formControlName="paymentMethod" 
+                                               id="contraentrega" value="contraentrega" required>
+                                        <label class="form-check-label" for="contraentrega">
                                             Pago contraentrega
                                         </label>
                                     </div>
@@ -167,11 +192,12 @@
                             <div class="accordion-item">
                                 <div class="accordion-header" id="heading3">
                                     <div class="accordion-button collapsed custom-control custom-checkbox border-0" data-bs-toggle="collapse" data-bs-target="#collapse3" role="navigation" aria-expanded="true" aria-controls="collapse3">
-                                        <input class="form-check-input radio" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
-                                        <label class="form-check-label" for="flexRadioDefault4">
+                                        <input class="form-check-input radio" type="radio" formControlName="paymentMethod" 
+                                               id="digital" value="digital" required>
+                                        <label class="form-check-label" for="digital">
                                             Paypal /Binance /Zinly
                                         </label>
-                                        </div>
+                                    </div>
                                 </div>
                                 <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#accordionFaq1">
                                     <div class="accordion-body">
@@ -180,18 +206,29 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text"> Su pedido se procesará de forma segura. Su inforamación personal se usara para procesar su pedido, apoyar su experiencia a lo largo de este sitio web y para otros fines descritos en nuestra <a href="javascript:void(0);">política de privacidad</a>.</p>
+                        <div *ngIf="checkoutForm.get('paymentMethod')?.invalid && checkoutForm.get('paymentMethod')?.touched" class="text-danger m-t10">
+                            Por favor seleccione un método de pago
+                        </div>
+                        
+                        <p class="text m-t20">Su pedido se procesará de forma segura. Su información personal se usara para procesar su pedido, apoyar su experiencia a lo largo de este sitio web y para otros fines descritos en nuestra <a href="javascript:void(0);">política de privacidad</a>.</p>
+                        
                         <div class="form-group">
                             <div class="custom-control custom-checkbox d-flex m-b15">
-                                <input type="checkbox" class="form-check-input" id="basic_checkbox_3">
-                                <label class="form-check-label" for="basic_checkbox_3">Acepto los terminos y condiciones de la web y la politica de privacidad</label>
+                                <input type="checkbox" class="form-check-input" id="acceptTerms" 
+                                       formControlName="acceptTerms" required>
+                                <label class="form-check-label" for="acceptTerms">
+                                    Acepto los terminos y condiciones de la web y la politica de privacidad
+                                </label>
+                            </div>
+                            <div *ngIf="checkoutForm.get('acceptTerms')?.invalid && checkoutForm.get('acceptTerms')?.touched" class="text-danger">
+                                Debe aceptar los términos y condiciones
                             </div>
                         </div>
-                        <a class="btn btn-secondary w-100">Hacer pedido</a>
+                        
+                        <button type="submit" class="btn btn-secondary w-100">Hacer pedido</button>
                     </div>
-                    
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

@@ -190,22 +190,28 @@ clearCart() {
   this.updateCartCount();
 }
 
-getTotalItems(): number {
-  return this.cartItems.length; // Esto devuelve el número de productos diferentes
-}
-// Método para obtener el total de productos diferentes
-getUniqueItemsCount(): number {
-  return this.cartItems.length;
-}
-
-// Método para obtener el total de unidades (suma de quantities)
-getTotalUnitsCount(): number {
-  return this.cartItems.reduce((total, item) => total + item.quantity, 0);
-}
-
 // Método para obtener el precio total
 getTotalPrice(): number {
   return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 }
+// En global.service.ts
+getTotalItems(): number {
+  return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+}
 
+getUniqueItemsCount(): number {
+  return this.cartItems.length;
+}
+
+getTotalUnitsCount(): number {
+  return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+}
+updateQuantity(productId: string, newQuantity: number) {
+  const item = this.cartItems.find(i => i.productId === productId);
+  if (item) {
+    item.quantity = newQuantity;
+    this.saveCart(); // Guarda los cambios
+    this.cartUpdated$.next(this.cartItems); // Notifica a los suscriptores
+  }
+}
 }

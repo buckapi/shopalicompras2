@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { GlobalService } from '../../../services/global.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-addtocartbutton',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,  ],
   templateUrl: './addtocartbutton.component.html',
   styleUrls: ['./addtocartbutton.component.css']
 })
@@ -16,11 +16,19 @@ export class  AddtocartbuttonComponent {
   @Input() maxQuantity: number = 99; // Nueva propiedad de entrada
   @Input() quantity: number = 1;
   @Output() quantityChange = new EventEmitter<number>();
-
+  @Input() resetTrigger: boolean = false;
+  public lastProductId: string | null = null;
   constructor(
     public global: GlobalService,
-    private snackBar: MatSnackBar
+    public snackBar: MatSnackBar
   ) {}
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['resetTrigger'] || 
+        (changes['product'] && this.product?.id !== this.lastProductId)) {
+      this.resetQuantity();
+      this.lastProductId = this.product?.id;
+    }
+  }
 
   // Validación cuando cambia el valor manualmente
   validateQuantity(): void {
@@ -50,27 +58,15 @@ export class  AddtocartbuttonComponent {
     }
   }
 
-/* addToCart() {
-  if (!this.product) {
-    console.error('No hay producto definido');
-    return;
+  addToCart() {
+    if (!this.product) return;
+    
+    this.global.addToCart(this.product, this.quantity);
+    this.showSuccessNotification();
+    this.resetQuantity();
+    
   }
-
-  console.log('Agregando producto:', this.product.id); // Debug
-  
-  this.global.addToCart({
-    productId: this.product.id,
-    name: this.product.name,
-    price: this.product.price,
-    quantity: this.quantity,
-    image: this.product.files?.[0] || ''
-  });
-
-  this.showSuccessNotification();
-  this.resetQuantity();
-} */
-// En addtocartbutton.component.ts
-addToCart() {
+/* addToCart() {
   if (!this.product) {
     console.error('No hay producto definido');
     return;
@@ -83,7 +79,7 @@ addToCart() {
 
   this.showSuccessNotification();
   this.resetQuantity();
-}
+} */
 private showSuccessNotification() {
   this.snackBar.open('Producto agregado al carrito', 'Cerrar', {
     duration: 2000,
