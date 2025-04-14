@@ -58,6 +58,7 @@ export class GlobalService {
     material: '',
 
   }
+  routeChanged = new BehaviorSubject<string>('');
   productToEdit$ = new BehaviorSubject<any>(null);
   constructor(
     public snackBar: MatSnackBar
@@ -69,6 +70,7 @@ export class GlobalService {
   private apiUrl = 'https://db.buckapi.lat:8050';
   setRoute(route: string) {
     this.activeRoute = route;
+    this.routeChanged.next(route);
   }
   setProduct(route: string,product  : Producto) {
     this.activeRoute = route;

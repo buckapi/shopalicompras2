@@ -1,6 +1,6 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router'; 
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { HomeComponent } from './components/home/home.component';
 import { CarComponent } from './components/car/car.component';
 import { ShopComponent } from './components/shop/shop.component';
@@ -21,6 +21,8 @@ import Swal from 'sweetalert2';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddtocartbuttonComponent } from './components/ui/addtocartbutton/addtocartbutton.component';
+import { filter } from 'rxjs/operators';
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
@@ -53,6 +55,7 @@ export class AppComponent {
     private scriptLoader: ScriptLoaderService,
     public productService: ProductsService,
     public scriptStore: ScriptStoreService,
+    private viewportScroller: ViewportScroller,
     @Inject(PLATFORM_ID) private platformId: Object
   )
     {}
@@ -90,8 +93,13 @@ export class AppComponent {
             console.error('Error al cargar los scripts', error);
           });
       }
+      this.global.routeChanged.subscribe(() => {
+        setTimeout(() => {
+          this.viewportScroller.scrollToPosition([0, 0]);
+        }, 100); // Pequeño delay para asegurar que la vista se ha renderizado
+      });
     }
-    
+   
     ngAfterViewInit(): void {
       if (isPlatformBrowser(this.platformId)) {
           // Inicializa Swiper aquí
