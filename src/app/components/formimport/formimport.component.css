@@ -1,0 +1,10 @@
+.form-check-input {
+    opacity: 1 !important;
+    position: relative !important;
+    margin-right: 10px !important;
+    z-index: 1 !important;
+  }
+  
+  .form-check {
+    margin-bottom: 10px;
+  }

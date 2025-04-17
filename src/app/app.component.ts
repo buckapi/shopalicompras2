@@ -26,6 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as bootstrap from 'bootstrap';
 import * as $ from 'jquery';
+import { FormimportComponent } from './components/formimport/formimport.component';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
@@ -43,7 +44,8 @@ import * as $ from 'jquery';
     ProductDetailsComponent,
     ReactiveFormsModule,
     FormsModule,
-    AddtocartbuttonComponent
+    AddtocartbuttonComponent,
+    FormimportComponent
 
   ],
   templateUrl: './app.component.html',

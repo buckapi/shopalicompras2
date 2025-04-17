@@ -1,0 +1,153 @@
+<div class="page-content bg-light">
+    <!--Banner Start-->
+    <div class="dz-bnr-inr bg-secondary overlay-black-light" style="background-image:url(images/background/bg1.jpg);">
+        <div class="container">
+            <div class="dz-bnr-inr-entry">
+                <h1>Alicompras</h1>
+                <nav aria-label="breadcrumb" class="breadcrumb-row">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a> Inicio</a></li>
+                        <li class="breadcrumb-item">Solicitud de importación</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>	
+    </div>
+    <!--Banner End-->
+
+    <!-- inner page banner End-->
+    <div class="content-inner-1">
+        <div class="container">
+            <form [formGroup]="formimport" (ngSubmit)="onSubmit()">
+                <div class="col-xl-12 col-md-12 col-12">
+                    <h4 class="title m-b15" style="text-align: center;">Solicitud de importación</h4>
+                      <p style="text-align: center;">¡Por favor coloca la mayor cantidad de detalles sobre el producto que deseas importar!</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group m-b25">
+                                <label class="label-title">Nombre y apellido *</label>
+                                <input formControlName="name" required class="form-control">
+                                <div *ngIf="formimport.get('name')?.invalid && formimport.get('name')?.touched" class="text-danger">
+                                    Por favor ingrese su nombre
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-b25">
+                                <label class="label-title">Teléfono *</label>
+                                <input formControlName="phone" required class="form-control">
+                                <div *ngIf="formimport.get('phone')?.invalid && formimport.get('phone')?.touched" class="text-danger">
+                                    Por favor ingrese su teléfono
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group m-b25">
+                                <label class="label-title">Correo Electrónico *</label>
+                                <input formControlName="email" required class="form-control">
+                                <div *ngIf="formimport.get('email')?.invalid && formimport.get('email')?.touched" class="text-danger">
+                                    Por favor ingrese un email válido
+                                </div>
+                            </div>
+                        </div>
+                        <!-- formimport.component.html -->
+                        <div class="col-md-12 radio-group">
+                            <label class="label-title">¿Qué prefieres?</label>
+                            
+                            <div class="form-check">
+                              <input type="radio" formControlName="contactPreference" value="llamadas" 
+                                     class="form-check-input" id="llamadas">
+                              <label class="form-check-label" for="llamadas">Llamadas</label>
+                            </div>
+                            
+                            <div class="form-check">
+                              <input type="radio" formControlName="contactPreference" value="whatsapp" 
+                                     class="form-check-input" id="whatsapp">
+                              <label class="form-check-label" for="whatsapp">Mensajes de voz o texto por whatsapp</label>
+                            </div>
+                            
+                            <div class="form-check">
+                              <input type="radio" formControlName="contactPreference" value="any" 
+                                     class="form-check-input" id="any">
+                              <label class="form-check-label" for="any">Cualquiera de las Anteriores</label>
+                            </div>
+                            
+                            <div *ngIf="formimport.get('contactPreference')?.invalid && formimport.get('contactPreference')?.touched" 
+                                 class="text-danger">
+                              Por favor ingrese su preferencia
+                            </div>
+                        </div>
+                          <div class="col-md-12">
+                            <div class="m-b25">
+                                <label class="label-title">Dirección o Ciudad de donde realiza la solicitud *</label>
+                                <input formControlName="address" required class="form-control">
+                                <div *ngIf="formimport.get('address')?.invalid && formimport.get('address')?.touched" class="text-danger">
+                                    Por favor ingrese su dirección
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="m-b25">
+                                <label class="label-title">Cuéntanos un poco más sobre el productos que quieres importar.
+                                </label>
+                                <p>Agrega la mayor cantidad de detalles, ejemplo: a que rubro pertenece, características, etc.</p>
+                                <input formControlName="product_description" required class="form-control">
+                                <div *ngIf="formimport.get('product_description')?.invalid && formimport.get('product_description')?.touched" class="text-danger">
+                                    Por favor ingrese una descripción del producto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="m-b25">
+                                <label class="label-title">¿Qué cantidad en dinero quieres invertir? </label>
+                                <p>Saber esto nos ayudara a mejorar los precios con los proveedores (mientras mayor cantidad Inviertan, mejoran los precios)</p>
+                                <input formControlName="investment" required class="form-control">
+                                <div *ngIf="formimport.get('investment')?.invalid && formimport.get('investment')?.touched" class="text-danger">
+                                    Por favor ingrese la cantidad de dinero que quieres invertir
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" >
+                            <label class="label-title">¿Qué marcas conoces de este producto aquí en Venezuela?</label>
+                            <input formControlName="brands" required class="form-control">
+                            <div *ngIf="formimport.get('brands')?.invalid && formimport.get('brands')?.touched" class="text-danger">
+                                Por favor ingrese las marcas del producto
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="label-title">¿Qué precio tiene el producto aquí en Venezuela? </label>
+                              <p>Esta pregunta ayudara a determinar si el proveedor que contactemos nos esta dando buen precio.</p>
+                            <input formControlName="price" required class="form-control">
+                            <div *ngIf="formimport.get('price')?.invalid && formimport.get('price')?.touched" class="text-danger">
+                                Por favor ingrese el precio del producto
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="label-title">¿Qué prefieres?</label>
+                            <div class="form-check">
+                                <input type="radio" formControlName="shippingMethod" value="aereo" class="form-check-input" id="aereo">
+                                <label class="form-check-label" for="aereo">Envió Aéreo de 25 a 30 días en llegar la mercancía (recomendado para mercancía liviana)</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" formControlName="shippingMethod" value="maritimo" class="form-check-input" id="maritimo">
+                                <label class="form-check-label" for="maritimo">Envió Marítimo de 60 a 85 días en llegar la mercancía (recomendado para mercancía pesada o de mayor volumen)</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" formControlName="shippingMethod" value="ambos" class="form-check-input" id="ambos">
+                                <label class="form-check-label" for="ambos">Quiero las dos cotizaciones</label>
+                            </div>
+                            <div *ngIf="formimport.get('shippingMethod')?.invalid && formimport.get('shippingMethod')?.touched" class="text-danger">
+                                Por favor ingrese su preferencia
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="m-b25">
+                                <button type="submit" class="btn btn-md btn-primary">Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
