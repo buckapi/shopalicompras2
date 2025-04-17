@@ -377,7 +377,7 @@
                             </thead>
                             <tbody *ngFor="let producto of global.getProductos()">
                               <tr>
-                                <td><a (click)="global.previaProducto = producto" class="fw-medium" style="cursor: pointer;">{{producto.name}}</a></td>
+                                <td><a (click)="global.previaProducto = producto" class="fw-medium" style="cursor: pointer;" (click)="global.setRoute('product-details')">{{producto.name}}</a></td>
                                 <td>{{producto.price}}</td>
                                 <td>{{producto.quantity}}</td>
                                 <td>
@@ -389,7 +389,7 @@
                         </div>
                         
                         <!-- Pagination-->
-                        <div class="d-flex justify-content-center">
+                        <!-- <div class="d-flex justify-content-center">
                           <nav aria-label="Table Pagination">
                             <ul class="pagination style-1">
                               <li class="page-item"><a class="page-link" href="javascript:void(0);">Prew</a></li>
@@ -399,7 +399,7 @@
                               <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
                             </ul>
                           </nav>
-                        </div>
+                        </div> -->
                                   </div>
                     </div>
                 </section>
