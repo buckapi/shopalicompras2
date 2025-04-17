@@ -25,6 +25,7 @@ import { filter } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as bootstrap from 'bootstrap';
+import * as $ from 'jquery';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
@@ -137,7 +138,7 @@ export class AppComponent {
       });
     }
    
-    closeModal() {
+    /* closeModal() {
       // Cerrar modal y eliminar backdrop
       const modal = document.getElementById('exampleModal');
       if (modal) {
@@ -160,6 +161,67 @@ export class AppComponent {
       
       // Cerrar cualquier diálogo abierto
       this.dialog.closeAll();
+    } */
+/*     closeModal() {
+      // Cerrar modal y eliminar backdrop
+      const modal = document.getElementById('exampleModal');
+      if (modal) {
+        const bsModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
+        bsModal.hide();
+        
+        // Eliminar manualmente el backdrop si existe
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+        
+        // Restaurar el scroll del body
+        document.body.style.overflow = 'auto';
+        document.body.style.paddingRight = '0';
+      }
+      
+      // Resetear cantidad
+      this.quantity = 1;
+      
+      // Cerrar cualquier diálogo abierto
+      this.dialog.closeAll();
+    } */
+  
+      closeModal() {
+        const modal = document.getElementById('exampleModal');
+        if (modal) {
+          // Método nativo para cerrar el modal
+          const modalInstance = bootstrap.Modal.getInstance(modal);
+          if (modalInstance) {
+            modalInstance.hide();
+          }
+      
+          // Eliminar backdrop manualmente
+          const backdrops = document.querySelectorAll('.modal-backdrop');
+          backdrops.forEach(backdrop => backdrop.remove());
+      
+          // Restaurar estilos del body
+          document.body.classList.remove('modal-open');
+          document.body.style.overflow = 'auto';
+          document.body.style.paddingRight = '0';
+        }
+      
+        this.quantity = 1;
+        this.dialog.closeAll();
+      
+      }
+      goToProductDetails() {
+        this.closeModal();
+        this.global.setRoute('product-details');
+        // Scroll al inicio de la página
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 100);
+      }
+      
+      reloadPage() {
+        this.closeModal();
+        this.global.setRoute('shop');
+      }
     }
-
-  }

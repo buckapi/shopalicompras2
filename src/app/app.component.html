@@ -36,10 +36,10 @@
                   <div class="swiper-wrapper" id="lightgallery">
                     <div class="swiper-slide" *ngFor="let file of global.previaProducto.files">
                       <div class="dz-media DZoomImage">
-                        <a class="mfp-link lg-item" href="{{file}}">
+                        <a class="mfp-link lg-item" href="{{file}}" style="max-height: 500px; width: auto; object-fit: contain; margin: 0 auto;">
                           <i class="feather icon-maximize dz-maximize top-right"></i>
                         </a>
-                        <img src="{{file}}" alt="image">
+                        <img src="{{file}}" alt="image" class="product-gallery-img" style="max-height: 500px; width: auto; object-fit: contain; margin: 0 auto;">
                       </div>
                     </div>
                   </div>
@@ -77,49 +77,18 @@
                 </div>
                 <!-- En tu modal (solo la parte relevante) -->
                 <app-addtocartbutton 
-                  [product]="global.previaProducto"
-                  [(quantity)]="quantity"
-                  (quantityChange)="quantity = $event"
-                  (addedToCart)="closeModal()">
+                [product]="global.previaProducto"
+                [(quantity)]="quantity"
+                (quantityChange)="quantity = $event"
+                (addedToCart)="reloadPage()">
                 </app-addtocartbutton>
                 <div class="cart-btn">
-                  <a (click)="$event.stopPropagation(); global.setRoute('product-details'); closeModal()" class="btn btn-md btn-outline-secondary btn-icon">
+                  <a (click)="goToProductDetails()" class="btn btn-md btn-outline-secondary btn-icon">
                     Ver mas detalles
                   </a>
                 </div>
                 <div class="dz-info mb-0">
-                  <!-- <ul>
-                    <li><strong>Codigo:</strong></li>
-                    <li>PRT584E63A</li>
-                  </ul>
-                  <ul>
-                    <li><strong>Categoria:</strong></li>
-                    <li><a href="shop-standard.html">Dresses,</a></li>												
-                    <li><a href="shop-standard.html">Jeans,</a></li>												
-                    <li><a href="shop-standard.html">Swimwear,</a></li>												
-                    <li><a href="shop-standard.html">Summer,</a></li>												
-                    <li><a href="shop-standard.html">Clothing</a></li>												
-                  </ul> -->
-                  
-                  <!-- <div class="dz-social-icon">
-                    <ul>
-                      <li><a target="_blank" class="text-dark" href="https://www.facebook.com/dexignzone">
-                        <i class="fab fa-facebook-f"></i>
-                      </a></li>
-                      <li><a target="_blank" class="text-dark" href="https://twitter.com/dexignzones">	
-                        <i class="fab fa-twitter"></i>
-                      </a></li>
-                      <li><a target="_blank" class="text-dark" href="https://www.youtube.com/@dexignzone1723">
-                        <i class="fa-brands fa-youtube"></i>
-                      </a></li>
-                      <li><a target="_blank" class="text-dark" href="https://www.linkedin.com/showcase/3686700/admin/">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                      </a></li>
-                      <li><a target="_blank" class="text-dark" href="https://www.instagram.com/dexignzone/">
-                        <i class="fab fa-instagram"></i>
-                      </a></li>
-                    </ul>
-                  </div> -->
+                 
                 </div>
               </div>
             </div>

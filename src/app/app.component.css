@@ -45,3 +45,46 @@
         justify-content: center;
     }
 }
+@media (max-width: 991px) {
+  .d-lg-none {
+    display: flex;
+  }
+}
+
+.btn-quantity {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-quantity .btn-sm {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-quantity .form-control {
+  width: 50px;
+  text-align: center;
+  padding: 0.15rem;
+}
+/* Para mejorar la visualización */
+.cart-widget {
+transition: all 0.3s ease;
+}
+
+.cart-widget:hover {
+background-color: #f8f9fa;
+}
+
+.dz-close {
+cursor: pointer;
+color: #dc3545;
+}
+
+.dz-close:hover {
+color: #b02a37;
+}
+
+.dz-price {
+min-width: 180px; /* Para alinear precios */
+}
