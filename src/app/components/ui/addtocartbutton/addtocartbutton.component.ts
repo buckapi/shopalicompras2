@@ -1,36 +1,38 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+// addtocartbutton.component.ts
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { GlobalService } from '../../../services/global.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-addtocartbutton',
   standalone: true,
-  imports: [CommonModule, FormsModule,  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './addtocartbutton.component.html',
   styleUrls: ['./addtocartbutton.component.css']
 })
-export class  AddtocartbuttonComponent {
+export class AddtocartbuttonComponent implements OnChanges {
   @Input() product: any;
-  @Input() maxQuantity: number = 99; // Nueva propiedad de entrada
+  @Input() maxQuantity: number = 99;
   @Input() quantity: number = 1;
   @Output() quantityChange = new EventEmitter<number>();
-  @Input() resetTrigger: boolean = false;
-  public lastProductId: string | null = null;
+  @Output() addedToCart = new EventEmitter<void>();
+
+  
   constructor(
     public global: GlobalService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
+
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['resetTrigger'] || 
-        (changes['product'] && this.product?.id !== this.lastProductId)) {
-      this.resetQuantity();
-      this.lastProductId = this.product?.id;
+    if (changes['product'] && changes['product'].currentValue !== changes['product'].previousValue) {
+      this.quantity = 1; // Reset quantity when product changes
+      this.quantityChange.emit(this.quantity);
     }
   }
 
-  // Validación cuando cambia el valor manualmente
   validateQuantity(): void {
     if (isNaN(this.quantity)) {
       this.quantity = 1;
@@ -63,30 +65,19 @@ export class  AddtocartbuttonComponent {
     
     this.global.addToCart(this.product, this.quantity);
     this.showSuccessNotification();
-    this.resetQuantity();
-    
-  }
-/* addToCart() {
-  if (!this.product) {
-    console.error('No hay producto definido');
-    return;
+    this.addedToCart.emit();
+    // Cerrar todos los dialogs abiertos
+    this.dialog.closeAll();
   }
 
-  console.log('Agregando producto:', this.product.id); // Debug
-  
-  // CORRECCIÓN: Pasar los parámetros correctamente al servicio
-  this.global.addToCart(this.product, this.quantity);
+  private showSuccessNotification() {
+    this.snackBar.open('Producto agregado al carrito', 'Cerrar', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar']
+    });
+  }
 
-  this.showSuccessNotification();
-  this.resetQuantity();
-} */
-private showSuccessNotification() {
-  this.snackBar.open('Producto agregado al carrito', 'Cerrar', {
-    duration: 2000,
-    verticalPosition: 'top',
-    panelClass: ['success-snackbar']
-  });
-}
   private showMaxQuantityAlert(): void {
     this.snackBar.open(
       `⚠️ No puedes agregar más de ${this.maxQuantity} unidades`, 
@@ -96,11 +87,5 @@ private showSuccessNotification() {
         panelClass: ['warning-snackbar']
       }
     );
-  }
-
-  private resetQuantity(): void {
-    this.quantity = 1;
-    this.quantityChange.emit(this.quantity);
-    // No necesitas el setTimeout si usas ChangeDetectionStrategy.OnPush
   }
 }

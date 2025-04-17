@@ -78,14 +78,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="slick-slide">
-                  <div class="banner-media" data-name="CONTACTO">
-                    <div class="img-preview">
-                      <img src="images/banner/banner-media4.png" alt="banner-media">
-                    </div>
-                  </div>
-                </div>
-               
               </div>
             </div>
           </div>
@@ -118,23 +110,27 @@
                   <div class="swiper-slide" *ngFor="let categoria of (realtimecategorias.categorias$ | async)">
                     <div class="shop-box style-1 wow fadeInUp" data-wow-delay="0.2s">
                       <div class="dz-media">
-                         
-                        <img  src="{{categoria.files[0]}}" alt="image" *ngIf="categoria.files.length > 0" style="width: 50%;">
+                        <img src="{{categoria.files[0]}}" alt="image" *ngIf="categoria.files.length > 0" style="width: 50%;">
                       </div>
-                      <h6 class="product-name"><a (click)="global.setRoute('shop')">
-                        {{categoria.name}}
-                      </a></h6>
+                      <h6 class="product-name"><a (click)="global.setRoute('shop')">{{categoria.name}}</a></h6>
                     </div>
                   </div>
-                  
                 </div>
-              </div> 
+              </div>
+              <a class="icon-button" (click)="global.setRoute('shop')">
+                <div class="text-row word-rotate-box c-black border-secondary">
+                  <span class="word-rotate">Ir a la tienda </span>
+                  <svg class="badge__emoji" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 35 35" fill="none">
+                    <path d="M32.2645 16.9503H4.08145L10.7508 10.4669C11.2604 9.97176 10.5046 9.1837 9.98813 9.68289C9.98815 9.68286 2.35193 17.1063 2.35193 17.1063C2.12911 17.3092 2.14686 17.6755 2.35196 17.8903C2.35193 17.8903 9.98815 25.3169 9.98815 25.3169C10.5021 25.81 11.2622 25.0367 10.7508 24.5328C10.7508 24.5329 4.07897 18.0441 4.07897 18.0441H32.2645C32.9634 18.0375 32.9994 16.9636 32.2645 16.9503Z" fill="#000"></path>
+                  </svg>
+                </div>
+              </a>
             </div>
             <div class="col-lg-4 right-box">
               <div>
                 <h3 class="title wow fadeInUp" data-wow-delay="1.2s">Categorias</h3>
-                <p class="text wow fadeInUp" data-wow-delay="1.4s">Descubre los productos tendencia en Alicompras.</p>
-                <div class="pagination-align wow fadeInUp" data-wow-delay="1.6s" style="color:white;">
+                <p class="text wow fadeInUp" data-wow-delay="1.4s">Descubre las categorias de los productos que ofrecemos.</p>
+                <div class="pagination-align wow fadeInUp" data-wow-delay="1.6s">
                   <div class="shop-button-prev">
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
                       <path d="M32.2645 16.9503H4.08145L10.7508 10.4669C11.2604 9.97176 10.5046 9.1837 9.98813 9.68289C9.98815 9.68286 2.35193 17.1063 2.35193 17.1063C2.12911 17.3092 2.14686 17.6755 2.35196 17.8903C2.35193 17.8903 9.98815 25.3169 9.98815 25.3169C10.5021 25.81 11.2622 25.0367 10.7508 24.5328C10.7508 24.5329 4.07897 18.0441 4.07897 18.0441H32.2645C32.9634 18.0375 32.9994 16.9636 32.2645 16.9503Z" fill="white"/>
@@ -147,7 +143,14 @@
                   </div>
                 </div>
               </div>
-              
+              <a class="icon-button" (click)="global.setRoute('shop')">
+                <div class="text-row word-rotate-box c-black border-white">
+                  <span class="word-rotate">Explore Categorias</span>
+                  <svg class="badge__emoji" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 35 35" fill="none">
+                    <path d="M32.2645 16.9503H4.08145L10.7508 10.4669C11.2604 9.97176 10.5046 9.1837 9.98813 9.68289C9.98815 9.68286 2.35193 17.1063 2.35193 17.1063C2.12911 17.3092 2.14686 17.6755 2.35196 17.8903C2.35193 17.8903 9.98815 25.3169 9.98815 25.3169C10.5021 25.81 11.2622 25.0367 10.7508 24.5328C10.7508 24.5329 4.07897 18.0441 4.07897 18.0441H32.2645C32.9634 18.0375 32.9994 16.9636 32.2645 16.9503Z" fill="white"></path>
+                  </svg>
+                </div>
+              </a>
             </div>
           </div>
         </div>

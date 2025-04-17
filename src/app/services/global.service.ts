@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs'; // Add this line
+import { BehaviorSubject, distinctUntilChanged, Observable } from 'rxjs'; // Add this line
 import PocketBase from 'pocketbase';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HostListener } from '@angular/core';  
 interface CartItem {
   productId: string;
   name: string;
@@ -30,12 +31,14 @@ interface Producto {
   providedIn: 'root'
 })
 export class GlobalService {
+  @HostListener('window:storage', ['$event'])
   activeRoute = 'home';
   menuSelected = '';
   private cartItems: CartItem[] = [];
   private cartCount = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCount.asObservable();
-  cartUpdated$ = new BehaviorSubject<any>(null); // Para notificar cambios
+  /* cartUpdated$ = new BehaviorSubject<any>(null); */ // Para notificar cambios
+  cartUpdated$ = new BehaviorSubject<CartItem[]>(this.cartItems);
   previaProducto= { } as Producto;
   categorias: any[] = [];
   productos: any[] = [];
@@ -134,6 +137,11 @@ public loadCart() {
 }
 
 addToCart(product: any, quantity: number = 1) {
+  if (!product || !product.id) {
+    console.error('Producto inválido', product);
+    return;
+  }
+
   const existingItem = this.cartItems.find(i => i.productId === product.id);
   
   if (existingItem) {
@@ -148,10 +156,9 @@ addToCart(product: any, quantity: number = 1) {
     });
   }
   
-  this.saveCart();
-  this.cartUpdated$.next(this.cartItems ); // Notificar a los suscriptores
+  this.saveCart(); // <- Esto actualiza localStorage
+  this.cartUpdated$.next(this.cartItems);
 }
-
 public saveCart() {
   localStorage.setItem('cart', JSON.stringify(this.cartItems));
   this.updateCartCount();
@@ -162,7 +169,25 @@ public updateCartCount() {
   this.cartCount.next(count);
 }
 // Método para eliminar un producto del carrito
-// En global.service.ts
+getCartItems(): any[] {
+  // Sincroniza con localStorage primero
+  const savedCart = localStorage.getItem('cart');
+  if (savedCart) {
+    try {
+      this.cartItems = JSON.parse(savedCart);
+    } catch (e) {
+      console.error('Error parsing cart', e);
+      this.cartItems = [];
+    }
+  }
+  return [...this.cartItems];
+}
+
+getProductName(productId: string): string {
+  const item = this.cartItems.find(i => i.productId === productId);
+  return item ? item.name : 'Producto no encontrado';
+}
+
 removeFromCart(productId: string) {
   // Filtrar el array para eliminar el producto con el ID especificado
   this.cartItems = this.cartItems.filter(item => item.productId !== productId);
@@ -180,9 +205,7 @@ removeFromCart(productId: string) {
   });
 }
 
-getCartItems(): CartItem[] {
-  return [...this.cartItems];
-}
+
 
 clearCart() {
   this.cartItems = [];
@@ -194,24 +217,31 @@ clearCart() {
 getTotalPrice(): number {
   return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 }
-// En global.service.ts
-getTotalItems(): number {
-  return this.cartItems.reduce((total, item) => total + item.quantity, 0);
-}
 
 getUniqueItemsCount(): number {
   return this.cartItems.length;
+}
+getProudctName(productId: string): string {
+  return this.productos.find(p => p.id === productId)?.name || '';
 }
 
 getTotalUnitsCount(): number {
   return this.cartItems.reduce((total, item) => total + item.quantity, 0);
 }
-updateQuantity(productId: string, newQuantity: number) {
+updateQuantity(productId: string, newQuantity: number): void {
   const item = this.cartItems.find(i => i.productId === productId);
   if (item) {
     item.quantity = newQuantity;
-    this.saveCart(); // Guarda los cambios
-    this.cartUpdated$.next(this.cartItems); // Notifica a los suscriptores
+    this.saveCart();
+    this.cartUpdated$.next(this.cartItems);
   }
 }
+onStorageChange(event: StorageEvent) {
+  if (event.key === 'cart') {
+    this.loadCart();
+  }
+}
+cartUpdates$ = this.cartUpdated$.pipe(
+  distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
+);
 }

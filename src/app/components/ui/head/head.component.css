@@ -127,3 +127,24 @@
     text-align: center;
     padding: 0.15rem;
   }
+  /* Para mejorar la visualización */
+.cart-widget {
+  transition: all 0.3s ease;
+}
+
+.cart-widget:hover {
+  background-color: #f8f9fa;
+}
+
+.dz-close {
+  cursor: pointer;
+  color: #dc3545;
+}
+
+.dz-close:hover {
+  color: #b02a37;
+}
+
+.dz-price {
+  min-width: 180px; /* Para alinear precios */
+}

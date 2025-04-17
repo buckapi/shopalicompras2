@@ -22,7 +22,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddtocartbuttonComponent } from './components/ui/addtocartbutton/addtocartbutton.component';
 import { filter } from 'rxjs/operators';
-
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import * as bootstrap from 'bootstrap';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
@@ -52,10 +54,11 @@ export class AppComponent {
   quantity: number = 1; // Cantidad por defecto
   constructor (
     public global: GlobalService,
-    private scriptLoader: ScriptLoaderService,
+    public scriptLoader: ScriptLoaderService,
     public productService: ProductsService,
     public scriptStore: ScriptStoreService,
-    private viewportScroller: ViewportScroller,
+    public viewportScroller: ViewportScroller,
+    public dialog: MatDialog,
     @Inject(PLATFORM_ID) private platformId: Object
   )
     {}
@@ -69,7 +72,7 @@ export class AppComponent {
             'vendor/bootstrap/dist/js/bootstrap.bundle.min.js',
             'vendor/bootstrap-select/dist/js/bootstrap-select.min.js',
             'vendor/bootstrap-touchspin/bootstrap-touchspin.js',
-             /* 'vendor/swiper/swiper-bundle.min.js', */ 
+            'vendor/swiper/swiper-bundle.min.js', 
             'vendor/magnific-popup/magnific-popup.js',
             'vendor/imagesloaded/imagesloaded.js',
             'vendor/masonry/masonry-4.2.2.js',
@@ -81,7 +84,7 @@ export class AppComponent {
             'vendor/lightgallery/dist/lightgallery.min.js',
             'vendor/lightgallery/dist/plugins/thumbnail/lg-thumbnail.min.js',
             'vendor/lightgallery/dist/plugins/zoom/lg-zoom.min.js',
-            'js/dz.carousel.js',
+            'js/dz.carousel.js', 
             'js/dz.ajax.js',
             'js/custom.min.js',
             /* 'js/dashbord-account.js' */
@@ -118,24 +121,45 @@ export class AppComponent {
       return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(image);
     }
     addToCart() {
-      if (this.product) { // Verifica que el producto esté definido
-        // Agregar el producto al carrito
-        this.global.addToCart(this.product, this.quantity);
-    
-        // Reiniciar la cantidad
-        this.quantity = 1;
-    
-        // Mostrar un alert con SweetAlert2
-        Swal.fire({
-          icon: 'success',
-          title: 'Producto agregado al carrito',
-          text: `¡El producto ${this.product.name} ha sido agregado al carrito!`,
-          showConfirmButton: true,
-          timer: 2000 // Se cerrará automáticamente después de 2 segundos
-        });
-      } else {
-        console.error('El producto no está definido');
+      if (!this.product) return;
+      
+      this.global.addToCart(this.product, this.quantity);
+      this.showSuccessNotification();
+      
+      // Cerrar todos los dialogs abiertos
+      this.dialog.closeAll(); 
+    }
+    private showSuccessNotification() {
+      this.global.snackBar.open('Producto agregado al carrito', 'Cerrar', {
+        duration: 2000,
+        verticalPosition: 'top',
+        panelClass: ['success-snackbar']
+      });
+    }
+   
+    closeModal() {
+      // Cerrar modal y eliminar backdrop
+      const modal = document.getElementById('exampleModal');
+      if (modal) {
+        const bsModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
+        bsModal.hide();
+        
+        // Eliminar manualmente el backdrop si existe
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+        
+        // Habilitar el scroll del body
+        document.body.style.overflow = 'auto';
+        document.body.style.paddingRight = '0';
       }
-    } 
+      
+      // Resetear cantidad
+      this.quantity = 1;
+      
+      // Cerrar cualquier diálogo abierto
+      this.dialog.closeAll();
+    }
 
   }

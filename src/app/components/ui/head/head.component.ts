@@ -54,12 +54,16 @@ ngOnInit(): void {
   });
 }
 // Modificar loadCart para incluir todos los contadores
+// head.component.ts
 loadCart() {
   this.carItems = this.global.getCartItems();
   this.carTotalPrice = this.global.getTotalPrice();
-  this.carItemsCount = this.global.getTotalItems();
+  this.carItemsCount = this.global.getUniqueItemsCount();
   this.itemsCount = this.global.getUniqueItemsCount();
   this.unitsCount = this.global.getTotalUnitsCount();
+  
+  // Forzar actualización de la vista
+  this.carItems = [...this.carItems];
 }
 
 removeFromCart(productId: string) {
