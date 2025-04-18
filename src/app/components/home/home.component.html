@@ -241,9 +241,16 @@
             <div class="col-lg-6 col-md-12">
               <div class="site-filters clearfix style-1 align-items-center wow fadeInUp ms-lg-auto" data-wow-delay="0.4s" >
                       <ul class="filters" data-bs-toggle="buttons">                        
-                      <li  class="btn me-2" *ngFor="let categoria of (realtimecategorias.categorias$ | async)" >
+                      <!-- <li  class="btn me-2" *ngFor="let categoria of (realtimecategorias.categorias$ | async)" >
                           <input type="radio">
                           <a >{{categoria.name}}</a> 
+                      </li> -->
+                      <li class="btn me-2">
+                        <a (click)="selectedCategory.setValue('')" style="cursor: pointer;">Todas las categorías</a>
+                      </li>
+                      <li *ngFor="let categoria of (realtimecategorias.categorias$ | async)" 
+                      class="btn me-2">
+                      <a (click)="selectedCategory.setValue(categoria.id)" style="cursor: pointer;">{{categoria.name}}</a>
                       </li>
                   </ul>	
               </div>
@@ -251,7 +258,7 @@
           </div>
           <div class="clearfix">
             <ul id="masonry" class="row g-xl-4 g-3">
-              <li  *ngFor="let producto of (realtimeproductos.productos$ | async); let i = index"
+              <li  *ngFor="let producto of (filteredProducts$ | async); let i = index"
               [hidden]="i >=8"
               class="card-container col-6 col-xl-3 col-lg-3 col-md-4 col-sm-6 Tops wow fadeInUp" data-wow-delay="0.6s">
                 <div class="shop-card">

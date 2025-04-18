@@ -22,113 +22,34 @@
                                 </div>
                                 <div class="widget widget_search">
                                     <div class="form-group">
-                                        <div class="input-group">
-                                            <input name="dzSearch" required="required" type="search" class="form-control" placeholder="Buscar producto">
-                                            <div class="input-group-addon">
-                                                <button name="submit" value="Submit" type="submit" class="btn">
-                                                    <i class="icon feather icon-search"></i>
-                                                </button>
-                                            </div>
+                                      <div class="input-group">
+                                        <input 
+                                          name="dzSearch" 
+                                          required="required" 
+                                          type="search" 
+                                          class="form-control" 
+                                          placeholder="Buscar producto"
+                                          [formControl]="searchControl">
+                                        <div class="input-group-addon">
+                                          <button name="submit" value="Submit" type="submit" class="btn">
+                                            <i class="icon feather icon-search"></i>
+                                          </button>
                                         </div>
+                                      </div>
                                     </div>
-                                </div>
-                                <!-- <div class="widget">
-                                    <h6 class="widget-title">Price</h6>
-                                    <div class="price-slide range-slider">
-                                        <div class="price">
-                                            <div class="range-slider style-1">
-                                                <div id="slider-tooltips2" class="mb-3"></div>
-                                                <span class="example-val" id="slider-margin-value-min2"></span>
-                                                <span class="example-val" id="slider-margin-value-max2"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="widget">
-                                    <h6 class="widget-title">Color</h6>
-                                    <div class="d-flex align-items-center flex-wrap color-filter ps-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel01" value="#000000" aria-label="..." checked>
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel02" value="#9BD1FF" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel03" value="#21B290" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel04" value="#FEC4C4" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel05" value="#FF7354" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel06" value="#51EDC8" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel07" value="#B77CF3" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel08" value="#FF4A76" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel09" value="#3E68FF" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel20" value="#7BEF68" aria-label="...">
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="widget">
-                                    <h6 class="widget-title">Size</h6>
-                                    <div class="btn-group product-size">
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradio101" checked="">
-                                        <label class="btn" for="btnradio101">4</label>
-
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradiol02">
-                                        <label class="btn" for="btnradiol02">6</label>
-
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradiol03">
-                                        <label class="btn" for="btnradiol03">8</label>
-                                      
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradiol04">
-                                        <label class="btn" for="btnradiol04">10</label>
-                                        
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradiol05">
-                                        <label class="btn" for="btnradiol05">12</label>
-                                        
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradiol06">
-                                        <label class="btn" for="btnradiol06">14</label>
-                                        
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradiol07">
-                                        <label class="btn" for="btnradiol07">16</label>
-                                        
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradiol08">
-                                        <label class="btn" for="btnradiol08">18</label>
-                                        
-                                        <input type="radio" class="btn-check" name="btnradio1" id="btnradiol09">
-                                        <label class="btn" for="btnradiol09">20</label>
-                                    </div>
-                                </div> -->
-                                
+                                  </div>
                                 <div class="widget widget_categories">
-                                    <h6 class="widget-title">Categoria</h6>
-                                    <ul *ngFor="let categoria of (realtimecategorias.categorias$ | async)" >
-                                        <li class="cat-item cat-item-26"><a >{{categoria.name}}</a> (10)</li>
-                                    </ul>
+                                    <h6 class="widget-title">Categorias</h6>                                  
+                                  <ul>
+                                    <li class="cat-item cat-item-all">
+                                      <a (click)="selectedCategory.setValue('')" style="cursor: pointer;">Todas las categorías</a>
+                                    </li>
+                                    <li *ngFor="let categoria of (realtimecategorias.categorias$ | async)" 
+                                    class="cat-item cat-item-26">
+                                    <a (click)="selectedCategory.setValue(categoria.id)" style="cursor: pointer;">{{categoria.name}}</a>
+                                    </li>   
+                                  </ul>
                                 </div>
-                                
                               </aside>
                         </div>
                     </div>
@@ -190,7 +111,7 @@
                         <div class="col-12 tab-content shop-" id="pills-tabContent">
                             <div class="tab-pane fade " id="tab-list-list" role="tabpanel" aria-labelledby="tab-list-list-btn">
                                 <div class="row">
-                                    <div class="col-md-12 col-sm-12 col-xxxl-12" *ngFor="let producto of (realtimeproductos.productos$ | async); let i = index">
+                                    <div class="col-md-12 col-sm-12 col-xxxl-12" *ngFor="let producto of (filteredProducts$ | async); let i = index">
                                         <div class="dz-shop-card style-2">
                                             <div class="dz-media">
                                                 <img src="{{producto.files[0]}}" alt="image" 
@@ -235,7 +156,7 @@
                             
                             <div class="tab-pane fade active show" id="tab-list-grid" role="tabpanel" aria-labelledby="tab-list-grid-btn">
                                 <div class="row gx-xl-4 g-3">
-                                    <div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30"*ngFor="let producto of (realtimeproductos.productos$ | async); let i = index" >
+                                    <div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30"*ngFor="let producto of (filteredProducts$ | async); let i = index" >
                                         <div class="shop-card style-1">
                                             <div class="dz-media">
                                                 <img src="{{producto.files[0]}}" alt="image" 
@@ -263,7 +184,7 @@
                         </div>
                     </div>
                     
-                    <div class="row page mt-0">
+                    <!-- <div class="row page mt-0">
                         <div class="col-md-6">
                             <p class="page-text">Paginas 1–5 Of 50 Resultados</p>
                         </div>
@@ -277,7 +198,7 @@
                                 </ul>
                             </nav>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

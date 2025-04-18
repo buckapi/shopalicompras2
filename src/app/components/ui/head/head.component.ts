@@ -6,6 +6,9 @@ import { RealtimeProductosService } from '../../../services/realtime-productos.s
 import Swal from 'sweetalert2';
 import { AddtocartbuttonComponent } from '../addtocartbutton/addtocartbutton.component';
 import { FormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable, combineLatest, map, startWith } from 'rxjs';
+
 interface CartItem {
   productId: string;
   name: string;
@@ -33,6 +36,11 @@ export class HeadComponent {
   quantity: number = 1; // Cantidad por defecto
   car: any[] = [];  
   cartItems: any[] = [];
+  categorias: any[] = [];
+  searchControl = new FormControl('');
+  filteredProducts$: Observable<any[]>; // Declaramos primero la propiedad
+  selectedCategory = new FormControl(''); // Añadir esto con las propiedades
+
 constructor(
   public global: GlobalService,
   public authService: AuthPocketbaseService,
@@ -40,54 +48,58 @@ constructor(
 ){
   this.itemsCount = this.global.getUniqueItemsCount(); // Productos diferentes
 this.unitsCount = this.global.getTotalUnitsCount(); // Total de unidades
+this.filteredProducts$ = combineLatest([
+        this.realtimeproductos.productos$,
+        this.searchControl.valueChanges.pipe(startWith('')),
+        this.selectedCategory.valueChanges.pipe(startWith(''))
+      ]).pipe(
+        // En shop.component.ts, modificar el map del combineLatest:
+    map(([products, searchTerm, categoryId]) => 
+      products.filter(product => 
+        (searchTerm === '' || product.name.toLowerCase().includes(searchTerm?.toLowerCase() || '')) &&
+        (categoryId === '' || product.categorias === categoryId) // Cambiar a comparar con el campo 'categorias'
+      )
+      )
+      );
 }
 // Agregar console.log para debuggear
 ngOnInit(): void {  
-  this.loadCart();    
-  // Suscribirse a actualizaciones del carrito
-  this.global.cartUpdated$.subscribe(() => this.loadCart());
+  this.loadCartItems();
+    // Escuchar cambios en el carrito
+    this.global.cartUpdated$.subscribe(() => this.loadCartItems());
     // Escuchar cambios en otras pestañas
   window.addEventListener('storage', (event: StorageEvent) => {
     if (event.key === 'cart') {
-      this.loadCart();
+      this.loadCartItems();
     }
   });
 }
 // Modificar loadCart para incluir todos los contadores
 // head.component.ts
-loadCart() {
-  this.carItems = this.global.getCartItems();
-  this.carTotalPrice = this.global.getTotalPrice();
-  this.carItemsCount = this.global.getUniqueItemsCount();
-  this.itemsCount = this.global.getUniqueItemsCount();
-  this.unitsCount = this.global.getTotalUnitsCount();
+loadCartItems(): void {
+  // Obtener de GlobalService (que ya sincroniza con localStorage)
+  this.cartItems = this.global.getCartItems();
   
   // Forzar actualización de la vista
   this.carItems = [...this.carItems];
 }
 
-removeFromCart(productId: string) {
+increaseQuantity(item: any): void {
+  this.global.updateQuantity(item.productId, item.quantity + 1);
+}
+
+decreaseQuantity(item: any): void {
+  if (item.quantity > 1) {
+    this.global.updateQuantity(item.productId, item.quantity - 1);
+  }
+}
+
+removeItem(productId: string): void {
   this.global.removeFromCart(productId);
 }
-  /* async removeFromCart(productId: string) {
-    const confirm = await Swal.fire({
-      title: '¿Eliminar producto?',
-      text: '¿Estás seguro de que quieres eliminar este producto del carrito?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    });
-  
-    if (confirm.isConfirmed) {
-      this.global.removeFromCart(productId);
-    }
-  } */
-updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  this.carItemsCount = cart.reduce((total: number, item: any) => total + item.quantity, 0);
+
+getProductName(productId: string): string {
+  return this.global.getProductName(productId); // Implementa este método en tu GlobalService
 }
 
 showMenu() {
@@ -154,15 +166,5 @@ resetCart() {
   this.itemsCount = 0;
   this.unitsCount = 0;
 }
-increaseQuantity(item: CartItem) {
-  this.global.updateQuantity(item.productId, item.quantity + 1);
-  this.loadCart(); // Actualiza la vista
-}
 
-decreaseQuantity(item: CartItem) {
-  if (item.quantity > 1) {
-    this.global.updateQuantity(item.productId, item.quantity - 1);
-    this.loadCart(); // Actualiza la vista
-  }
-}
 }

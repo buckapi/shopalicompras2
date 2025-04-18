@@ -4,6 +4,8 @@ import { RealtimeCategoriasService } from '../../services/realtime-categorias.se
 import { RealtimeProductosService } from '../../services/realtime-productos.service';
 import Swiper from 'swiper';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable, combineLatest, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +31,10 @@ export class HomeComponent {
   }
 categorias: any[] = [];
 productos: any[] = [];
+searchControl = new FormControl('');
+filteredProducts$: Observable<any[]>; // Declaramos primero la propiedad
+selectedCategory = new FormControl(''); // Añadir esto con las propiedades
+
   constructor 
   (
     public global: GlobalService,
@@ -42,6 +48,20 @@ productos: any[] = [];
     this.realtimeproductos.productos$.subscribe((productos) => {
       this.global.productos = productos;
     })
+    this.filteredProducts$ = combineLatest([
+        this.realtimeproductos.productos$,
+        this.searchControl.valueChanges.pipe(startWith('')),
+        this.selectedCategory.valueChanges.pipe(startWith(''))
+      ]).pipe(
+        // En shop.component.ts, modificar el map del combineLatest:
+    map(([products, searchTerm, categoryId]) => 
+      products.filter(product => 
+        (searchTerm === '' || product.name.toLowerCase().includes(searchTerm?.toLowerCase() || '')) &&
+        (categoryId === '' || product.categorias === categoryId) // Cambiar a comparar con el campo 'categorias'
+      )
+      )
+      );
+    
 }
 
 ngOnInit(): void {

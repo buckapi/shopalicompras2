@@ -6,11 +6,14 @@ import { RealtimeProductosService } from '../../services/realtime-productos.serv
 import { AuthPocketbaseService } from '../../services/auth-pocketbase.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as bootstrap from 'bootstrap';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { combineLatest, map, Observable, startWith } from 'rxjs';
+
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
@@ -18,7 +21,11 @@ export class ShopComponent {
   productos: any[] = [];
   categorias: any[] = [];
   product: any;
-  quantity: number = 1; // Cantidad por defecto
+  quantity: number = 1; 
+  searchControl = new FormControl('');
+  filteredProducts$: Observable<any[]>; // Declaramos primero la propiedad
+  selectedCategory = new FormControl(''); // Añadir esto con las propiedades
+
 constructor(
   public global: GlobalService,
   public realtimecategorias: RealtimeCategoriasService,
@@ -32,7 +39,21 @@ constructor(
   this.realtimeproductos.productos$.subscribe((productos) => {
     this.productos = productos;
   });
+  this.filteredProducts$ = combineLatest([
+    this.realtimeproductos.productos$,
+    this.searchControl.valueChanges.pipe(startWith('')),
+    this.selectedCategory.valueChanges.pipe(startWith(''))
+  ]).pipe(
+    // En shop.component.ts, modificar el map del combineLatest:
+map(([products, searchTerm, categoryId]) => 
+  products.filter(product => 
+    (searchTerm === '' || product.name.toLowerCase().includes(searchTerm?.toLowerCase() || '')) &&
+    (categoryId === '' || product.categorias === categoryId) // Cambiar a comparar con el campo 'categorias'
+  )
+  )
+  );
 }
+
  closeModal() {
         const modal = document.getElementById('exampleModal');
         if (modal) {
