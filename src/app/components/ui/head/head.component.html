@@ -17,16 +17,27 @@
               <span></span>
           </button>
 
-          <div class="mobile-buttons d-lg-none">
+          <!-- <div class="mobile-buttons d-xl-none ">
             <div class="extra-cell">	
               <ul class="header-right">
                 <li class="nav-item cart-link">
-                  <a href="javascript:void(0);" class="nav-link cart-btn" (click)="toggleCart()">
+                  <a  class="nav-link cart-btn" (click)="toggleCart()">
                     <i class="iconly-Broken-Buy"></i>
                     <span class="badge badge-circle">{{ carItemsCount }}</span>
                   </a>
                 </li>
-                <!-- Puedes añadir más botones aquí si es necesario -->
+              </ul>
+            </div>
+          </div> -->
+          <div class="mobile-buttons d-xl-none">
+            <div class="extra-cell">	
+              <ul class="header-right">
+                <li class="nav-item cart-link">
+                  <a class="nav-link cart-btn" (click)="toggleCart()">
+                    <i class="iconly-Broken-Buy"></i>
+                    <span class="badge badge-circle">{{ carItemsCount }}</span>
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -35,7 +46,7 @@
       
         <div class="header-nav w3menu navbar-collapse collapse justify-content-start" id="navbarNavDropdown">
           <!-- Encabezado del menú móvil con botón de cerrar -->
-          <div class="mobile-menu-header d-flex justify-content-between align-items-center p-3 bg-light">
+          <div class="mobile-menu-header d-flex d-lg-none justify-content-between align-items-center p-3 bg-light">
             <div class="logo-header logo-dark">
               <a (click)="closeMenuAndNavigate('home')"><img src="images/logo.png" alt=""></a>
             </div>
@@ -64,7 +75,7 @@
               <li><a class="fab fa-youtube" target="_blank" href="https://www.youtube.com/"></a></li>
               <li><a class="fab fa-tiktok" target="_blank" href="https://www.tiktok.com/"></a></li>
               <li><a class="fab fa-whatsapp" target="_blank" href="https://wa.me/584127667553?text=Hola%20quiero%20saber%20mas%20informacion%20sobre%20como%20puedo%20importar%20en%20Alicompras.com.ve" target="_blank">
-                ></a></li>
+              </a></li>
             </ul>
           </div>
         </div>
@@ -126,15 +137,16 @@
   <!-- SearchBar -->
   
   <!-- Sidebar cart -->
-  <div class="offcanvas dz-offcanvas offcanvas offcanvas-end " tabindex="-1" id="offcanvasRight">
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">&times;</button>
-    <div class="offcanvas-body">
-      <div class="product-description">
-        <div class="dz-tabs">
-          <ul class="nav nav-tabs center" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="shopping-cart" data-bs-toggle="tab" data-bs-target="#shopping-cart-pane" type="button" role="tab" aria-controls="shopping-cart-pane" aria-selected="true">Carrito de compra
-                <span class="badge badge-light">{{ global.getUniqueItemsCount() }}</span>
+  <div class="offcanvas dz-offcanvas offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" 
+  >
+     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" (click)="global.closeModal()">&times;</button>
+     <div class="offcanvas-body" (click)="$event.stopPropagation()">
+    <div class="product-description">
+      <div class="dz-tabs">
+        <ul class="nav nav-tabs center" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="shopping-cart" data-bs-toggle="tab" data-bs-target="#shopping-cart-pane" type="button" role="tab" aria-controls="shopping-cart-pane" aria-selected="true">Carrito de compra
+              <span class="badge badge-light">{{ global.getUniqueItemsCount() }}</span>
               </button>
             </li>
           </ul>
@@ -178,7 +190,7 @@
                         </div>
                       </div>
                     </div>
-                    <a class="dz-close" (click)="global.removeFromCart(item.productId)">
+                    <a class="dz-close" (click)="global.removeFromCart(item.productId); $event.stopPropagation()">
                       <i class="ti-close"></i>
                     </a>
                   </div>

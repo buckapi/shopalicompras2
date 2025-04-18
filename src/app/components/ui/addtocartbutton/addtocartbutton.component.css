@@ -1,23 +1,92 @@
+/* Estilos para el botón del carrito */
+.mobile-buttons .cart-link .nav-link {
+  background: #002446;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-buttons .cart-link i {
+  color: white;
+  font-size: 20px;
+}
+
+.mobile-buttons .badge-circle {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4a76;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* Mostrar solo en móvil */
+@media (max-width: 991px) {
+  .mobile-buttons {
+    display: flex;
+  }
+  
+  body {
+    padding-bottom: 120px; /* Ajusta según necesites */
+  }
+}
+
+/* Clases de utilidad para control de visibilidad */
+.d-lg-none {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .d-lg-none {
+    display: flex;
+  }
+}
 
 .btn-quantity {
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
-.btn-quantity button {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ddd;
-  background: #f8f9fa;
-  cursor: pointer;
+.btn-quantity .btn-sm {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.875rem;
 }
 
-.btn-quantity input {
-  width: 40px;
+.btn-quantity .form-control {
+  width: 50px;
   text-align: center;
-  margin: 0 5px;
-  border: 1px solid #ddd;
+  padding: 0.15rem;
+}
+/* Para mejorar la visualización */
+.cart-widget {
+transition: all 0.3s ease;
+}
+
+.cart-widget:hover {
+background-color: #f8f9fa;
+}
+
+.dz-close {
+cursor: pointer;
+color: #dc3545;
+}
+
+.dz-close:hover {
+color: #b02a37;
+}
+
+.dz-price {
+min-width: 180px; /* Para alinear precios */
 }

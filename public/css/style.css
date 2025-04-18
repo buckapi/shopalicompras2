@@ -10616,7 +10616,7 @@ strong,
   opacity: 0; }
 
 .content-inner {
-  padding-top: 100px;
+  padding-top: 120px;
   padding-bottom: 70px; }
   @media only screen and (max-width: 1480px) {
     .content-inner {
@@ -39599,9 +39599,9 @@ a {
 .site-header.style-1 .header-nav .search-input {
   display: none; }
 
-.site-header.style-1 .main-bar {
+/* .site-header.style-1 .main-bar {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important; }
-
+ */
 .site-header.style-1 .header-info-bar + .main-bar-wraper .main-bar .logo-header {
   display: none; }
 

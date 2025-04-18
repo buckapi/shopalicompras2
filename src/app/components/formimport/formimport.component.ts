@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { GlobalService } from '../../services/global.service';
 @Component({
   selector: 'app-formimport',
   templateUrl: './formimport.component.html',
@@ -13,7 +14,9 @@ import Swal from 'sweetalert2';
 export class FormimportComponent {
   formimport: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    public fb: FormBuilder,
+    public global: GlobalService  ) {
     this.formimport = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

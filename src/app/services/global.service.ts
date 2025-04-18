@@ -3,6 +3,7 @@ import { BehaviorSubject, distinctUntilChanged, Observable } from 'rxjs'; // Add
 import PocketBase from 'pocketbase';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HostListener } from '@angular/core';  
+import * as bootstrap from 'bootstrap';
 interface CartItem {
   productId: string;
   name: string;
@@ -203,10 +204,25 @@ removeFromCart(productId: string) {
     duration: 2000,
     verticalPosition: 'top'
   });
+} 
+closeModal() {
+  const modal = document.getElementById('offcanvasRight');
+  if (modal) {
+    // Método preferido usando Bootstrap
+    const bsModal = bootstrap.Offcanvas.getInstance(modal);
+    if (bsModal) {
+      bsModal.hide();
+    } else {
+      // Fallback para móviles
+      modal.classList.remove('show');
+      document.body.classList.remove('offcanvas-open');
+      const backdrop = document.querySelector('.offcanvas-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+    }
+  }
 }
-
-
-
 clearCart() {
   this.cartItems = [];
   this.saveCart();

@@ -41,11 +41,11 @@
                                 <div class="widget widget_categories">
                                     <h6 class="widget-title">Categorias</h6>                                  
                                   <ul>
-                                    <li class="cat-item cat-item-all">
+                                    <li class="cat-item cat-item-all" [class.active]="!selectedCategory.value">
                                       <a (click)="selectedCategory.setValue('')" style="cursor: pointer;">Todas las categorías</a>
                                     </li>
                                     <li *ngFor="let categoria of (realtimecategorias.categorias$ | async)" 
-                                    class="cat-item cat-item-26">
+                                    class="cat-item cat-item-26" [class.active]="selectedCategory.value === categoria.id">
                                     <a (click)="selectedCategory.setValue(categoria.id)" style="cursor: pointer;">{{categoria.name}}</a>
                                     </li>   
                                   </ul>

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GlobalService } from '../../../services/global.service';
 import { AuthPocketbaseService } from '../../../services/auth-pocketbase.service';
@@ -8,6 +8,8 @@ import { AddtocartbuttonComponent } from '../addtocartbutton/addtocartbutton.com
 import { FormsModule } from '@angular/forms';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, combineLatest, map, startWith } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import * as bootstrap from 'bootstrap';
 
 interface CartItem {
   productId: string;
@@ -24,7 +26,7 @@ interface CartItem {
   templateUrl: './head.component.html',
   styleUrl: './head.component.css'
 })
-export class HeadComponent {
+export class HeadComponent implements OnInit {
   isMenuOpen = false;
   carItems: CartItem[] = [];
   carTotalPrice: number = 0;
@@ -149,14 +151,22 @@ toggleSearch() {
 }
 
 // Controlar visibilidad del carrito
-toggleCart() {
+/* toggleCart() {
   const cartOffcanvas = document.getElementById('offcanvasRight');
   if (cartOffcanvas) {
     cartOffcanvas.classList.toggle('show');
     document.body.style.overflow = cartOffcanvas.classList.contains('show') ? 'hidden' : '';
   }
-} 
-
+}  */
+toggleCart() {
+  const modal = document.getElementById('offcanvasRight');
+  if (modal?.classList.contains('show')) {
+    this.global.closeModal();
+  } else {
+    // Mostrar modal usando Bootstrap
+    new bootstrap.Offcanvas(modal!).show();
+  }
+}
 
 // Modificar resetCart para reiniciar todos los contadores
 resetCart() {
@@ -166,5 +176,7 @@ resetCart() {
   this.itemsCount = 0;
   this.unitsCount = 0;
 }
+
+// Función para cerrar el carrito
 
 }
