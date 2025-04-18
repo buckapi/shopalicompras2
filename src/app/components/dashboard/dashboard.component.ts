@@ -52,6 +52,7 @@ export class DashboardComponent {
     material: '',
   };
   categoria = {
+    id: '',
     name: '',
     files: []
   };
@@ -60,7 +61,7 @@ export class DashboardComponent {
   productos: any[] = [];
   categorias: any[] = [];
   userName: string = '';
-  showCategories: boolean = false;
+  showCategorias: boolean = false;
   showProducts: boolean = false;
   addProductForm: FormGroup;
   addCategoryForm: FormGroup;
@@ -180,7 +181,8 @@ export class DashboardComponent {
       this.selectedVideos.splice(index, 1);
     }
     async onSubmit() {
-      try {
+      
+      /* try {
         // Validación mínima de datos del producto
         if (!this.product.name || !this.product.price || !this.product.categorias) {
           await Swal.fire({
@@ -190,7 +192,18 @@ export class DashboardComponent {
             confirmButtonText: 'Entendido'
           });
           return;
-        }
+        } */
+          try {
+            // Validación de categoría
+            if (!this.product.categorias) {
+              await Swal.fire({
+                title: 'Categoría requerida',
+                text: 'Por favor seleccione una categoría válida',
+                icon: 'warning',
+                confirmButtonText: 'Entendido'
+              });
+              return;
+            }
     
         // Validación de medios (al menos una imagen o video)
         if (this.selectedImages.length === 0 && this.selectedVideos.length === 0) {
@@ -251,7 +264,7 @@ export class DashboardComponent {
         const productData: any = {
           name: String(this.product.name || '').trim(),
           price: Number(this.product.price) || 0,
-          categorias: this.product.categorias,
+          categorias: this.product.categorias, // Esto debería ser el ID de la categoría
           description: String(this.product.description || '').trim(),
           quantity: Number(this.product.quantity) || 0,
           files: [...imageUrls],
@@ -430,8 +443,8 @@ export class DashboardComponent {
     });
   } 
   
-  toggleCategories() {
-    this.showCategories = !this.showCategories;
+  toggleCategorias() {
+    this.showCategorias = !this.showCategorias;
   }
 
   toggleProducts() {
@@ -554,7 +567,7 @@ export class DashboardComponent {
   
       // Resetear formulario
       this.resetCategoryForm();
-      this.global.menuSelected = 'categories';
+      this.global.menuSelected = 'categorias';
   
     } catch (error: any) {
       console.error('Error al guardar categoría:', error);
@@ -574,6 +587,7 @@ export class DashboardComponent {
   // Método para resetear el formulario de categoría
   resetCategoryForm(): void {
     this.categoria = { 
+      id: '',
       name: '',
       files: []
     }; 

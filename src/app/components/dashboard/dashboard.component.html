@@ -202,14 +202,23 @@
                                     <input name="price" [(ngModel)]="product.price" required class="form-control" placeholder="Precio">
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <!-- <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                   <label class="label-title">Categoria</label>
                                   <select name="category" [(ngModel)]="product.categorias" required class="form-control"  placeholder="Categoria">
                                     <option *ngFor="let category of (realtimecategorias.categorias$ | async)" [value]="category.id">{{ category.name }}</option>
                                   </select>
                                 </div>
-                              </div>
+                              </div> -->
+                            <div class="col-lg-4">
+                              <select name="category" [(ngModel)]="product.categorias" required class="form-control">
+                                <option value="">Seleccione una categoría</option>
+                                <option *ngFor="let category of (realtimecategorias.categorias$ | async)" 
+                                        [value]="category.id">
+                                  {{ category.name }}
+                                </option>
+                              </select>
+                            </div>
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Cantidad</label>
@@ -303,7 +312,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group m-b25">
                                     <label class="label-title">Categoria</label>
-                                    <select name="category" [(ngModel)]="product.categorias" required class="form-control" placeholder="Categoria">
+                                    <select name="category" [(ngModel)]="productToEdit.categories" required class="form-control" placeholder="Categoria">
                                         <option *ngFor="let category of (realtimecategorias.categorias$ | async)" [value]="category.id">{{ category.name }}</option>
                                     </select>
                                 </div>

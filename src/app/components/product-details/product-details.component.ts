@@ -77,6 +77,14 @@ getCategoryNameById(categoryId: number): string {
     return 'Categoría no disponible';
   }
 }
+getCategoryName(categoryId: string): string {
+  if (!categoryId || !this.categories || this.categories.length === 0) {
+    return 'Sin categoría';
+  }
+  
+  const category = this.categories.find(cat => cat.id === categoryId);
+  return category ? category.name : 'Categoría no encontrada';
+}
   addToCart() {
        if (this.product) { // Verifica que el producto esté definido
          // Agregar el producto al carrito

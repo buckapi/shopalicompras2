@@ -24,7 +24,7 @@ export class RealtimeCategoriasService implements OnDestroy {
       .authWithPassword('admin@admin.com', 'admin1234');
 
     // Suscribirse a cambios en cualquier registro de la colección 'supervisors'
-    this.pb.collection('categorias').subscribe('*', (e) => {
+    this.pb.collection('categories').subscribe('*', (e) => {
       this.handleRealtimeEvent(e);
     });
 
@@ -44,7 +44,7 @@ export class RealtimeCategoriasService implements OnDestroy {
   private async updateCategoriasList() {
     // Obtener la lista actualizada de esupervisoras
     const records = await this.pb
-      .collection('categorias')
+      .collection('categories')
       .getFullList(200 /* cantidad máxima de registros */, {
         sort: '-created', // Ordenar por fecha de creación
       });
@@ -53,7 +53,7 @@ export class RealtimeCategoriasService implements OnDestroy {
 
   ngOnDestroy() {
     // Desuscribirse cuando el servicio se destruye
-    this.pb.collection('categorias').unsubscribe('*');
+    this.pb.collection('categories').unsubscribe('*');
   }
 
   getCategoriasCount(): number {
