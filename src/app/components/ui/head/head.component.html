@@ -17,25 +17,14 @@
               <span></span>
           </button>
 
-          <!-- <div class="mobile-buttons d-xl-none ">
-            <div class="extra-cell">	
-              <ul class="header-right">
-                <li class="nav-item cart-link">
-                  <a  class="nav-link cart-btn" (click)="toggleCart()">
-                    <i class="iconly-Broken-Buy"></i>
-                    <span class="badge badge-circle">{{ carItemsCount }}</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div> -->
+        
           <div class="mobile-buttons d-xl-none">
             <div class="extra-cell">	
               <ul class="header-right">
                 <li class="nav-item cart-link">
                   <a class="nav-link cart-btn" (click)="toggleCart()">
                     <i class="iconly-Broken-Buy"></i>
-                    <span class="badge badge-circle">{{ carItemsCount }}</span>
+                    <span class="badge badge-circle">{{ global.getUniqueItemsCount() }}</span>
                   </a>
                 </li>
               </ul>
@@ -163,7 +152,7 @@
                     </div>
                     <div class="cart-content">
                       <h6 class="title">
-                        <a >{{item.name}}</a>
+                        <a >{{global.previaProducto.name}}</a>
                       </h6>
                       <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center">
@@ -184,8 +173,8 @@
                             </button>
                           </div>
                           <h6 class="dz-price mb-0">
-                            {{item.price | currency:'USD':'symbol':'1.2-2'}} × {{item.quantity}} = 
-                            <strong>{{(item.price * item.quantity) | currency:'USD':'symbol':'1.2-2'}}</strong>
+                            {{global.previaProducto.price | currency:'USD':'symbol':'1.2-2'}} × {{global.previaProducto.quantity}} = 
+                            <strong>{{(global.previaProducto.price * global.previaProducto.quantity) | currency:'USD':'symbol':'1.2-2'}}</strong>
                           </h6>
                         </div>
                       </div>

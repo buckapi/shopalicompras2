@@ -4,8 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swiper from 'swiper';
 import { GlobalService } from '../../services/global.service';
 import { RealtimeCategoriasService } from '../../services/realtime-categorias.service';
-import Swal from 'sweetalert2';
 import { AddtocartbuttonComponent } from '../ui/addtocartbutton/addtocartbutton.component';
+import { ElementRef, ViewChild } from '@angular/core';
+import { SimpleChanges, OnChanges } from '@angular/core';
+
 interface Product {
   id: number;
   name: string;
@@ -30,7 +32,9 @@ interface Product {
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
-export class ProductDetailsComponent {
+export class ProductDetailsComponent implements OnChanges {
+  @ViewChild('productVideo') productVideo?: ElementRef<HTMLVideoElement>;
+
   ngAfterViewInit(): void {
     new Swiper('.swiper', {
       slidesPerView: 1,
@@ -45,10 +49,13 @@ export class ProductDetailsComponent {
       },
     });
   }
-  product: any; // Asegúrate de definir el tipo de tu producto
-  quantity: number = 1; // Cantidad por defecto
+  /* product: any; // Asegúrate de definir el tipo de tu producto
   selectedProduct: any;
+  categories: any[] = []; */
+  product?: Product;
+  selectedProduct?: Product;
   categories: any[] = [];
+
 constructor(
   public global: GlobalService,
   public realtimeCategorias: RealtimeCategoriasService,
@@ -58,10 +65,33 @@ constructor(
     console.log('Categorías cargadas:', this.categories);
   });
 }
-
-async selectProduct(product: any) {
-  this.selectedProduct = product; // Seleccionar el producto
+public resetVideoPlayer(): void {
+  if (this.productVideo) {
+    this.productVideo.nativeElement.pause();
+    this.productVideo.nativeElement.currentTime = 0;
+  }
 }
+ngOnChanges(changes: SimpleChanges): void {
+  if (changes['product'] || changes['selectedProduct']) {
+    this.resetVideoPlayer();
+  }
+}
+
+async selectProduct(product: Product): Promise<void> {
+  this.selectedProduct = product;
+  this.resetVideoPlayer();
+  
+  if (this.productVideo && product?.videos?.length) {
+    // Usamos setTimeout para asegurarnos que el cambio de vista se haya completado
+    setTimeout(() => {
+      const video = this.productVideo!.nativeElement;
+      video.src = product.videos[0];
+      video.load();
+      video.play().catch(e => console.log('Auto-play prevented:', e));
+    }, 0);
+  }
+}
+
 getCategoryNameById(categoryId: number): string {
   try {
     if (!this.categories) {
@@ -85,25 +115,6 @@ getCategoryName(categoryId: string): string {
   const category = this.categories.find(cat => cat.id === categoryId);
   return category ? category.name : 'Categoría no encontrada';
 }
-  addToCart() {
-       if (this.product) { // Verifica que el producto esté definido
-         // Agregar el producto al carrito
-         this.global.addToCart(this.product, this.quantity);
-     
-         // Reiniciar la cantidad
-         this.quantity = 1;
-     
-         // Mostrar un alert con SweetAlert2
-         Swal.fire({
-           icon: 'success',
-           title: 'Producto agregado al carrito',
-           text: `¡El producto ${this.product.name} ha sido agregado al carrito!`,
-           showConfirmButton: true,
-           timer: 2000 // Se cerrará automáticamente después de 2 segundos
-         });
-       } else {
-         console.error('El producto no está definido');
-       }
-     } 
+
 
 }

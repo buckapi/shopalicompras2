@@ -28,9 +28,6 @@ interface CartItem {
 })
 export class HeadComponent implements OnInit {
   isMenuOpen = false;
-  carItems: CartItem[] = [];
-  carTotalPrice: number = 0;
-  carItemsCount: number = 0;
   itemsCount: number = 0;
   unitsCount: number = 0;
   productos: any[] = [];
@@ -48,9 +45,7 @@ constructor(
   public authService: AuthPocketbaseService,
   public realtimeproductos: RealtimeProductosService
 ){
-  this.itemsCount = this.global.getUniqueItemsCount(); // Productos diferentes
-this.unitsCount = this.global.getTotalUnitsCount(); // Total de unidades
-this.filteredProducts$ = combineLatest([
+  this.filteredProducts$ = combineLatest([
         this.realtimeproductos.productos$,
         this.searchControl.valueChanges.pipe(startWith('')),
         this.selectedCategory.valueChanges.pipe(startWith(''))
@@ -63,6 +58,10 @@ this.filteredProducts$ = combineLatest([
       )
       )
       );
+      this.global.cartUpdated$.subscribe(() => {
+        this.itemsCount = this.global.getUniqueItemsCount();
+        this.unitsCount = this.global.getTotalUnitsCount();
+      });
 }
 // Agregar console.log para debuggear
 ngOnInit(): void {  
@@ -79,11 +78,8 @@ ngOnInit(): void {
 // Modificar loadCart para incluir todos los contadores
 // head.component.ts
 loadCartItems(): void {
-  // Obtener de GlobalService (que ya sincroniza con localStorage)
-  this.cartItems = this.global.getCartItems();
-  
-  // Forzar actualización de la vista
-  this.carItems = [...this.carItems];
+  this.itemsCount = this.global.getUniqueItemsCount();
+  this.unitsCount = this.global.getTotalUnitsCount();
 }
 
 increaseQuantity(item: any): void {
@@ -150,14 +146,6 @@ toggleSearch() {
   }
 }
 
-// Controlar visibilidad del carrito
-/* toggleCart() {
-  const cartOffcanvas = document.getElementById('offcanvasRight');
-  if (cartOffcanvas) {
-    cartOffcanvas.classList.toggle('show');
-    document.body.style.overflow = cartOffcanvas.classList.contains('show') ? 'hidden' : '';
-  }
-}  */
 toggleCart() {
   const modal = document.getElementById('offcanvasRight');
   if (modal?.classList.contains('show')) {
@@ -167,16 +155,5 @@ toggleCart() {
     new bootstrap.Offcanvas(modal!).show();
   }
 }
-
-// Modificar resetCart para reiniciar todos los contadores
-resetCart() {
-  this.carItems = [];
-  this.carTotalPrice = 0;
-  this.carItemsCount = 0;
-  this.itemsCount = 0;
-  this.unitsCount = 0;
-}
-
-// Función para cerrar el carrito
 
 }

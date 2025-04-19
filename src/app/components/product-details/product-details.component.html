@@ -60,7 +60,7 @@
                             <div class=" cart-btn">
                                 <app-addtocartbutton 
                                   [product]="global.previaProducto"
-                                  [(quantity)]="quantity">
+                                  [(quantity)]="global.quantity">
                                 </app-addtocartbutton>
                               </div>
                             <div class="dz-info">
@@ -134,9 +134,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Información</button>
                         </li>
-                        <!-- <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Reviews (12)</button>
-                        </li> -->
+                       
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
@@ -158,9 +156,8 @@
                                         <li class="list-info">Codigo de producto<span>{{global.previaProducto.code}}</span></li>
                                         <li class="list-info">Pais de origen<span>{{global.previaProducto.country}}</span></li>
                                         <li class="list-info">Material<span>{{global.previaProducto.material}}</span></li>
-                                        <li class="list-info">Categoria<span>{{global.previaProducto.categorias}}</span></li>
+                                        <li class="list-info">Categoria<span>{{getCategoryName(global.previaProducto.categorias)}}</span></li>
                                     </ul>
-                                    
                                     <div class="product-info">
                                         <div class="product-info-inner">
                                             <h4 class="info-title">MÉTODOS DE PAGO</h4>
@@ -198,42 +195,38 @@
                                             <a  class="about-product-wrapper">
                                                 <div class="producṭ-content bg-light">
                                                     <h4 class="product-title">Producto original</h4>
-<!--                                                     <p class="product-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
- -->                                                </div>
+                                                </div>
                                             </a>
                                         </div>
                                         <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
                                             <a  class="about-product-wrapper">
                                                 <div class="producṭ-content bg-light">
                                                     <h4 class="product-title">Producto Garantizado</h4>
-<!--                                                     <p class="product-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
- -->                                                </div>
+                                               </div>
                                             </a>
                                         </div>
                                         <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
                                             <a  class="about-product-wrapper">
                                                 <div class="producṭ-content bg-light">
                                                     <h4 class="product-title">100% Hecho en </h4>
-<!--                                                     <p class="product-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
- -->                                                </div>
+                                               </div>
                                             </a>
                                         </div>
                                         <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
                                             <a  class="about-product-wrapper">
                                                 <div class="producṭ-content bg-light">
                                                     <h4 class="product-title">Producto importado</h4>
-<!--                                                     <p class="product-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
- -->                                                </div>
+                                               </div>
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="dz-product-media dz-media rounded">
-                                       <!--  <a class="dz-media">
-                                            <video controls width="100%" height="auto">
-                                                <source src="{{global.previaProducto.videos[0]}}" type="video/mp4">
-                                                Tu navegador no soporta el elemento video.
-                                            </video>
-                                        </a> -->
+                                    <div class="dz-product-media dz-media rounded" *ngIf="global.previaProducto?.videos as videos">
+                                        <a class="dz-media" *ngIf="videos.length > 0 && global.previaProducto">
+                                          <video #productVideo controls width="100%" height="auto" *ngIf="global.previaProducto.id">
+                                            <source [src]="videos[0]" type="video/mp4">
+                                            Tu navegador no soporta el elemento video.
+                                          </video>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

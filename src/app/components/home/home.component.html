@@ -112,7 +112,7 @@
                         <div class="dz-media">
                           <img src="{{categoria.files[0]}}" alt="image" *ngIf="categoria.files.length > 0" style="width: 50%;">
                         </div>
-                        <h6 class="product-name"><a (click)="global.setRoute('shop')">{{categoria.name}}</a></h6>
+                        <h6 class="product-name"><a (click)="global.setRoute('shop')" style="cursor: pointer;">{{categoria.name}}</a></h6>
                       </div>
                     </div>
                   </div>
@@ -269,11 +269,6 @@
                           <i class="fa-solid fa-eye d-md-none d-block"></i>
                           <span class="d-md-block d-none" style="cursor: pointer;">Vista Rápida</span>
                         </a>
-                        
-                        <div class="btn btn-primary meta-icon dz-carticon">
-                          <i class="flaticon flaticon-basket"><a 
-                            data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="global.setQuick(producto)" style="cursor: pointer;"></a></i>
-                        </div>
                       </div>							
                     </div>
                     <div class="dz-content">
@@ -282,7 +277,6 @@
                     </div>
                   </div>
                 </li>
-          
               </ul>
             </div>
           </div>

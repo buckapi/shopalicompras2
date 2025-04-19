@@ -45,6 +45,7 @@ export class GlobalService {
   productos: any[] = [];
   totalProductos = 0;
   product: any;
+  quantity: number = 1;
   productSelected: Producto = {
     id: 0,
     name: '',
