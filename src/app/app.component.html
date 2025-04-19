@@ -1,5 +1,5 @@
-<div class="page-wraper">
-  <router-outlet></router-outlet>
+<!-- <div class="page-wraper">
+ -->  <router-outlet></router-outlet>
 
   <app-head></app-head>
   <app-home [hidden]="global.activeRoute!='home'"></app-home>
@@ -84,7 +84,9 @@
                 (addedToCart)="reloadPage()">
                 </app-addtocartbutton>
                 <div class="cart-btn">
-                  <a (click)="goToProductDetails()" class="btn btn-md btn-outline-secondary btn-icon">
+<!--                   <a (click)="goToProductDetails()" class="btn btn-md btn-outline-secondary btn-icon">
+ -->                    <a (click)="global.setRoute('product-details')" class="btn btn-md btn-outline-secondary btn-icon">
+
                     Ver mas detalles
                   </a>
                 </div>
@@ -99,4 +101,4 @@
     </div>
   </div>
 </div>
-</div>
+<!-- </div> -->

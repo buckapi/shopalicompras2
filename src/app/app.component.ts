@@ -27,6 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as bootstrap from 'bootstrap';
 import * as $ from 'jquery';
 import { FormimportComponent } from './components/formimport/formimport.component';
+import { Router, NavigationStart } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
@@ -62,9 +63,18 @@ export class AppComponent {
     public scriptStore: ScriptStoreService,
     public viewportScroller: ViewportScroller,
     public dialog: MatDialog,
-    @Inject(PLATFORM_ID) private platformId: Object
-  )
-    {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router) 
+  {
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        // Cancela cualquier navegación real del Router
+        this.router.navigate([], { skipLocationChange: true });
+      }
+    });
+  
+  }
     ngOnInit(): void {
       if (isPlatformBrowser(this.platformId)) {
         // Cargar los scripts solo en el navegador (no en el servidor)
@@ -143,7 +153,6 @@ export class AppComponent {
           document.body.style.paddingRight = '0';
         }
       
-        this.quantity = 1;
         this.dialog.closeAll();
       
       }
@@ -161,4 +170,5 @@ export class AppComponent {
         this.closeModal();
         this.global.setRoute('shop');
       }
+      
     }

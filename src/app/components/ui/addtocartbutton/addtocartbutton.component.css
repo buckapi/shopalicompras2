@@ -90,3 +90,14 @@ color: #b02a37;
 .dz-price {
 min-width: 180px; /* Para alinear precios */
 }
+.quantity-input {
+  width: 50px;
+  text-align: center;
+  margin: 0 5px;
+}
+
+.btn-quantity {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

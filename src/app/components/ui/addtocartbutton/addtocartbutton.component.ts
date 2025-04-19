@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import * as bootstrap from 'bootstrap';
 @Component({
   selector: 'app-addtocartbutton',
   standalone: true,
@@ -61,7 +60,7 @@ export class AddtocartbuttonComponent implements OnChanges {
     }
   }
 
- /*  addToCart() {
+  addToCart() {
     if (!this.product) return;
     
     this.global.addToCart(this.product, this.quantity);
@@ -77,27 +76,7 @@ export class AddtocartbuttonComponent implements OnChanges {
       verticalPosition: 'top',
       panelClass: ['success-snackbar']
     });
-  } */
-    addToCart() {
-      if (!this.product) return;
-      
-      this.global.addToCart(this.product, this.quantity);
-      this.showSuccessNotification();
-      this.addedToCart.emit(); // Esto notifica al componente padre
-      
-      // Forzar actualización de la vista
-      setTimeout(() => {
-        this.global.cartUpdated$.next(this.global.getCartItems());
-      }, 0);
-    }
-    
-    private showSuccessNotification() {
-      this.snackBar.open('Producto agregado al carrito', 'Cerrar', {
-        duration: 2000,
-        verticalPosition: 'top',
-        panelClass: ['success-snackbar']
-      });
-    }
+  }
 
   private showMaxQuantityAlert(): void {
     this.snackBar.open(

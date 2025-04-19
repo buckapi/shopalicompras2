@@ -119,10 +119,10 @@ toggleMenu() {
 }
 
 // Función para cerrar el menú y navegar
-closeMenuAndNavigate(route: string) {
+/* closeMenuAndNavigate(route: string) {
   this.global.setRoute(route);
   this.toggleMenu(); // Cierra el menú
-}
+} */
 
 // Opcional: Cerrar al hacer clic fuera del menú
 @HostListener('document:click', ['$event'])
@@ -154,6 +154,12 @@ toggleCart() {
     // Mostrar modal usando Bootstrap
     new bootstrap.Offcanvas(modal!).show();
   }
+}
+
+closeMenuAndNavigate(route: string) {
+  this.global.setRoute(route);
+  history.pushState({ virtualRoute: true }, '', window.location.href); // Marca como ruta virtual
+  this.toggleMenu(); // Cierra el menú
 }
 
 }

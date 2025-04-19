@@ -4,6 +4,7 @@ import PocketBase from 'pocketbase';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HostListener } from '@angular/core';  
 import * as bootstrap from 'bootstrap';
+import { Router } from '@angular/router';
 interface CartItem {
   productId: string;
   name: string;
@@ -66,13 +67,21 @@ export class GlobalService {
   routeChanged = new BehaviorSubject<string>('');
   productToEdit$ = new BehaviorSubject<any>(null);
   constructor(
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public router: Router
   ) { 
     this.pb = new PocketBase(this.apiUrl);
     this.loadCart();
   }
   public pb: PocketBase;
   private apiUrl = 'https://db.buckapi.lat:8050';
+  public listenToBackButton() {
+    window.addEventListener('popstate', (event) => {
+      event.preventDefault(); // Evita el comportamiento por defecto
+      this.setRoute('home'); // Fuerza la ruta 'home'
+      history.pushState(null, '', window.location.href); // Opcional: limpia el historial
+    });
+  }
   setRoute(route: string) {
     this.activeRoute = route;
     this.routeChanged.next(route);
