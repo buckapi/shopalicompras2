@@ -28,6 +28,9 @@ import * as bootstrap from 'bootstrap';
 import * as $ from 'jquery';
 import { FormimportComponent } from './components/formimport/formimport.component';
 import { Router, NavigationStart } from '@angular/router';
+import { PrivacypoliciesComponent } from './components/privacypolicies/privacypolicies.component';
+import { TermsComponent } from './components/terms/terms.component';
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
@@ -46,8 +49,9 @@ import { Router, NavigationStart } from '@angular/router';
     ReactiveFormsModule,
     FormsModule,
     AddtocartbuttonComponent,
-    FormimportComponent
-
+    FormimportComponent,
+    PrivacypoliciesComponent,
+    TermsComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

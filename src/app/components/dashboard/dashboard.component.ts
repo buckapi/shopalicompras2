@@ -50,6 +50,7 @@ export class DashboardComponent {
     code: '',
     country: '',
     material: '',
+    marketplace_link: '',
   };
   categoria = {
     id: '',
@@ -95,6 +96,7 @@ export class DashboardComponent {
       code: [''],
       country: [''],
       material: [''],
+      marketplace_link: [''],
       videos: [''],
 
     });
@@ -182,17 +184,7 @@ export class DashboardComponent {
     }
     async onSubmit() {
       
-      /* try {
-        // Validación mínima de datos del producto
-        if (!this.product.name || !this.product.price || !this.product.categorias) {
-          await Swal.fire({
-            title: 'Datos incompletos',
-            text: 'Por favor complete los campos obligatorios: Nombre, Precio y Categoría',
-            icon: 'warning',
-            confirmButtonText: 'Entendido'
-          });
-          return;
-        } */
+      
           try {
             // Validación de categoría
             if (!this.product.categorias) {
@@ -421,6 +413,7 @@ export class DashboardComponent {
         code: '',
         country: '',
         material: '',
+        marketplace_link: '',
       }; 
       this.selectedImages = [];
       this.productos = this.global.getProductos();

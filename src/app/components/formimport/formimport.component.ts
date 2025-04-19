@@ -73,7 +73,7 @@ export class FormimportComponent {
     
     // Opcional: Resetear el formulario después de enviar
     this.formimport.reset();
-    Swal.fire('¡Solicitud enviada!', 'La solicitud ha sido enviada correctamente.', 'success');
+    Swal.fire('¡Solicitud enviada!', 'La solicitud ha sido enviada correctamente. Estaremos contactando contigo a la brevedad posible, Gracias por su solicitud. (tiempo maximo de espera 2 horas)', 'success');
   }
 
   // Métodos auxiliares para obtener texto descriptivo

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { GlobalService } from '../../services/global.service';
 import { RealtimeCategoriasService } from '../../services/realtime-categorias.service';
 import { RealtimeProductosService } from '../../services/realtime-productos.service';
@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, combineLatest, map, startWith } from 'rxjs';
 
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -14,20 +15,12 @@ import { Observable, combineLatest, map, startWith } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
+  private mainSwiper: Swiper | null = null;
+  private shopSwiper: Swiper | null = null;
+
   ngAfterViewInit(): void {
-    new Swiper('.swiper', {
-      slidesPerView: 1,
-      spaceBetween: 10,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
+    this.initSwipers();
   }
 categorias: any[] = [];
 productos: any[] = [];
@@ -68,6 +61,43 @@ ngOnInit(): void {
   this.global.setRoute('home');
 
 }
+initSwipers(): void {
+  // Main slider
+  this.mainSwiper = new Swiper('.swiper', {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  });
+
+  // Shop slider
+  this.shopSwiper = new Swiper('.swiper-shop', {
+    slidesPerView: 'auto',
+    spaceBetween: 20,
+    navigation: {
+      nextEl: '.shop-button-next',
+      prevEl: '.shop-button-prev',
+    },
+  });
+}
+
+ngOnDestroy(): void {
+  if (this.mainSwiper) {
+    this.mainSwiper.destroy();
+    this.mainSwiper = null;
+  }
+  if (this.shopSwiper) {
+    this.shopSwiper.destroy();
+    this.shopSwiper = null;
+  }
+}
+
 
 }
 

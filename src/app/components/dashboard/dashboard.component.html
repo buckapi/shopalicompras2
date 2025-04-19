@@ -202,14 +202,7 @@
                                     <input name="price" [(ngModel)]="product.price" required class="form-control" placeholder="Precio">
                                 </div>
                             </div>
-                            <!-- <div class="col-lg-4">
-                                <div class="form-group m-b25">
-                                  <label class="label-title">Categoria</label>
-                                  <select name="category" [(ngModel)]="product.categorias" required class="form-control"  placeholder="Categoria">
-                                    <option *ngFor="let category of (realtimecategorias.categorias$ | async)" [value]="category.id">{{ category.name }}</option>
-                                  </select>
-                                </div>
-                              </div> -->
+                           
                             <div class="col-lg-4">
                               <select name="category" [(ngModel)]="product.categorias" required class="form-control">
                                 <option value="">Seleccione una categoría</option>
@@ -261,6 +254,13 @@
                               <input type="text" name="material" [(ngModel)]="product.material" required class="form-control" placeholder="Material">
                           </div>
                       </div>  
+                      <div class="col-lg-4">
+                        <div class="form-group m-b25">
+                            <label class="label-title">Enlace de mercado libre</label>
+                            <input type="text" name="marketplace_link" [(ngModel)]="product.marketplace_link" required class="form-control" placeholder="Enlace de mercado libre">
+                        </div> 
+                    </div> 
+                    
                       <div class="col-lg-12">
                         <div class="form-group m-b25">
                             <label class="label-title">Descripcion</label>

@@ -30,7 +30,7 @@ export class CheckoutComponent {
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]],
       email: ['', [Validators.required, Validators.email]],
       estado: ['', Validators.required],
-      ciudad: ['', Validators.required],
+      ciudad: ['', ],
       address: ['', [Validators.required, Validators.minLength(10)]],
       comment: [''],
       shippingMethod: ['', Validators.required],
