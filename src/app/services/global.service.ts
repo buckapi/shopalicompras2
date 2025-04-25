@@ -28,6 +28,8 @@ interface Producto {
   code: string;
   country: string;
   material: string;
+  unit: string;
+  marketplace_link: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -62,7 +64,8 @@ export class GlobalService {
     code: '',
     country: '',
     material: '',
-
+    unit: '',
+    marketplace_link: ''
   }
   routeChanged = new BehaviorSubject<string>('');
   productToEdit$ = new BehaviorSubject<any>(null);

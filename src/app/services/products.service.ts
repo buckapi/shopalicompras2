@@ -13,6 +13,17 @@ interface Product {
     categorias: string; // Add categorias
     description: string; // Add description
     files: string[]; // Add files as an array of strings
+    videos: string[]; // Add videos as an array of strings
+    quantity: number; // Add quantity
+    dimensions: string; // Add dimensions
+    weight: string; // Add weight
+    manufacturer: string; // Add manufacturer
+    code: string; // Add code
+    country: string; // Add country
+    material: string; // Add material
+    unit: string; // Add unit
+    marketplace_link: string; // Add marketplace link
+    
 }
 
 @Injectable({

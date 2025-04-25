@@ -17,6 +17,16 @@ interface MediaFile {
   type: 'image' | 'video';
 }
 
+enum Unit {
+  Kg = 'Kg',
+  G = 'g', 
+  L = 'L',
+  Ml = 'ml',
+  Cm = 'cm',
+  Mm = 'mm',
+  Lb = 'lb'
+}
+
 interface VideoFile {
   file: File;
   preview: string;
@@ -35,7 +45,8 @@ interface VideoFile {
 export class DashboardComponent {
   private pb: PocketBase;
   private apiUrl = 'https://db.buckapi.lat:8050';
- 
+  Unit = Unit;
+
   product = {
     name: '',
     price: 0, 
@@ -51,6 +62,7 @@ export class DashboardComponent {
     country: '',
     material: '',
     marketplace_link: '',
+    unit: '',
   };
   categoria = {
     id: '',
@@ -98,6 +110,7 @@ export class DashboardComponent {
       material: [''],
       marketplace_link: [''],
       videos: [''],
+      unit: [''],
 
     });
     this.addCategoryForm = this.fb.group({
@@ -266,7 +279,9 @@ export class DashboardComponent {
           manufacturer: String(this.product.manufacturer || '').trim(),
           code: String(this.product.code || '').trim(),
           country: String(this.product.country || '').trim(),
-          material: String(this.product.material || '').trim()
+          material: String(this.product.material || '').trim(),
+          marketplace_link: String(this.product.marketplace_link || '').trim(),
+          unit: String(this.product.unit || '').trim(),
         };
     
         // Agregar videos solo si existen
@@ -386,6 +401,8 @@ export class DashboardComponent {
           material: this.productToEdit.material,
           files: this.productToEdit.files,
           videos: this.productToEdit.videos,
+          marketplace_link: this.productToEdit.marketplace_link,
+          unit: this.productToEdit.unit
         };
 
         await this.global.updateProduct(this.productToEdit.id, data).toPromise();
@@ -414,11 +431,15 @@ export class DashboardComponent {
         country: '',
         material: '',
         marketplace_link: '',
+        unit: '',
       }; 
       this.selectedImages = [];
       this.productos = this.global.getProductos();
     }
-  
+  cancelEdit() {
+    this.resetEditForm();
+    this.global.menuSelected = 'products';
+  }
   // Limpiar formulario EDIT
   resetEditForm() {
     this.productToEdit = {};
@@ -588,5 +609,15 @@ export class DashboardComponent {
     // Actualizar la lista de categorías si es necesario
     this.categorias = this.global.getCategorias();
   } 
+
+  removeExistingImage(index: number) {
+    // Eliminar la imagen existente del array
+    this.productToEdit.images.splice(index, 1);
+  }
+  
+  removeExistingVideo(index: number) {
+    // Eliminar el video existente del array
+    this.productToEdit.videos.splice(index, 1);
+  }
   
 }
