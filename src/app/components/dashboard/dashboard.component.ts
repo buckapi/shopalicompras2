@@ -319,18 +319,161 @@ export class DashboardComponent {
       }
     }
     
-    // Método para subir imágenes corregido
-    private async uploadImages(): Promise<string[]> {
+    async updateProduct() {
+      try {
+        // Validación básica
+        if (!this.productToEdit.categorias) {
+          await Swal.fire({
+            title: 'Categoría requerida',
+            text: 'Por favor seleccione una categoría válida',
+            icon: 'warning',
+            confirmButtonText: 'Entendido'
+          });
+          return;
+        }
+    
+        // Validación de medios corregida (usando files en lugar de images)
+        if (this.selectedImages.length === 0 && (!this.productToEdit.files || this.productToEdit.files.length === 0) &&
+            this.selectedVideos.length === 0 && (!this.productToEdit.videos || this.productToEdit.videos.length === 0)) {
+          const result = await Swal.fire({
+            title: '¿Continuar sin medios?',
+            text: 'El producto no tiene imágenes ni videos. ¿Desea guardarlo de todas formas?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'No, cancelar'
+          });
+          
+          if (!result.isConfirmed) {
+            return;
+          }
+        }
+    
+        // Mostrar loading mejorado
+        const swalLoading = Swal.fire({
+          title: 'Actualizando producto...',
+          html: '<div class="progress" style="height: 20px; margin-top: 15px;"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div></div>',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+    
+        // Subir nuevas imágenes (solo las que tienen archivo)
+        let newImageUrls: string[] = [];
+        if (this.selectedImages.some(img => img.file)) {
+          try {
+            newImageUrls = await this.uploadImages(
+              this.selectedImages.filter(img => img.file)
+            );
+          } catch (error) {
+            console.error('Error al subir imágenes:', error);
+            throw new Error('Error al subir las imágenes nuevas');
+          }
+        }
+    
+        // Subir nuevos videos (solo los que tienen archivo)
+        let newVideoUrls: string[] = [];
+        if (this.selectedVideos.some(video => video.file)) {
+          try {
+            newVideoUrls = await this.uploadVideos(
+              this.selectedVideos.filter(video => video.file)
+            );
+          } catch (error: unknown) {
+            let errorMessage = 'Error al subir videos';
+            if (error instanceof Error) {
+              errorMessage = error.message;
+            }
+            throw new Error(errorMessage);
+          }
+        }
+    
+        // Preparar datos para actualización
+        const updateData = {
+          name: this.productToEdit.name,
+          price: this.productToEdit.price,
+          categorias: this.productToEdit.categorias,
+          description: this.productToEdit.description,
+          quantity: this.productToEdit.quantity,
+          dimensions: this.productToEdit.dimensions,
+          weight: this.productToEdit.weight,
+          manufacturer: this.productToEdit.manufacturer,
+          code: this.productToEdit.code,
+          country: this.productToEdit.country,
+          material: this.productToEdit.material,
+          files: [
+            ...(this.productToEdit.files || []), // Imágenes existentes (ya filtradas si se eliminaron)
+            ...newImageUrls                     // Nuevas imágenes
+          ],
+          videos: [
+            ...(this.productToEdit.videos || []), // Videos existentes (ya filtrados si se eliminaron)
+            ...newVideoUrls                      // Nuevos videos
+          ],
+          marketplace_link: this.productToEdit.marketplace_link,
+          unit: this.productToEdit.unit
+        };
+    
+        // Llamar al servicio para actualizar
+        await this.global.updateProduct(this.productToEdit.id, updateData).toPromise();
+    
+        // Cerrar loading y mostrar éxito
+        Swal.close();
+        await Swal.fire({
+          title: '¡Éxito!',
+          text: 'Producto actualizado correctamente',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+    
+        // Resetear formulario
+        this.resetEditForm();
+        this.global.menuSelected = 'products';
+    
+      } catch (error: any) {
+        console.error('Error al actualizar producto:', error);
+        
+        // Cerrar loading si está abierto
+        Swal.close();
+        
+        // Mostrar mensaje de error
+        const errorMessage = error.message || 'Ocurrió un problema al actualizar el producto';
+        await Swal.fire({
+          title: 'Error',
+          text: errorMessage,
+          icon: 'error',
+          confirmButtonText: 'Entendido'
+        });
+      }
+    }
+    
+    // Métodos para eliminar archivos existentes
+    removeExistingImage(index: number) {
+      if (this.productToEdit.files && this.productToEdit.files.length > index) {
+        this.productToEdit.files.splice(index, 1);
+      }
+    }
+    
+    removeExistingVideo(index: number) {
+      if (this.productToEdit.videos && this.productToEdit.videos.length > index) {
+        this.productToEdit.videos.splice(index, 1);
+      }
+    }
+    
+    // Modifica tus métodos de upload para aceptar parámetros
+    private async uploadImages(imagesToUpload: any[] = this.selectedImages): Promise<string[]> {
       const imageUrls: string[] = [];
       
-      for (const image of this.selectedImages) {
+      for (const image of imagesToUpload) {
+        if (!image.file) continue; // Saltar si no hay archivo
+        
         try {
           const formData = new FormData();
           formData.append('image', image.file);
           
           const record = await this.pb.collection('files').create(formData);
           
-          // Usar notación de corchetes para acceder a propiedades dinámicas
           if (record?.['image']) {
             const imageUrl = `${this.apiUrl}/api/files/${record['collectionId']}/${record['id']}/${record['image']}`;
             imageUrls.push(imageUrl);
@@ -343,76 +486,32 @@ export class DashboardComponent {
       
       return imageUrls;
     }
-
-    // Método para subir videos corregido
-    async uploadVideos(): Promise<string[]> {
+    
+    async uploadVideos(videosToUpload: any[] = this.selectedVideos): Promise<string[]> {
       const videoUrls: string[] = [];
       
-      for (const video of this.selectedVideos) {
+      for (const video of videosToUpload) {
+        if (!video.file) continue; // Saltar si no hay archivo
+        
         try {
-          console.log('Subiendo video:', video.file.name, 'Tamaño:', video.file.size);
-          
           const formData = new FormData();
-          formData.append('video_file', video.file);  // Usar 'video_file' que coincide con tu colección
+          formData.append('video_file', video.file);
           
-          console.log('Enviando video a PocketBase...');
           const record = await this.pb.collection('videos').create(formData);
-          console.log('Video subido:', record);
           
-          // Verificar el campo correcto según tu colección
           if (record?.['video_file']) {
             const videoUrl = `${this.apiUrl}/api/files/${record['collectionId']}/${record['id']}/${record['video_file']}`;
-            console.log('URL del video:', videoUrl);
             videoUrls.push(videoUrl);
           } else {
-            console.error('No se encontró el archivo en la respuesta:', record);
             throw new Error('El servidor no devolvió la información del video correctamente');
           }
         } catch (error: unknown) {
           console.error('Error subiendo video:', error);
-          
-          let errorMessage = 'Error al subir el video';
-          if (error instanceof Error) {
-            errorMessage = error.message;
-          } else if (typeof error === 'string') {
-            errorMessage = error;
-          }
-          
-          throw new Error(errorMessage);
+          throw new Error(error instanceof Error ? error.message : 'Error al subir el video');
         }
       }
       
       return videoUrls;
-    }
-
-    async updateProduct() {
-      try {
-        const data = {
-          name: this.productToEdit.name,
-          price: this.productToEdit.price,
-          categorias: this.productToEdit.categorias,
-          description: this.productToEdit.description,
-          quantity: this.productToEdit.quantity,
-          dimensions: this.productToEdit.dimensions,
-          weight: this.productToEdit.weight,
-          manufacturer: this.productToEdit.manufacturer,
-          code: this.productToEdit.code,
-          country: this.productToEdit.country,
-          material: this.productToEdit.material,
-          files: this.productToEdit.files,
-          videos: this.productToEdit.videos,
-          marketplace_link: this.productToEdit.marketplace_link,
-          unit: this.productToEdit.unit
-        };
-
-        await this.global.updateProduct(this.productToEdit.id, data).toPromise();
-        Swal.fire('¡Éxito!', 'Producto actualizado', 'success');
-        this.resetEditForm();
-        this.global.menuSelected = 'products';
-      } catch (error) {
-        Swal.fire('Error', 'No se pudo actualizar', 'error');
-        console.error(error);
-      }
     }
 
     resetForm(): void {
@@ -610,14 +709,6 @@ export class DashboardComponent {
     this.categorias = this.global.getCategorias();
   } 
 
-  removeExistingImage(index: number) {
-    // Eliminar la imagen existente del array
-    this.productToEdit.images.splice(index, 1);
-  }
-  
-  removeExistingVideo(index: number) {
-    // Eliminar el video existente del array
-    this.productToEdit.videos.splice(index, 1);
-  }
+ 
   
 }

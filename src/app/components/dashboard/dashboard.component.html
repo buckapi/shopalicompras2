@@ -292,23 +292,22 @@
                     <div class="account-card" id="product" [hidden]="global.menuSelected !== 'edit-product'">
                       <form class="row" (ngSubmit)="updateProduct()">
                         <div class="profile-edit">
+                          
                           <div class="clearfix">
                             <div class="custom-file-upload">
-                              <!-- Vista previa de múltiples imágenes (existentes y nuevas) -->
+                              <!-- Vista previa corregida (usando files consistentemente) -->
                               <div *ngIf="selectedImages.length > 0 || (productToEdit.files && productToEdit.files.length > 0)" class="image-previews">
                                 <!-- Mostrar imágenes existentes -->
                                 <div *ngFor="let imageUrl of productToEdit.files; let i = index" class="image-preview-item">
-                                  <img [src]="imageUrl" alt="Existing Image" class="img-thumbnail"
-                                       style="border-radius: 10%; cursor: pointer; border: 5px solid #3ba5a8; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); transition: box-shadow 0.3s ease, transform 0.3s ease; max-width: 150px; max-height: 150px;" />
+                                  <img [src]="imageUrl" alt="Existing Image" class="img-thumbnail"/>
                                   <button type="button" class="btn btn-danger btn-sm remove-image" (click)="removeExistingImage(i)">
                                     <i class="fa-solid fa-times"></i>
                                   </button>
                                 </div>
                                 
                                 <!-- Mostrar imágenes nuevas seleccionadas -->
-                                <div *ngFor="let files of selectedImages; let i = index" class="image-preview-item">
-                                  <img [src]="files.preview" alt="Selected Image" class="img-thumbnail"
-                                       style="border-radius: 50%; cursor: pointer; border: 5px solid #3ba5a8; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); transition: box-shadow 0.3s ease, transform 0.3s ease; max-width: 150px; max-height: 150px;" />
+                                <div *ngFor="let image of selectedImages; let i = index" class="image-preview-item">
+                                  <img [src]="image.preview" alt="Selected Image" class="img-thumbnail"/>
                                   <button type="button" class="btn btn-danger btn-sm remove-image" (click)="removeImage(i)">
                                     <i class="fa-solid fa-times"></i>
                                   </button>
@@ -321,7 +320,10 @@
                               <label for="imageUpload" class="btn mb-2 me-2 btn-primary">
                                 <i class="fa-solid fa-images me-2"></i>Imágenes de producto
                               </label>
-                              <div *ngIf="selectedImages.length === 0 && (!productToEdit.images || productToEdit.images.length === 0)" class="text-danger">* Por favor, suba al menos una imagen.</div>
+                              <!-- Validación corregida (usando files) -->
+                              <div *ngIf="selectedImages.length === 0 && (!productToEdit.files || productToEdit.files.length === 0)" class="text-danger">
+                                * Por favor, suba al menos una imagen.
+                              </div>
                             </div>
                           </div>
                           
@@ -338,9 +340,9 @@
                                   <div class="video-info">
                                     <span>Video existente {{i + 1}}</span>
                                   </div>
-                                  <!-- <button type="button" class="btn btn-danger btn-sm remove-video" (click)="removeExistingVideo(i)">
+                                  <button type="button" class="btn btn-danger btn-sm remove-video" (click)="removeExistingVideo(i)">
                                     <i class="fa-solid fa-trash"></i> Eliminar
-                                  </button> -->
+                                  </button>
                                 </div>
                                 
                                 <!-- Mostrar videos nuevos seleccionados -->
@@ -353,9 +355,9 @@
                                     <span>{{ video.file.name }}</span>
                                     <span>{{ (video.file.size / (1024 * 1024)).toFixed(2) }} MB</span>
                                   </div>
-                                  <!-- <button type="button" class="btn btn-danger btn-sm remove-video" (click)="removeVideo(i)">
+                                  <button type="button" class="btn btn-danger btn-sm remove-video" (click)="removeVideo(i)">
                                     <i class="fa-solid fa-trash"></i> Eliminar
-                                  </button> -->
+                                  </button>
                                 </div>
                               </div>
                               
