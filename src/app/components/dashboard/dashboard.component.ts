@@ -554,6 +554,8 @@ export class DashboardComponent {
         this.global.menuSelected = 'edit-product'; // Muestra el formulario de edición
       }
     });
+    this.global.menuSelected = 'dashboard';
+    this.global.setMenuOption('dashboard');
   } 
   
   toggleCategorias() {
@@ -609,7 +611,7 @@ export class DashboardComponent {
       });
   
       if (result.isConfirmed) {
-        await this.pb.collection('categorias').delete(id);
+        await this.pb.collection('categories').delete(id);
         Swal.fire(
           '¡Eliminado!',
           'La categoria ha sido eliminada.',
@@ -668,7 +670,7 @@ export class DashboardComponent {
       };
   
       // Guardar categoría
-      await this.pb.collection('categorias').create(categoryData);
+      await this.pb.collection('categories').create(categoryData);
   
       // Cerrar loading y mostrar éxito
       await Swal.fire({
