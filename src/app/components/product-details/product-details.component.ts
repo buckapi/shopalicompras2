@@ -62,7 +62,6 @@ constructor(
 ) {
   this.realtimeCategorias.categorias$.subscribe((data: any[]) => {
     this.categories = data;
-    console.log('Categorías cargadas:', this.categories);
   });
 }
 public resetVideoPlayer(): void {

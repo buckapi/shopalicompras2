@@ -6,6 +6,7 @@ import Swiper from 'swiper';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, combineLatest, map, startWith } from 'rxjs';
+import { ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 
 
 @Component({
@@ -18,21 +19,20 @@ import { Observable, combineLatest, map, startWith } from 'rxjs';
 export class HomeComponent implements OnDestroy {
   private mainSwiper: Swiper | null = null;
   private shopSwiper: Swiper | null = null;
-
-  ngAfterViewInit(): void {
-    this.initSwipers();
-  }
-categorias: any[] = [];
-productos: any[] = [];
-searchControl = new FormControl('');
-filteredProducts$: Observable<any[]>; // Declaramos primero la propiedad
-selectedCategory = new FormControl(''); // Añadir esto con las propiedades
+  private firstLoad = true;
+  categorias: any[] = [];
+  productos: any[] = [];
+  searchControl = new FormControl('');
+  filteredProducts$: Observable<any[]>; // Declaramos primero la propiedad
+  selectedCategory = new FormControl(''); // Añadir esto con las propiedades
 
   constructor 
   (
     public global: GlobalService,
     public realtimecategorias: RealtimeCategoriasService,
-    public realtimeproductos: RealtimeProductosService
+    public realtimeproductos: RealtimeProductosService,
+    private cdr: ChangeDetectorRef
+
   )
   {
     this.realtimecategorias.categorias$.subscribe((categorias) => {
@@ -57,10 +57,23 @@ selectedCategory = new FormControl(''); // Añadir esto con las propiedades
     
 }
 
-ngOnInit(): void {
-  this.global.setRoute('home');
 
+ngOnInit() {
+  this.global.setRoute('home');
+  this.filteredProducts$.subscribe(() => {
+    setTimeout(() => this.refreshMasonry(), 0);
+  });
 }
+
+ngAfterViewInit(): void {
+  this.initSwipers();
+  
+}
+
+refreshMasonry(): void {
+  this.cdr.detectChanges();
+}
+
 initSwipers(): void {
   // Main slider
   this.mainSwiper = new Swiper('.swiper', {
