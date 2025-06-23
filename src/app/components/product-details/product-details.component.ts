@@ -7,6 +7,7 @@ import { RealtimeCategoriasService } from '../../services/realtime-categorias.se
 import { AddtocartbuttonComponent } from '../ui/addtocartbutton/addtocartbutton.component';
 import { ElementRef, ViewChild } from '@angular/core';
 import { SimpleChanges, OnChanges } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Product {
   id: number;
@@ -49,9 +50,7 @@ export class ProductDetailsComponent implements OnChanges {
       },
     });
   }
-  /* product: any; // Asegúrate de definir el tipo de tu producto
-  selectedProduct: any;
-  categories: any[] = []; */
+  
   product?: Product;
   selectedProduct?: Product;
   categories: any[] = [];
@@ -59,6 +58,8 @@ export class ProductDetailsComponent implements OnChanges {
 constructor(
   public global: GlobalService,
   public realtimeCategorias: RealtimeCategoriasService,
+  public sanitizer: DomSanitizer,
+
 ) {
   this.realtimeCategorias.categorias$.subscribe((data: any[]) => {
     this.categories = data;

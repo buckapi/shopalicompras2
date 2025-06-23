@@ -65,6 +65,8 @@
 @import url(../icons/themify/themify-icons.css);
 @import url(../icons/iconly/index.min.css);
 @import url(../icons/flaticon/flaticon_pixio.css);
+
+
 :root {
   --gradient: linear-gradient( to right, #fa8a0b 0%, #fa8a0b 100%);
   --gradient-sec: linear-gradient( to right, #fa8a0b 0%, #fa8a0b 100%);

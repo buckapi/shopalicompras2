@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import PocketBase from "pocketbase";
 import Swal from 'sweetalert2';
 import { GlobalService } from '../../services/global.service';
@@ -10,7 +10,16 @@ import { ProductsService } from '../../services/products.service';
 import { CommonModule } from '@angular/common';
 import { VideoOptimizerService } from '../../services/video.service';
 declare var bootstrap: any; // Solución temporal si el import directo no funciona
+import { QuillModule } from 'ngx-quill';
 
+// ✅ Validador personalizado para contenido enriquecido
+export function quillRequired(control: AbstractControl): ValidationErrors | null {
+  const value = control.value || '';
+  // Permite <p><br></p> como válido
+  if (value === '<p><br></p>' || value.trim() === '') return { required: true };
+  const stripped = value.replace(/<(.|\n)*?>/g, '').trim();
+  return stripped.length === 0 ? { required: true } : null;
+}
 interface MediaFile {
   file: File;
   preview: string;
@@ -37,12 +46,22 @@ interface VideoFile {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, QuillModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 
+
 export class DashboardComponent {
+  modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ align: [] }],
+      ['link', 'image'],
+      ['clean']
+    ]
+  };
   private pb: PocketBase;
   private apiUrl = 'https://db.buckapi.lat:8050';
   Unit = Unit;
