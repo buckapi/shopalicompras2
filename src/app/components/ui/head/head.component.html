@@ -55,6 +55,12 @@
             <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('contact')"><a>Contacto</a></li>
             <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('formimport')"><a>Solicitud de importación</a></li>
             <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('dashboard')" *ngIf="authService.isLogin()"><a>Dashboard</a></li>
+            <li class="has-mega-menu sub-menu-down auto-width menu-left" (click)="closeMenuAndNavigate('login')" *ngIf="!authService.isLogin()"><a>Login</a></li>
+            <li [hidden] ="!authService.isLogin()" class="has-mega-menu sub-menu-down auto-width menu-left" >
+              <a  class="nav-link" (click)="authService.logoutUser()" style="cursor: pointer;">
+                Cerrar Sesion
+              </a>
+            </li>
           </ul>
           
           <div class="dz-social-icon p-3">
